@@ -1,0 +1,71 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Manrope:wght@200..800&display=swap");
+
+
+:root {
+  /* Colores */
+  --color-primary: #168f60;
+  --color-primary-dark: #087a50;
+  --color-primary-light: #d0f0e1;
+
+  --color-background: #f3faf6;
+  --color-surface: #ffffff;
+
+  --color-text: #1b2923;
+  --color-text-secondary: #718078;
+
+  --color-border: #dce7e0;
+
+  /* Tipografía */
+  --font-family-base: "Manrope", sans-serif;
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Bordes */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 24px;
+
+  /* Sombras */
+  --shadow-card: 0 8px 24px rgb(20 70 45 / 8%);
+
+  /* Espaciado */
+  --container-width: 1200px;
+  --section-spacing: 80px;
+}
+
+/* Reset básico */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family-base);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text);
+  background-color: var(--color-surface);
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+}
