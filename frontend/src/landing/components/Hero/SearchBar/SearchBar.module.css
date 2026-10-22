@@ -1,0 +1,67 @@
+.searchBar {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr auto;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.field label {
+  color: var(--color-text);
+  font-size: 13px;
+  font-weight: var(--font-weight-semibold);
+}
+
+.value {
+  overflow: hidden;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.searchButton {
+  min-height: 46px;
+  padding: 0 20px;
+  color: white;
+  background-color: var(--color-primary);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: var(--font-weight-semibold);
+  white-space: nowrap;
+  transition: background-color 180ms ease;
+}
+
+.searchButton:hover {
+  background-color: var(--color-primary-dark);
+}
+
+@media (max-width: 900px) {
+  .searchBar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .searchButton {
+    width: 100%;
+  }
+}
+
+@media (max-width: 520px) {
+  .searchBar {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 16px;
+  }
+}

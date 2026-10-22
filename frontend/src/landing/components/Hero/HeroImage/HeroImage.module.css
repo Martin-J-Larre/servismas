@@ -1,0 +1,6 @@
+.imageContainer {
+  width: 100%;
+  min-height: 380px;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-primary-light);
+}
