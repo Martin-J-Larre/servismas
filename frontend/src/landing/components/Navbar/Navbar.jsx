@@ -19,7 +19,7 @@ function Navbar() {
           </a>
 
           <a href="#como-funciona">Cómo funciona</a>
-          <a href="#categorias">Categorías</a>
+          <a href="#categorias">Servicios</a>
           <a href="#ofrece-servicios">Ofrecé tus servicios</a>
         </nav>
 
