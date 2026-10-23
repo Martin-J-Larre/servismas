@@ -4,6 +4,7 @@ import HowItWorks from "../components/HowItWorks/HowItWorks";
 import Services from "../components/Services/Services";
 import Location from "../components/Location/Location";
 import BecomeProvider from "../components/BecomeProvider/BecomeProvider";
+import Footer from "../components/Footer/Footer";
 
 function Home() {
   return (
@@ -17,6 +18,7 @@ function Home() {
         <Location />
         <BecomeProvider />
       </main>
+      <Footer />
     </>
   );
 }
