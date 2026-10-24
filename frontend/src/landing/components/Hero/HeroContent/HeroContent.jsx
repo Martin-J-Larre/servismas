@@ -1,23 +1,38 @@
-
 import styles from "./HeroContent.module.css";
 
 function HeroContent() {
   return (
     <div className={styles.content}>
-      <span className={styles.eyebrow}>
-        SERVICIOS CERCA TUYO
-      </span>
+      <span className={styles.eyebrow}>SERVICIOS CERCA TUYO</span>
 
       <h1 className={styles.title}>
-        Encontrá y contratá
+        Encontrá <br />y contratá{" "}
+        <span className={styles.highlight}>
+          {" "}
+          servicios
+          <svg
+            className={styles.underline}
+            viewBox="0 0 300 18"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M 5 10 Q 150 0 295 10"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="6"
+              strokeLinecap="round"
+            />
+          </svg>
+        </span>
         <br />
-        <span className={styles.highlight}>servicios</span> de confianza
+        de confianza
       </h1>
 
       <p className={styles.description}>
         Conectamos personas que necesitan soluciones con profesionales
-        confiables. Encontrá el servicio que buscás de forma fácil,
-        rápida y segura.
+        confiables. Encontrá el servicio que buscás de forma fácil, rápida y
+        segura.
       </p>
 
       <div className={styles.stats}>

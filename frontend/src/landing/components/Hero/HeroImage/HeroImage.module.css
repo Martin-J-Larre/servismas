@@ -1,6 +1,11 @@
 .imageContainer {
   width: 100%;
-  min-height: 380px;
-  border-radius: var(--radius-lg);
-  background-color: var(--color-primary-light);
+  min-width: 0;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
 }

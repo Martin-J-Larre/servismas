@@ -1,9 +1,14 @@
 import styles from "./HeroImage.module.css";
+import heroImage from "../../../../assets/hero-img-framed.png";
 
 function HeroImage() {
   return (
     <div className={styles.imageContainer}>
-      {/* Todo:  imagen  Hero Aqui , Hacer, hacer una imagen png de una persona tipo prestador o un prestador y cliente */}
+      <img
+        src={heroImage}
+        alt="Equipo de prestadores de servicios de ServisMás"
+        className={styles.image}
+      />
     </div>
   );
 }
