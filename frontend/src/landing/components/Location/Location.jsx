@@ -1,23 +1,19 @@
-
 import { MapPin } from "lucide-react";
 import styles from "./Location.module.css";
+import coverageMap from "../../../assets/argentina-map.png";
 
-function Location() {
+const Location = () => {
   return (
     <section className={styles.section} id="ubicacion">
       <div className={styles.container}>
         <div className={styles.content}>
-          <span className={styles.eyebrow}>
-            SERVICIOS EN TU ZONA
-          </span>
+          <span className={styles.eyebrow}>SERVICIOS EN TU ZONA</span>
 
-          <h2 className={styles.title}>
-            Encontrá servicios cerca tuyo
-          </h2>
+          <h2 className={styles.title}>Encontrá servicios cerca tuyo</h2>
 
           <p className={styles.description}>
-            Buscá prestadores según la zona donde necesitás
-            realizar el servicio.
+            Buscá prestadores según la zona donde necesitás realizar el
+            servicio y en todo el país.
           </p>
 
           <div className={styles.locationCard}>
@@ -38,12 +34,14 @@ function Location() {
         </div>
 
         <div className={styles.visual}>
-          {/* Imagen del mapa de Argentina con iconos de lugares 📍y un circulo demostrando are de cobertura */}
+          <img
+            src={coverageMap}
+            alt="Mapa de Argentina con marcadores de cobertura y Córdoba destacada"
+            className={styles.mapImage}
+          />
 
           <div className={styles.coverageCard}>
-            <span className={styles.coverageLabel}>
-              ZONA DE COBERTURA
-            </span>
+            <span className={styles.coverageLabel}>ZONA DE COBERTURA</span>
 
             <p className={styles.coverageText}>
               Prestadores disponibles en tu área
@@ -53,6 +51,6 @@ function Location() {
       </div>
     </section>
   );
-}
+};
 
 export default Location;

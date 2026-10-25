@@ -8,13 +8,26 @@
 .eyebrow {
   display: inline-flex;
   align-items: center;
-  padding: 8px 12px;
-  color: var(--color-primary-dark);
-  background-color: var(--color-primary-light);
+  gap: 10px;
+  padding: 12px 15px;
+  color: var(--color-primary);
+  background-color: #ffffff;
+  border: 1px solid #dcece4;
   border-radius: 999px;
+  box-shadow: 0 2px 4px rgb(20 70 45 / 12%);
   font-size: 12px;
   font-weight: var(--font-weight-bold);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.15em;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.eyebrowDot {
+  flex-shrink: 0;
+  width: 10px;
+  height: 10px;
+  background-color: var(--color-primary);
+  border-radius: 50%;
 }
 
 .title {
@@ -51,27 +64,69 @@
   line-height: 1.8;
 }
 
-.stats {
+.statsCard {
   display: flex;
-  flex-wrap: wrap;
-  gap: 32px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+  max-width: 650px;
+  padding: 15px 20px;
+  background-color: #ffffff;
+  border: 1px solid #e1eee7;
+  border-radius: 24px;
+  box-shadow: 0 3px 8px rgb(20 70 45 / 12%);
 }
+
+.avatars {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding-left: 2px;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+  object-fit: cover;
+  object-position: center;
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+}
+
+.avatar + .avatar {
+  margin-left: -14px;
+}
+
 
 .stat {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
 }
 
 .stat strong {
-  color: var(--color-text);
-  font-size: 24px;
+  color: var(--color-primary);
+  font-size: 28px;
   font-weight: var(--font-weight-bold);
+  line-height: 1.2;
 }
 
 .stat span {
   color: var(--color-text-secondary);
-  font-size: 13px;
+  font-size: 15px;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.statDivider {
+  width: 1px;
+  height: 60px;
+  flex-shrink: 0;
+  background-color: var(--color-border);
 }
 
 .actions {
@@ -122,16 +177,53 @@
   font-weight: var(--font-weight-bold);
 }
 
+/* Responsive */
 @media (max-width: 768px) {
   .content {
     gap: 20px;
+  }
+
+  .eyebrow {
+    gap: 10px;
+    padding: 12px 18px;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+  }
+
+  .eyebrowDot {
+    width: 11px;
+    height: 11px;
   }
 
   .title {
     font-size: clamp(34px, 8vw, 44px);
   }
 
-  .stats {
-    gap: 24px;
+  .statsCard {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 18px;
+    padding: 20px;
+  }
+
+  .avatar {
+    width: 40px;
+    height: 48px;
+  }
+
+  .avatar + .avatar {
+    margin-left: -12px;
+  }
+
+  .stat strong {
+    font-size: 23px;
+  }
+
+  .stat span {
+    font-size: 13px;
+  }
+
+  .statDivider {
+    height: 48px;
   }
 }

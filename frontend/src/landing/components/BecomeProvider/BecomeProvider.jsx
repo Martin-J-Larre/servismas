@@ -3,7 +3,7 @@ import styles from "./BecomeProvider.module.css";
 import ProviderImage from "./ProviderImage/ProviderImage";
 import BenefitsCard from "./BenefitsCard/BenefitsCard";
 
-function BecomeProvider() {
+const BecomeProvider = () => {
   return (
     <section className={styles.section} id="ofrece-servicios">
       <div className={styles.container}>
@@ -29,6 +29,6 @@ function BecomeProvider() {
       </div>
     </section>
   );
-}
+};
 
 export default BecomeProvider;
