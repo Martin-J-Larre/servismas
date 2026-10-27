@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 import {
   personalDataSchema,
@@ -14,6 +16,7 @@ import AccountTypeSelector from "./components/AccountTypeSelector/AccountTypeSel
 import styles from "./Register.module.css";
 
 const Register = () => {
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [personalData, setPersonalData] = useState(null);
   const [accountType, setAccountType] = useState("client");
@@ -44,15 +47,25 @@ const Register = () => {
   };
 
   const handleAccountTypeSubmit = (data) => {
-    const registrationData = {
-      ...personalData,
-      ...data,
-    };
-
-    console.log("Datos del registro:", registrationData);
-
-    // Enviar datos al backend
+  const registrationData = {
+    ...personalData,
+    ...data,
   };
+
+  // !Simulación temporal: todavía no se crea una cuenta real.
+  console.log("Registro simulado:", {
+    firstName: registrationData.firstName,
+    lastName: registrationData.lastName,
+    email: registrationData.email,
+    accountType: registrationData.accountType,
+  });
+
+  toast.success("Tu cuenta se creó correctamente. Ahora podés iniciar sesión.");
+
+  setTimeout(() => {
+    navigate("/login");
+  }, 1000);
+};
 
   const handleBack = () => {
     setStep(1);

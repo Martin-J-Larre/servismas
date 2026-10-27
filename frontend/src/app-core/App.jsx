@@ -1,7 +1,10 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Home from "../landing/pages/Home";
 import Register from "../auth/pages/Register/Register";
+import Login from "../auth/pages/Login/Login";
 
 const App = () => {
   return (
@@ -9,9 +12,10 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/registro" element={<Register />} />
-        <Route path="/login" element={<Navigate to="/registro" replace />} />
+        <Route path="/login" element={<Login />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      <ToastContainer position="top-center" />
     </BrowserRouter>
   );
 };
