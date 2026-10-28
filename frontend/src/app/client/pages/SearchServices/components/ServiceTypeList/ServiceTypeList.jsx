@@ -41,7 +41,7 @@ const serviceTypes = [
   },
 ];
 
-const ServiceTypeList = ({ onSelectServiceType }) => {
+const ServiceTypeList = ({ onSelectServiceType, selectedServiceType }) => {
   return (
     <section className={styles.section} aria-labelledby="service-types-title">
       <div className={styles.heading}>
@@ -57,16 +57,18 @@ const ServiceTypeList = ({ onSelectServiceType }) => {
       <div className={styles.grid}>
         {serviceTypes.map((serviceType) => {
           const Icon = serviceType.icon;
+          const isSelected = selectedServiceType?.id === serviceType.id;
 
           return (
             <button
               key={serviceType.id}
               type="button"
-              className={styles.serviceType}
+              className={`${styles.serviceType} ${isSelected ? styles.selected : ""}`}
+              aria-pressed={isSelected}
               onClick={() => onSelectServiceType?.(serviceType)}
             >
               <span className={styles.iconWrapper}>
-                <Icon size={18} strokeWidth={1.8} />
+                <Icon size={20} strokeWidth={1.8} />
               </span>
 
               <span className={styles.name}>{serviceType.name}</span>

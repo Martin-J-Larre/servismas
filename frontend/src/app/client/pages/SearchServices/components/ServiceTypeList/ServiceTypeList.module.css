@@ -69,6 +69,21 @@
   outline-offset: 3px;
 }
 
+.serviceType.selected {
+  background-color: #f0faf5;
+  border-color: #168d60;
+  box-shadow: 0 0 0 2px rgb(22 141 96 / 10%);
+}
+
+.serviceType.selected .iconWrapper {
+  color: #ffffff;
+  background-color: #168d60;
+}
+
+.serviceType.selected .name {
+  color: #168d60;
+}
+
 .iconWrapper {
   width: 40px;
   height: 40px;

@@ -6,35 +6,49 @@ import styles from "./SearchServices.module.css";
 
 const SearchServices = () => {
   const [selectedServiceType, setSelectedServiceType] = useState(null);
+  const [showResults, setShowResults] = useState(false);
   const [searchCriteria, setSearchCriteria] = useState({
-    service: "",
+    serviceType: "",
+    serviceTypeName: "",
     category: "",
     location: "",
     date: "",
   });
 
   const handleSearch = (criteria) => {
-    setSearchCriteria(criteria);
+    const selectedType = {
+      id: criteria.serviceType,
+      name: criteria.serviceTypeName,
+    };
 
-    if (criteria.service.trim() || criteria.category) {
-      setSelectedServiceType({
-        id: criteria.category ? "home" : "search",
-        name: criteria.service.trim() || criteria.category,
-      });
-    }
+    setSearchCriteria(criteria);
+    setSelectedServiceType(selectedType);
+    setShowResults(true);
   };
 
   const handleSelectServiceType = (serviceType) => {
     setSelectedServiceType(serviceType);
+
     setSearchCriteria((previousCriteria) => ({
       ...previousCriteria,
-      service: serviceType.name,
+      serviceType: serviceType.id,
+      serviceTypeName: serviceType.name,
       category: "",
     }));
+
+    setShowResults(true);
   };
 
   const handleBackToServices = () => {
     setSelectedServiceType(null);
+    setShowResults(false);
+
+    setSearchCriteria((previousCriteria) => ({
+      ...previousCriteria,
+      serviceType: "",
+      serviceTypeName: "",
+      category: "",
+    }));
   };
 
   return (
@@ -64,20 +78,45 @@ const SearchServices = () => {
         </p>
 
         <ServiceSearchBar
+          searchCriteria={searchCriteria}
+          onChange={(updateCriteria) => {
+            setSearchCriteria((previousCriteria) => {
+              const newCriteria =
+                typeof updateCriteria === "function"
+                  ? updateCriteria(previousCriteria)
+                  : updateCriteria;
+
+              if (newCriteria.serviceType) {
+                setSelectedServiceType({
+                  id: newCriteria.serviceType,
+                  name: newCriteria.serviceTypeName,
+                });
+              } else {
+                setSelectedServiceType(null);
+              }
+
+              return newCriteria;
+            });
+          }}
           onSearch={handleSearch}
-          selectedCategory={searchCriteria.category}
-          initialValues={searchCriteria}
         />
       </section>
 
-      {!selectedServiceType ? (
-        <ServiceTypeList onSelectServiceType={handleSelectServiceType} />
-      ) : (
+      <ServiceTypeList
+        onSelectServiceType={handleSelectServiceType}
+        selectedServiceType={selectedServiceType}
+      />
+
+      {showResults && selectedServiceType && (
         <section className={styles.resultsSection}>
           <div className={styles.resultsHeading}>
             <p className={styles.eyebrow}>RESULTADOS DE BÚSQUEDA</p>
 
-            <h2>Prestadores de {selectedServiceType.name.toLowerCase()}</h2>
+            <h2>
+              Prestadores de{" "}
+              {searchCriteria.category ||
+                selectedServiceType.name.toLowerCase()}
+            </h2>
 
             <p>
               Explorá los profesionales disponibles para el servicio que

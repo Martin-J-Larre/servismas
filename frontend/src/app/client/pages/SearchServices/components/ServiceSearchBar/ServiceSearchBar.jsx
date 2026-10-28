@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { Search, BriefcaseBusiness, MapPin, CalendarDays } from "lucide-react";
+
 import styles from "./ServiceSearchBar.module.css";
 
 const serviceTypes = [
@@ -55,27 +55,22 @@ const serviceTypes = [
   },
 ];
 
-const ServiceSearchBar = ({ onSearch }) => {
-  const [searchData, setSearchData] = useState({
-    serviceType: "",
-    service: "",
-    category: "",
-    location: "",
-    date: "",
-  });
-
+const ServiceSearchBar = ({ searchCriteria, onChange, onSearch }) => {
   const selectedType = serviceTypes.find(
-    (type) => type.id === searchData.serviceType,
+    (type) => type.id === searchCriteria.serviceType,
   );
 
   const handleChange = (event) => {
     const { name, value } = event.target;
 
-    setSearchData((previousData) => {
+    onChange((previousData) => {
       if (name === "serviceType") {
+        const newType = serviceTypes.find((type) => type.id === value);
+
         return {
           ...previousData,
           serviceType: value,
+          serviceTypeName: newType?.name ?? "",
           category: "",
         };
       }
@@ -90,12 +85,12 @@ const ServiceSearchBar = ({ onSearch }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (!searchData.serviceType) {
+    if (!searchCriteria.serviceType) {
       return;
     }
 
-    onSearch?.({
-      ...searchData,
+    onSearch({
+      ...searchCriteria,
       serviceTypeName: selectedType?.name ?? "",
     });
   };
@@ -111,7 +106,7 @@ const ServiceSearchBar = ({ onSearch }) => {
           <select
             id="serviceType"
             name="serviceType"
-            value={searchData.serviceType}
+            value={searchCriteria.serviceType}
             onChange={handleChange}
             required
           >
@@ -135,7 +130,7 @@ const ServiceSearchBar = ({ onSearch }) => {
           <select
             id="category"
             name="category"
-            value={searchData.category}
+            value={searchCriteria.category}
             onChange={handleChange}
             disabled={!selectedType}
           >
@@ -165,7 +160,7 @@ const ServiceSearchBar = ({ onSearch }) => {
             name="location"
             type="text"
             placeholder="Ciudad o localidad"
-            value={searchData.location}
+            value={searchCriteria.location}
             onChange={handleChange}
           />
         </div>
@@ -181,7 +176,7 @@ const ServiceSearchBar = ({ onSearch }) => {
             id="date"
             name="date"
             type="date"
-            value={searchData.date}
+            value={searchCriteria.date}
             onChange={handleChange}
           />
         </div>
