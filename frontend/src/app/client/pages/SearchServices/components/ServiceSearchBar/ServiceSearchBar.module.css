@@ -1,0 +1,138 @@
+.searchForm {
+  width: 100%;
+  max-width: 1120px;
+  margin: 36px auto 0;
+  padding: 24px;
+  display: grid;
+  grid-template-columns: 1.2fr 1.2fr 1fr 1fr auto;
+  align-items: end;
+  gap: 16px;
+  background-color: #ffffff;
+  border: 1px solid #e5eee8;
+  border-radius: 16px;
+  box-shadow: 0 8px 28px rgb(27 72 49 / 6%);
+  text-align: left;
+}
+
+.field {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.field label {
+  color: #34423b;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.inputWrapper {
+  min-width: 0;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 12px;
+  color: #849189;
+  background-color: #ffffff;
+  border: 1px solid #dfe8e2;
+  border-radius: 9px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.inputWrapper:focus-within {
+  border-color: #168d60;
+  box-shadow: 0 0 0 3px rgb(22 141 96 / 10%);
+}
+
+.inputWrapper input,
+.inputWrapper select {
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  color: #34423b;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 12px;
+}
+
+.inputWrapper input::placeholder {
+  color: #a0aaa4;
+}
+
+.inputWrapper select {
+  cursor: pointer;
+}
+
+.inputWrapper input[type="date"] {
+  cursor: pointer;
+}
+
+.searchButton {
+  min-height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 18px;
+  color: #ffffff;
+  background-color: #168d60;
+  border: none;
+  border-radius: 9px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 650;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.searchButton:hover {
+  background-color: #11764f;
+}
+
+.searchButton:active {
+  transform: scale(0.98);
+}
+
+.inputWrapper:has(select:disabled) {
+  background-color: #f5f8f6;
+  cursor: not-allowed;
+}
+
+.inputWrapper select:disabled {
+  color: #a0aaa4;
+  cursor: not-allowed;
+}
+
+@media (max-width: 1100px) {
+  .searchForm {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .searchButton {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 600px) {
+  .searchForm {
+    margin-top: 28px;
+    padding: 18px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+    border-radius: 12px;
+  }
+
+  .searchButton {
+    grid-column: auto;
+    width: 100%;
+  }
+}

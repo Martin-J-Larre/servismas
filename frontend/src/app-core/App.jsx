@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Home from "../landing/pages/Home";
 import Register from "../auth/pages/Register/Register";
 import Login from "../auth/pages/Login/Login";
+import SearchServices from "../app/client/pages/SearchServices/SearchServices";
 
 const App = () => {
   return (
@@ -13,8 +14,11 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/registro" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/buscar-servicios" element={<SearchServices />} />
+
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+
       <ToastContainer position="top-center" />
     </BrowserRouter>
   );
