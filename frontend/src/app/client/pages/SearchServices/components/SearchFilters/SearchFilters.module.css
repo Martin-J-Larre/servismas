@@ -1,0 +1,109 @@
+.filters {
+  width: 100%;
+  padding: 20px 17px;
+  background-color: #ffffff;
+  border: 1px solid #e1ebe5;
+  border-radius: 16px;
+  box-shadow: 0 2px 3px rgb(27 72 49 / 5%);
+}
+
+.title {
+  margin: 0 0 27px;
+  color: #1c2924;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.group {
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #e5eee8;
+}
+
+.group:last-child {
+  padding-bottom: 0;
+  margin-bottom: 0;
+  border-bottom: none;
+}
+
+.groupTitle {
+  margin: 0 0 10px;
+  color: #26352d;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.categoryOptions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.categoryButton,
+.optionButton {
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 7px;
+  padding: 8px 12px;
+  color: #75837b;
+  background-color: #ffffff;
+  border: 1px solid #e1ebe5;
+  border-radius: 11px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 400;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.categoryButton:hover,
+.optionButton:hover {
+  border-color: #a9d7bf;
+  background-color: #f8fcf9;
+}
+
+.categoryButton.selected,
+.optionButton.selected {
+  color: #168d60;
+  background-color: #f0faf5;
+  border-color: #168d60;
+}
+
+.verticalOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.optionButton {
+  width: 100%;
+  min-height: 36px;
+}
+
+.categoryButton:focus-visible,
+.optionButton:focus-visible {
+  outline: 2px solid #168d60;
+  outline-offset: 2px;
+}
+
+@media (max-width: 600px) {
+  .filters {
+    padding: 18px;
+    border-radius: 12px;
+  }
+
+  .title {
+    margin-bottom: 22px;
+  }
+
+  .categoryButton,
+  .optionButton {
+    min-height: 38px;
+  }
+}
