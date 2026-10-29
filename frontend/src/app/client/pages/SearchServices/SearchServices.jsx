@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { SearchX } from "lucide-react";
 
-import SearchHeader from "./components/SearchHeader/SearchHeader";
+import HeaderClient from "../../components/HeaderClient/HeaderClient";
 import ServiceSearchBar from "./components/ServiceSearchBar/ServiceSearchBar";
 import ServiceTypeList from "./components/ServiceTypeList/ServiceTypeList";
 import ProviderCard from "./components/ProviderCard/ProviderCard";
@@ -43,20 +44,72 @@ const serviceCategories = {
 };
 
 const SearchServices = () => {
-  const [selectedServiceType, setSelectedServiceType] = useState(null);
-  const [showResults, setShowResults] = useState(false);
+  const [selectedServiceType, setSelectedServiceType] = useState(() => {
+    const savedState = sessionStorage.getItem("servismas-search-state");
 
-  const [searchCriteria, setSearchCriteria] = useState({
-    serviceType: "",
-    serviceTypeName: "",
-    category: "",
-    location: "",
-    date: "",
+    return savedState ? JSON.parse(savedState).selectedServiceType : null;
   });
 
-  const [selectedFilterCategory, setSelectedFilterCategory] = useState("");
-  const [selectedAvailability, setSelectedAvailability] = useState("");
-  const [minimumRating, setMinimumRating] = useState(0);
+  const [showResults, setShowResults] = useState(() => {
+    const savedState = sessionStorage.getItem("servismas-search-state");
+
+    return savedState ? JSON.parse(savedState).showResults : false;
+  });
+
+  const [searchCriteria, setSearchCriteria] = useState(() => {
+    const savedState = sessionStorage.getItem("servismas-search-state");
+
+    return savedState
+      ? JSON.parse(savedState).searchCriteria
+      : {
+          serviceType: "",
+          serviceTypeName: "",
+          category: "",
+          location: "",
+          date: "",
+        };
+  });
+
+  const [selectedFilterCategory, setSelectedFilterCategory] = useState(() => {
+    const savedState = sessionStorage.getItem("servismas-search-state");
+
+    return savedState ? JSON.parse(savedState).selectedFilterCategory : "";
+  });
+
+  const [selectedAvailability, setSelectedAvailability] = useState(() => {
+    const savedState = sessionStorage.getItem("servismas-search-state");
+
+    return savedState ? JSON.parse(savedState).selectedAvailability : "";
+  });
+
+  const [minimumRating, setMinimumRating] = useState(() => {
+    const savedState = sessionStorage.getItem("servismas-search-state");
+
+    return savedState ? JSON.parse(savedState).minimumRating : 0;
+  });
+
+  useEffect(() => {
+    sessionStorage.setItem(
+      "servismas-search-state",
+      JSON.stringify({
+        selectedServiceType,
+        showResults,
+        searchCriteria,
+        selectedFilterCategory,
+        selectedAvailability,
+        minimumRating,
+      }),
+    );
+  }, [
+    selectedServiceType,
+    showResults,
+    searchCriteria,
+    selectedFilterCategory,
+    selectedAvailability,
+    minimumRating,
+  ]);
+
+  const navigate = useNavigate();
 
   const handleSearchCriteriaChange = (updateCriteria) => {
     const newCriteria =
@@ -161,13 +214,12 @@ const SearchServices = () => {
   });
 
   const handleViewProfile = (provider) => {
-    // La navegación al perfil se implementará más adelante.
-    console.log("Prestador seleccionado:", provider);
+    navigate(`/prestadores/${provider.id}`);
   };
 
   return (
     <main className={styles.page}>
-      <SearchHeader />
+      <HeaderClient />
 
       <section className={styles.searchSection}>
         <p className={styles.eyebrow}>BÚSQUEDA DE SERVICIOS</p>

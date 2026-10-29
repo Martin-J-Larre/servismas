@@ -1,0 +1,228 @@
+.card {
+  display: grid;
+  grid-template-columns: 116px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  padding: 28px;
+  background: #ffffff;
+  border: 1px solid #e0e8e2;
+  border-radius: 16px;
+  box-shadow: 0 1px 2px rgb(28 41 36 / 8%);
+}
+
+.avatarContainer {
+  position: relative;
+  width: 104px;
+  height: 104px;
+}
+
+.avatar {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  place-items: center;
+  border-radius: 16px;
+  background: #e7f5ed;
+  color: #187b50;
+  font-size: 34px;
+  font-weight: 700;
+}
+
+.availability {
+  position: absolute;
+  right: -6px;
+  bottom: -5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 12%);
+}
+
+.available {
+  background: #219660;
+}
+
+.unavailable {
+  background: #78857d;
+}
+
+.statusDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #ffffff;
+}
+
+.information {
+  min-width: 0;
+}
+
+.identity {
+  margin-bottom: 16px;
+}
+
+.name {
+  margin: 0;
+  color: #1c2924;
+  font-size: 27px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.specialty {
+  margin: 5px 0 0;
+  color: #168d60;
+  font-size: 16px;
+}
+
+.metadata {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+}
+
+.metadataItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #64736b;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.metadataItem svg {
+  flex-shrink: 0;
+  color: #168d60;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  align-self: start;
+  padding: 12px 15px;
+  border: 1px solid #e3ebe5;
+  border-radius: 16px;
+  background: #f7faf8;
+  white-space: nowrap;
+}
+
+.stars {
+  display: inline-flex;
+  gap: 2px;
+  color: #f5a623;
+}
+
+.ratingValue {
+  color: #26352b;
+  font-size: 13px;
+}
+
+.reviewCount {
+  color: #89958d;
+  font-size: 12px;
+}
+
+.verifiedBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: #eaf6ed;
+  color: #218047;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.verifiedBadge svg {
+  flex-shrink: 0;
+}
+
+.verifiedBadge svg {
+  flex-shrink: 0;
+}
+
+@media (max-width: 1000px) {
+  .card {
+    grid-template-columns: 88px minmax(0, 1fr);
+    gap: 20px;
+    padding: 22px;
+  }
+
+  .avatarContainer {
+    width: 80px;
+    height: 80px;
+  }
+
+  .name {
+    font-size: 23px;
+  }
+
+  .rating {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: start;
+    padding: 9px 12px;
+  }
+
+  .verifiedBadge {
+    grid-column: 1 / -1;
+    justify-self: start;
+    font-size: 19px;
+  }
+}
+
+@media (max-width: 600px) {
+  .card {
+    grid-template-columns: 1fr;
+    justify-items: start;
+    gap: 20px;
+    padding: 20px;
+  }
+
+  .avatarContainer {
+    width: 76px;
+    height: 76px;
+  }
+
+  .identity {
+    margin-bottom: 14px;
+  }
+
+  .name {
+    font-size: 22px;
+  }
+
+  .metadata {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .rating {
+    grid-column: auto;
+    grid-row: auto;
+    flex-wrap: wrap;
+  }
+
+  .verifiedBadge {
+    grid-column: auto;
+    padding: 11px 16px;
+    gap: 9px;
+    font-size: 17px;
+  }
+
+  .verifiedBadge svg {
+    width: 23px;
+    height: 23px;
+  }
+}

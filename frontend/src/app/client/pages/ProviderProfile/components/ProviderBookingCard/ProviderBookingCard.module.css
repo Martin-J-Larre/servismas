@@ -1,0 +1,140 @@
+.card {
+  padding: 24px;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+}
+
+.provider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 54px;
+  height: 54px;
+  color: #16804a;
+  background-color: #eaf7ef;
+  border-radius: 50%;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.providerInfo {
+  min-width: 0;
+}
+
+.name {
+  margin: 0 0 5px;
+  color: #1f2937;
+  font-size: 17px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.specialty {
+  margin: 0;
+  color: #6b7280;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.location {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 16px;
+  color: #6b7280;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.location svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: #16804a;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.rating svg {
+  color: #e5a000;
+}
+
+.ratingValue {
+  color: #1f2937;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.reviewCount {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.trust {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding: 14px;
+  color: #166534;
+  background-color: #f0fdf4;
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.trust svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.selectButton {
+  width: 100%;
+  padding: 13px 18px;
+  color: #ffffff;
+  background-color: #16804a;
+  border: none;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.selectButton:hover {
+  background-color: #11683b;
+}
+
+.selectButton:focus-visible {
+  outline: 3px solid #86efac;
+  outline-offset: 3px;
+}
+
+.disclaimer {
+  margin: 12px 0 0;
+  color: #9ca3af;
+  font-size: 12px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+@media (max-width: 560px) {
+  .card {
+    padding: 20px;
+  }
+}

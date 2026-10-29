@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { House, LogOut } from "lucide-react";
-import styles from "./SearchHeader.module.css";
+import styles from "./HeaderClient.module.css";
 
-const SearchHeader = () => {
+const HeaderClient = () => {
   const handleLogout = () => {
     // El cierre de sesión real se implementará con la autenticación.
     console.log("Cerrar sesión");
@@ -35,4 +35,4 @@ const SearchHeader = () => {
   );
 };
 
-export default SearchHeader;
+export default HeaderClient;
