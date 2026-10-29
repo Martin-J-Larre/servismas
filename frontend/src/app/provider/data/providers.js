@@ -1,3 +1,13 @@
+const defaultSchedule = [
+  { day: "Lunes", hours: "09:00 – 18:00", available: true },
+  { day: "Martes", hours: "09:00 – 18:00", available: true },
+  { day: "Miércoles", hours: "09:00 – 18:00", available: true },
+  { day: "Jueves", hours: "09:00 – 18:00", available: true },
+  { day: "Viernes", hours: "09:00 – 18:00", available: true },
+  { day: "Sábado", hours: "09:00 – 13:00", available: true },
+  { day: "Domingo", hours: "No disponible", available: false },
+];
+
 const providers = [
   {
     id: 1,
@@ -12,6 +22,7 @@ const providers = [
     description:
       "Más de 10 años de experiencia en instalaciones y reparaciones de plomería.",
     availability: "Disponible",
+    schedule: defaultSchedule,
   },
   {
     id: 2,
@@ -26,6 +37,7 @@ const providers = [
     description:
       "Servicio de limpieza profunda y mantenimiento. Material incluido.",
     availability: "Disponible",
+    schedule: defaultSchedule,
   },
   {
     id: 3,
@@ -39,6 +51,7 @@ const providers = [
     location: "Zona sur",
     description: "Pintura de ambientes, terminaciones finas y empapelado.",
     availability: "Esta semana",
+    schedule: defaultSchedule,
   },
   {
     id: 4,
@@ -53,6 +66,7 @@ const providers = [
     description:
       "Instalaciones eléctricas, mantenimiento y reparación de fallas.",
     availability: "Próxima semana",
+    schedule: defaultSchedule,
   },
   {
     id: 5,
@@ -66,6 +80,7 @@ const providers = [
     location: "Zona norte",
     description: "Fabricación, montaje y reparación de muebles de madera.",
     availability: "Disponible",
+    schedule: defaultSchedule,
   },
   {
     id: 6,
@@ -79,6 +94,7 @@ const providers = [
     location: "Zona sur",
     description: "Pequeñas reparaciones y mantenimiento general de viviendas.",
     availability: "Esta semana",
+    schedule: defaultSchedule,
   },
   {
     id: 7,
@@ -93,6 +109,7 @@ const providers = [
     description:
       "Paseos personalizados para perros, con atención y seguimiento.",
     availability: "Disponible",
+    schedule: defaultSchedule,
   },
   {
     id: 8,
@@ -107,6 +124,7 @@ const providers = [
     description:
       "Cuidado de mascotas en el hogar durante viajes o jornadas laborales.",
     availability: "Esta semana",
+    schedule: defaultSchedule,
   },
   {
     id: 9,
@@ -120,6 +138,7 @@ const providers = [
     location: "Zona centro",
     description: "Baño, corte y cuidado del pelaje para distintas razas.",
     availability: "Disponible",
+    schedule: defaultSchedule,
   },
   {
     id: 10,
@@ -134,6 +153,7 @@ const providers = [
     description:
       "Adiestramiento básico y orientación para mejorar la convivencia.",
     availability: "Próxima semana",
+    schedule: defaultSchedule,
   },
   {
     id: 11,
@@ -147,6 +167,7 @@ const providers = [
     location: "Zona centro",
     description: "Acompañamiento y asistencia cotidiana para adultos mayores.",
     availability: "Disponible",
+    schedule: defaultSchedule,
   },
   {
     id: 12,
@@ -161,6 +182,7 @@ const providers = [
     description:
       "Cuidado infantil responsable y actividades adaptadas a cada edad.",
     availability: "Esta semana",
+    schedule: defaultSchedule,
   },
   {
     id: 13,
@@ -175,6 +197,7 @@ const providers = [
     description:
       "Acompañamiento para actividades cotidianas y turnos programados.",
     availability: "Próxima semana",
+    schedule: defaultSchedule,
   },
   {
     id: 14,
@@ -189,6 +212,7 @@ const providers = [
     description:
       "Asistencia para organizar y realizar trámites administrativos.",
     availability: "Disponible",
+    schedule: defaultSchedule,
   },
   {
     id: 15,
@@ -202,6 +226,7 @@ const providers = [
     location: "Zona norte",
     description: "Ayuda con gestiones personales, turnos y documentación.",
     availability: "Esta semana",
+    schedule: defaultSchedule,
   },
   {
     id: 16,
@@ -216,6 +241,7 @@ const providers = [
     description:
       "Soporte informático, configuración de equipos y asistencia técnica.",
     availability: "Disponible",
+    schedule: defaultSchedule,
   },
   {
     id: 17,
@@ -230,6 +256,7 @@ const providers = [
     description:
       "Diseño gráfico y creación de piezas visuales para emprendimientos.",
     availability: "Esta semana",
+    schedule: defaultSchedule,
   },
   {
     id: 18,
@@ -243,6 +270,7 @@ const providers = [
     location: "Zona sur",
     description: "Asesoramiento y orientación para proyectos profesionales.",
     availability: "Próxima semana",
+    schedule: defaultSchedule,
   },
   {
     id: 19,
@@ -256,6 +284,7 @@ const providers = [
     location: "Zona norte",
     description: "Mantenimiento de jardines, poda y cuidado de plantas.",
     availability: "Disponible",
+    schedule: defaultSchedule,
   },
   {
     id: 20,
@@ -269,6 +298,7 @@ const providers = [
     location: "Zona centro",
     description: "Mantenimiento periódico de jardines y espacios verdes.",
     availability: "Esta semana",
+    schedule: defaultSchedule,
   },
   {
     id: 21,
@@ -283,6 +313,7 @@ const providers = [
     description:
       "Limpieza y acondicionamiento de patios y espacios exteriores.",
     availability: "Próxima semana",
+    schedule: defaultSchedule,
   },
 ];
 

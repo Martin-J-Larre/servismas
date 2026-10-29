@@ -1,6 +1,8 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 
+// TODO: Cambiar a importación desde API cuando esté disponible y ver el tema de los horarios y disponibilidad del prestador
+
 import providers from "../../../provider/data/providers";
 import styles from "./ProviderProfile.module.css";
 
@@ -88,7 +90,10 @@ const ProviderProfile = () => {
 
               <ProviderServices services={services} />
 
-              <ProviderAvailability availability={availability} />
+              <ProviderAvailability
+                availability={availability}
+                schedule={provider.schedule}
+              />
 
               <ProviderReviews reviews={[]} />
             </div>
@@ -109,6 +114,9 @@ const ProviderProfile = () => {
                   location={location}
                   rating={rating}
                   reviewCount={reviewCount}
+                  onSelect={() =>
+                    navigate(`/solicitar-servicio/${provider.id}`)
+                  }
                 />
 
                 <ProviderTrustCard />

@@ -7,6 +7,9 @@ import Register from "../auth/pages/Register/Register";
 import Login from "../auth/pages/Login/Login";
 import SearchServices from "../app/client/pages/SearchServices/SearchServices";
 import ProviderProfile from "../app/client/pages/ProviderProfile/ProviderProfile";
+import ServiceRequest from "../app/client/pages/ServiceRequest/ServiceRequest";
+import RequestConfirmation from "../app/client/pages/ServiceRequest/pages/RequestConfirmation/RequestConfirmation";
+import RequestSuccess from "../app/client/pages/ServiceRequest/pages/RequestSuccess/RequestSuccess";
 
 const App = () => {
   return (
@@ -17,6 +20,12 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/buscar-servicios" element={<SearchServices />} />
         <Route path="/prestadores/:id" element={<ProviderProfile />} />
+        <Route path="/solicitar-servicio/:id" element={<ServiceRequest />} />
+        <Route
+          path="/confirmar-solicitud/:id"
+          element={<RequestConfirmation />}
+        />
+        <Route path="/solicitud-exitosa/:id" element={<RequestSuccess />} />
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
