@@ -1,0 +1,157 @@
+.page {
+  min-height: 100vh;
+  padding: 32px 24px 48px;
+  background: #f5f9f7;
+}
+
+.container {
+  width: 100%;
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+  padding: 0;
+  color: #61756a;
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.backButton:hover {
+  color: #148b60;
+}
+
+.backButton:focus-visible {
+  outline: 2px solid #148b60;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  align-items: start;
+  gap: 24px;
+}
+
+.mainColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+.notFound {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 320px;
+  padding: 32px 24px;
+  text-align: center;
+  background: #ffffff;
+  border: 1px solid #e8efeb;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgb(24 54 39 / 4%);
+}
+
+.notFound h1 {
+  margin: 0 0 10px;
+  color: #1c3028;
+  font-size: 22px;
+  font-weight: 750;
+}
+
+.notFound p {
+  max-width: 420px;
+  margin: 0 0 20px;
+  color: #7b8982;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.notFound a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 10px 16px;
+  color: #ffffff;
+  background: #148b60;
+  border: 1px solid #148b60;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.notFound a:hover {
+  background: #107650;
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) 260px;
+    gap: 16px;
+  }
+
+  .page {
+    padding-right: 18px;
+    padding-left: 18px;
+  }
+}
+
+@media (max-width: 760px) {
+  .page {
+    padding: 24px 16px 36px;
+  }
+
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .sidebar {
+    order: -1;
+  }
+
+  .mainColumn {
+    gap: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .page {
+    padding: 20px 12px 28px;
+  }
+
+  .backButton {
+    margin-bottom: 18px;
+  }
+
+  .notFound {
+    min-height: 260px;
+    padding: 24px 18px;
+  }
+
+  .notFound h1 {
+    font-size: 19px;
+  }
+}

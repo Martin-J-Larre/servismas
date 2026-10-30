@@ -1,0 +1,143 @@
+.card {
+  padding: 20px;
+  background: #ffffff;
+  border: 1px solid #e0e9e3;
+  border-radius: 14px;
+  box-shadow: 0 2px 5px rgb(24 54 39 / 3%);
+}
+
+.title {
+  margin: 0 0 22px;
+  color: #1c3028;
+  font-size: 14px;
+  font-weight: 750;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+}
+
+.stage {
+  display: flex;
+  gap: 14px;
+  min-height: 78px;
+}
+
+.stage:last-child {
+  min-height: auto;
+}
+
+.track {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 24px;
+}
+
+.marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  border: 1px solid #dce5df;
+  border-radius: 50%;
+}
+
+.complete {
+  color: #ffffff;
+  background: #148b60;
+  border-color: #148b60;
+}
+
+.current {
+  color: #148b60;
+  background: #e8f7ed;
+  border: 2px solid #148b60;
+  box-shadow: 0 0 0 4px #e8f7ed;
+}
+
+.pending {
+  color: #a2aea6;
+  background: #f5f7f5;
+  border-color: #dce5df;
+}
+
+.line {
+  flex: 1;
+  width: 2px;
+  min-height: 38px;
+  background: #dce5df;
+}
+
+.lineComplete {
+  background: #148b60;
+}
+
+.stageContent {
+  flex: 1;
+  min-width: 0;
+  padding-bottom: 22px;
+}
+
+.stage:last-child .stageContent {
+  padding-bottom: 0;
+}
+
+.stageHeading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.stageHeading h3 {
+  margin: 2px 0 5px;
+  color: #263b30;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.stageContent p {
+  margin: 0;
+  color: #7b8982;
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+.currentBadge,
+.completeBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 7px;
+  border-radius: 20px;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.currentBadge {
+  color: #148b60;
+  background: #e8f7ed;
+}
+
+.completeBadge {
+  color: #61756a;
+  background: #f0f4f1;
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 16px;
+  }
+
+  .stage {
+    gap: 11px;
+  }
+
+  .stageHeading {
+    gap: 5px;
+  }
+}
