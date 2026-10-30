@@ -1,0 +1,269 @@
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  padding: 14px 12px 12px;
+  overflow: hidden;
+  background-color: #ffffff;
+  border: 1px solid #dce5e0;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgb(15 23 42 / 3%);
+}
+
+.card::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 2px;
+  background-color: #16845b;
+  content: "";
+}
+
+.card.pending::before {
+  background-color: #f59e0b;
+}
+
+.card.accepted::before {
+  background-color: #16845b;
+}
+
+.card.rejected::before {
+  background-color: #ff5964;
+}
+
+.card.completed::before {
+  background-color: #3b82f6;
+}
+
+.card.cancelled::before {
+  background-color: #9ca3af;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.providerInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.avatar {
+  display: grid;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  color: #16845b;
+  background-color: #e7f5ee;
+  border-radius: 8px;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.pending .avatar {
+  color: #b45309;
+  background-color: #fff4d9;
+}
+
+.rejected .avatar {
+  color: #c2410c;
+  background-color: #fff0dc;
+}
+
+.providerDetails {
+  min-width: 0;
+}
+
+.providerName {
+  margin: 0 0 2px;
+  overflow: hidden;
+  color: #202b26;
+  font-size: 11px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.specialty {
+  margin: 0;
+  color: #16845b;
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.status {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 7px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.statusDot {
+  width: 4px;
+  height: 4px;
+  background-color: currentColor;
+  border-radius: 50%;
+}
+
+.status.accepted {
+  color: #16845b;
+  background-color: #e8f7ef;
+  border-color: #c9ebd9;
+}
+
+.status.pending {
+  color: #b45309;
+  background-color: #fff8e7;
+  border-color: #fde7a8;
+}
+
+.status.rejected {
+  color: #dc2626;
+  background-color: #fff0f0;
+  border-color: #fecaca;
+}
+
+.status.completed {
+  color: #1d4ed8;
+  background-color: #eff6ff;
+  border-color: #bfdbfe;
+}
+
+.status.cancelled {
+  color: #6b7280;
+  background-color: #f3f4f6;
+  border-color: #e5e7eb;
+}
+
+.dates {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 10px;
+}
+
+.dateItem,
+.location {
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+  min-width: 0;
+  color: #87938d;
+  font-size: 8px;
+  line-height: 1.5;
+}
+
+.dateItem svg,
+.location svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: #70b69a;
+}
+
+.dateItem strong {
+  color: #4b5751;
+  font-weight: 600;
+}
+
+.location {
+  align-items: center;
+}
+
+.description {
+  margin: 0;
+  padding-top: 10px;
+  color: #77827c;
+  border-top: 1px solid #edf1ee;
+  font-size: 9px;
+  line-height: 1.6;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.secondaryButton,
+.primaryButton,
+.findProviderButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 27px;
+  padding: 5px 9px;
+  border: 1px solid #dce5e0;
+  border-radius: 7px;
+  font-family: inherit;
+  font-size: 9px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.secondaryButton {
+  color: #66736b;
+  background-color: #ffffff;
+}
+
+.secondaryButton:hover {
+  background-color: #f5f8f6;
+  border-color: #b9cfc2;
+}
+
+.primaryButton {
+  color: #ffffff;
+  background-color: #16845b;
+  border-color: #16845b;
+}
+
+.primaryButton:hover {
+  background-color: #116b49;
+  border-color: #116b49;
+}
+
+.findProviderButton {
+  color: #16845b;
+  background-color: #ffffff;
+  border-color: #b8dfcc;
+}
+
+.findProviderButton:hover {
+  background-color: #eff9f3;
+}
+
+.secondaryButton:focus-visible,
+.primaryButton:focus-visible,
+.findProviderButton:focus-visible {
+  outline: 2px solid #16845b;
+  outline-offset: 2px;
+}
+
+@media (max-width: 420px) {
+  .dates {
+    grid-template-columns: 1fr;
+  }
+
+  .header {
+    flex-wrap: wrap;
+  }
+}

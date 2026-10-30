@@ -11,6 +11,7 @@ import ServiceRequest from "../app/client/pages/ServiceRequest/ServiceRequest";
 import RequestConfirmation from "../app/client/pages/ServiceRequest/pages/RequestConfirmation/RequestConfirmation";
 import RequestSuccess from "../app/client/pages/ServiceRequest/pages/RequestSuccess/RequestSuccess";
 import MyServices from "../app/client/pages/MyServices/MyServices";
+import MyRequests from "../app/client/pages/MyRequests/MyRequests";
 
 const App = () => {
   return (
@@ -28,6 +29,8 @@ const App = () => {
         />
         <Route path="/solicitud-exitosa/:id" element={<RequestSuccess />} />
         <Route path="/mis-servicios" element={<MyServices />} />
+        <Route path="/mis-solicitudes" element={<MyRequests />} />
+        
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
