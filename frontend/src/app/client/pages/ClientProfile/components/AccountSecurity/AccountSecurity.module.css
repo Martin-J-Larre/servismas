@@ -1,0 +1,143 @@
+.card {
+  min-width: 0;
+  padding: 16px;
+  background-color: #ffffff;
+  border: 1px solid #e1e9e5;
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgb(20 60 45 / 4%);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.headerIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: #148b60;
+  background-color: #e7f7ef;
+  border-radius: 7px;
+}
+
+.title {
+  margin: 0;
+  color: #24372f;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.divider {
+  height: 1px;
+  margin: 10px 0 14px;
+  background-color: #edf1ef;
+}
+
+.accountStatus {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px;
+  background-color: #f6faf8;
+  border: 1px solid #eaf1ed;
+  border-radius: 8px;
+}
+
+.statusIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  color: #148b60;
+  background-color: #e4f5eb;
+  border-radius: 7px;
+}
+
+.statusInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.label {
+  color: #7b8982;
+  font-size: 9px;
+}
+
+.statusValue {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #148b60;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  background-color: #19a66e;
+  border-radius: 50%;
+}
+
+.accessInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 15px;
+}
+
+.email {
+  color: #34463d;
+  font-size: 10px;
+  overflow-wrap: anywhere;
+}
+
+.passwordButton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  margin-top: 15px;
+  padding: 10px;
+  color: #148b60;
+  background-color: #ffffff;
+  border: 1px solid #d8e8df;
+  border-radius: 7px;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease;
+}
+
+.passwordButton:hover {
+  background-color: #f0faf4;
+  border-color: #a8d8bd;
+}
+
+.passwordButton:focus-visible {
+  outline: 2px solid #148b60;
+  outline-offset: 3px;
+}
+
+.passwordButtonContent {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.helperText {
+  margin: 10px 0 0;
+  color: #718078;
+  font-size: 9px;
+  line-height: 1.5;
+}

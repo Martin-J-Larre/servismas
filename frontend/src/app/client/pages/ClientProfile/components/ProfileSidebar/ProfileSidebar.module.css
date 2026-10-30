@@ -1,0 +1,174 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+.card {
+  padding: 15px;
+  background-color: #ffffff;
+  border: 1px solid #e1e9e5;
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgb(20 60 45 / 4%);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.headerIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 25px;
+  height: 25px;
+  color: #148b60;
+  background-color: #e7f7ef;
+  border-radius: 7px;
+}
+
+.cardTitle {
+  margin: 0;
+  color: #24372f;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.description {
+  margin: 10px 0 13px;
+  color: #718078;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.editButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  width: 100%;
+  padding: 9px 10px;
+  color: #ffffff;
+  background-color: #148b60;
+  border: 1px solid #148b60;
+  border-radius: 7px;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 160ms ease;
+}
+
+.editButton:hover {
+  background-color: #10754f;
+}
+
+.editButton svg:last-child {
+  margin-left: auto;
+}
+
+.editButton:focus-visible,
+.quickLink:focus-visible {
+  outline: 2px solid #148b60;
+  outline-offset: 3px;
+}
+
+.accountList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.accountItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.accountLabel {
+  color: #829087;
+  font-size: 9px;
+}
+
+.accountValue {
+  color: #34463d;
+  font-size: 10px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.statusMessage {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 15px;
+  padding: 9px;
+  color: #148b60;
+  background-color: #eaf8f0;
+  border: 1px solid #d6efdf;
+  border-radius: 7px;
+  font-size: 9px;
+  font-weight: 600;
+}
+
+.statusDot {
+  width: 7px;
+  height: 7px;
+  background-color: #19a66e;
+  border-radius: 50%;
+}
+
+.quickLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 12px;
+}
+
+.quickLink {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 7px;
+  color: #34463d;
+  border-radius: 7px;
+  font-size: 10px;
+  text-decoration: none;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.quickLink:hover {
+  color: #148b60;
+  background-color: #f0faf4;
+}
+
+.quickLinkIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 27px;
+  height: 27px;
+  color: #148b60;
+  background-color: #e7f7ef;
+  border-radius: 7px;
+}
+
+.arrow {
+  margin-left: auto;
+  color: #8a9990;
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 13px;
+  }
+}

@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Search, ClipboardList } from "lucide-react";
 
 import HeaderClient from "../../components/HeaderClient/HeaderClient";
@@ -53,6 +53,8 @@ const filters = [
 ];
 
 const MyRequests = () => {
+  const navigate = useNavigate();
+
   const [activeFilter, setActiveFilter] = useState("Todas");
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -92,7 +94,9 @@ const MyRequests = () => {
   };
 
   const handleCoordinate = (request) => {
-    console.log("Coordinar servicio:", request);
+    navigate(`/coordinar-servicio/${request.id}`, {
+      state: { request },
+    });
   };
 
   const handleFindProvider = (request) => {

@@ -1,0 +1,211 @@
+.summaryCard {
+  padding: 18px;
+  background: #ffffff;
+  border: 1px solid #e8efeb;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgb(24 54 39 / 4%);
+}
+
+.sidebarEyebrow {
+  display: block;
+  margin-bottom: 7px;
+  color: #148b60;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.9px;
+}
+
+.summaryTitle {
+  margin: 0 0 18px;
+  color: #1c3028;
+  font-size: 16px;
+  font-weight: 750;
+  line-height: 1.4;
+}
+
+.summaryDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.summaryRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: #148b60;
+}
+
+.summaryRow > svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.summaryRow > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.summaryRow span {
+  color: #7b8982;
+  font-size: 10px;
+}
+
+.summaryRow strong {
+  color: #263b30;
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.notice {
+  margin-top: 18px;
+  padding: 12px;
+  background: #eff8f2;
+  border: 1px solid #dfefe4;
+  border-radius: 10px;
+}
+
+.notice p {
+  margin: 0;
+  color: #567061;
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+.sidebarForm {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid #e8efeb;
+}
+
+.sidebarForm h3 {
+  margin: 0;
+  color: #1c3028;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.compactField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.compactField label {
+  color: #43584b;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.compactField input,
+.compactField select,
+.compactField textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 10px;
+  color: #263b30;
+  background: #ffffff;
+  border: 1px solid #dce7e0;
+  border-radius: 9px;
+  outline: none;
+  font: inherit;
+  font-size: 11px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.compactField input:focus,
+.compactField select:focus,
+.compactField textarea:focus {
+  border-color: #148b60;
+  box-shadow: 0 0 0 3px rgb(20 139 96 / 10%);
+}
+
+.compactField textarea {
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.compactField input::placeholder,
+.compactField textarea::placeholder {
+  color: #9aa79f;
+}
+
+.primaryButton,
+.secondaryAction {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 42px;
+  padding: 11px 12px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 750;
+  line-height: 1.5;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.primaryButton {
+  color: #ffffff;
+  background: #148b60;
+  border: 1px solid #148b60;
+}
+
+.primaryButton:hover {
+  background: #107650;
+  border-color: #107650;
+}
+
+.secondaryAction {
+  color: #148b60;
+  background: #ffffff;
+  border: 1px solid #b9ddc8;
+}
+
+.secondaryAction:hover {
+  background: #eff8f2;
+  border-color: #148b60;
+}
+
+.primaryButton:active,
+.secondaryAction:active {
+  transform: translateY(1px);
+}
+
+.primaryButton:focus-visible,
+.secondaryAction:focus-visible {
+  outline: 3px solid rgb(20 139 96 / 25%);
+  outline-offset: 3px;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+@media (max-width: 480px) {
+  .summaryCard {
+    padding: 15px;
+  }
+
+  .summaryTitle {
+    font-size: 15px;
+  }
+}

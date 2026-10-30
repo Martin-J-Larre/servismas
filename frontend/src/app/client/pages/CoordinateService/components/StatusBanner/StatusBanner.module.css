@@ -1,0 +1,40 @@
+.statusBanner {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  background: #eaf7ef;
+  border: 1px solid #d6eddf;
+  border-radius: 14px;
+}
+
+.bannerIcon {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  color: #148b60;
+  background: #d5f0df;
+  border-radius: 10px;
+}
+
+.bannerContent {
+  min-width: 0;
+}
+
+.bannerContent h2 {
+  margin: 0 0 5px;
+  color: #1c3028;
+  font-size: 13px;
+  font-weight: 750;
+  line-height: 1.4;
+}
+
+.bannerContent p {
+  margin: 0;
+  color: #61756a;
+  font-size: 11px;
+  line-height: 1.6;
+}

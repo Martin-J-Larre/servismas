@@ -1,0 +1,38 @@
+.card {
+  padding: 18px;
+  background: #ffffff;
+  border: 1px solid #e8efeb;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgb(24 54 39 / 4%);
+}
+
+.cardTitle {
+  margin: 0 0 16px;
+  color: #1c3028;
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.conditionsList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.conditionItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: #61756a;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.conditionIcon {
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: #148b60;
+}

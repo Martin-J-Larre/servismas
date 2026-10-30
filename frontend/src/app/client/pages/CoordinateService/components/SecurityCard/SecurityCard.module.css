@@ -1,0 +1,56 @@
+.securityCard {
+  padding: 18px;
+  background: #ffffff;
+  border: 1px solid #e8efeb;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgb(24 54 39 / 4%);
+}
+
+.securityTitle {
+  margin: 0 0 16px;
+  color: #1c3028;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.securityList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.securityItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.securityIcon {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  color: #148b60;
+  background: #eaf7ef;
+  border-radius: 9px;
+}
+
+.securityText {
+  padding-top: 3px;
+  color: #61756a;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+@media (max-width: 480px) {
+  .securityCard {
+    padding: 15px;
+  }
+}

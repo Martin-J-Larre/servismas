@@ -1,0 +1,105 @@
+.card {
+  padding: 18px;
+  background: #ffffff;
+  border: 1px solid #e8efeb;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgb(24 54 39 / 4%);
+}
+
+.cardTitle {
+  margin: 0 0 16px;
+  color: #1c3028;
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.providerRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  color: #148b60;
+  background: #e3f5e9;
+  border: 1px solid #d3ecdc;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.providerInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.providerInfo h3 {
+  margin: 0 0 4px;
+  color: #1c3028;
+  font-size: 13px;
+  font-weight: 750;
+  overflow-wrap: anywhere;
+}
+
+.specialty {
+  margin: 0 0 7px;
+  color: #75857c;
+  font-size: 11px;
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 6px;
+  color: #75857c;
+  font-size: 10px;
+}
+
+.rating {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  color: #75857c;
+  font-size: 10px;
+}
+
+.ratingScore {
+  color: #bd8424;
+  font-weight: 750;
+}
+
+.acceptedPill {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 9px;
+  color: #148b60;
+  background: #e8f7ed;
+  border: 1px solid #d5eddd;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 15px;
+  }
+
+  .providerRow {
+    flex-wrap: wrap;
+  }
+
+  .acceptedPill {
+    margin-left: 60px;
+  }
+}
