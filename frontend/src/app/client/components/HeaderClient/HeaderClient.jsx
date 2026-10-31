@@ -9,6 +9,8 @@ import {
   BriefcaseBusiness,
 } from "lucide-react";
 
+// TODO: MOVERLO UNO ARRIBA EN LAS CARPETAS ASI SE PUEDE USAR EN LOS DOS FLUJOS (CLIENTE Y PRESTADOR)
+
 import styles from "./HeaderClient.module.css";
 
 const HeaderClient = () => {

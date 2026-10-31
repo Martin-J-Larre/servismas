@@ -17,6 +17,7 @@ import CoordinateService from "../app/client/pages/CoordinateService/CoordinateS
 import TrackingService from "../app/client/pages/TrackingService/TrackingService";
 import FinalizeService from "../app/client/pages/FinalizeService/FinalizeService";
 import RateService from "../app/client/pages/RateService/RateService";
+import ProviderDashboard from "../app/provider/pages/ProviderDashboard/ProviderDashboard";
 
 const App = () => {
   return (
@@ -40,6 +41,8 @@ const App = () => {
         <Route path="/seguimiento-servicio/:id" element={<TrackingService />} />
         <Route path="/finalizar-servicio/:id" element={<FinalizeService />} />
         <Route path="/valorar-servicio/:id" element={<RateService />} />
+
+        <Route path="/prestador/panel" element={<ProviderDashboard />} />
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
