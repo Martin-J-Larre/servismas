@@ -15,6 +15,8 @@ import MyRequests from "../app/client/pages/MyRequests/MyRequests";
 import ClientProfile from "../app/client/pages/ClientProfile/ClientProfile";
 import CoordinateService from "../app/client/pages/CoordinateService/CoordinateService";
 import TrackingService from "../app/client/pages/TrackingService/TrackingService";
+import FinalizeService from "../app/client/pages/FinalizeService/FinalizeService";
+import RateService from "../app/client/pages/RateService/RateService";
 
 const App = () => {
   return (
@@ -36,6 +38,8 @@ const App = () => {
         <Route path="/mi-perfil" element={<ClientProfile />} />
         <Route path="/coordinar-servicio/:id" element={<CoordinateService />} />
         <Route path="/seguimiento-servicio/:id" element={<TrackingService />} />
+        <Route path="/finalizar-servicio/:id" element={<FinalizeService />} />
+        <Route path="/valorar-servicio/:id" element={<RateService />} />
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

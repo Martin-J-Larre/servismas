@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
+// TODO: Trabajar el flujo de finalizacion entre cliente y prestador en la tarjeta de servicio finalizado y redirigir a página de confirmación.
+
 import HeaderClient from "../../components/HeaderClient/HeaderClient";
 
 import TrackingHeader from "./components/TrackingHeader/TrackingHeader";
@@ -97,19 +99,12 @@ const TrackingService = () => {
       return;
     }
 
-    const now = new Date().toISOString();
-
-    const updatedCoordination = {
-      ...currentCoordination,
-      serviceStatus: "finalizado",
-      serviceFinishedAt: now,
-      updatedAt: now,
-    };
-
-    if (saveCoordination(updatedCoordination)) {
-      setServiceStatus("finalizado");
-      toast.success("El servicio se marcó como finalizado.");
-    }
+    navigate(`/finalizar-servicio/${id}`, {
+      state: {
+        request,
+        coordination: currentCoordination,
+      },
+    });
   };
 
   // Volver a la pantalla anterior o a las solicitudes.
