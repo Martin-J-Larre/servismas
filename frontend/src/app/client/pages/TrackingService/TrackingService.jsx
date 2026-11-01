@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 
 // TODO: Trabajar el flujo de finalizacion entre cliente y prestador en la tarjeta de servicio finalizado y redirigir a página de confirmación.
 
-import HeaderClient from "../../components/HeaderClient/HeaderClient";
+import AppHeader from "../../../components/AppHeader/AppHeader";
 
 import TrackingHeader from "./components/TrackingHeader/TrackingHeader";
 import ProviderSummary from "./components/ProviderSummary/ProviderSummary";
@@ -99,7 +99,7 @@ const TrackingService = () => {
       return;
     }
 
-    navigate(`/finalizar-servicio/${id}`, {
+    navigate(`/app/cliente/finalizar-servicio/${id}`, {
       state: {
         request,
         coordination: currentCoordination,
@@ -114,14 +114,14 @@ const TrackingService = () => {
       return;
     }
 
-    navigate("/mis-solicitudes");
+    navigate("/app/cliente/mis-solicitudes");
   };
 
   // Mostrar un mensaje si no se pudieron recuperar los datos.
   if (!request || !currentCoordination) {
     return (
       <>
-        <HeaderClient />
+        <AppHeader />
 
         <main className={styles.page}>
           <div className={styles.container}>
@@ -161,7 +161,7 @@ const TrackingService = () => {
 
   return (
     <>
-      <HeaderClient />
+      <AppHeader />
 
       <main className={styles.page}>
         <div className={styles.container}>

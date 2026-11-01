@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import HeaderClient from "../../components/HeaderClient/HeaderClient";
+import AppHeader from "../../../components/AppHeader/AppHeader";
 import providers from "../../../../app/provider/data/providers";
 
 import RequestStepper from "./components/RequestStepper/RequestStepper";
@@ -26,7 +26,7 @@ const ServiceRequest = () => {
   const handleContinue = (formData) => {
     setRequestData(formData);
 
-    navigate(`/confirmar-solicitud/${id}`, {
+    navigate(`/app/cliente/confirmar-solicitud/${id}`, {
       state: {
         providerId: provider.id,
         requestData: formData,
@@ -37,7 +37,7 @@ const ServiceRequest = () => {
   if (!provider) {
     return (
       <>
-        <HeaderClient />
+        <AppHeader />
         <main className={styles.page}>
           <section className={styles.card}>
             <h1>Prestador no encontrado</h1>
@@ -58,7 +58,7 @@ const ServiceRequest = () => {
 
   return (
     <>
-      <HeaderClient />
+      <AppHeader />
 
       <main className={styles.page}>
         <div className={styles.container}>

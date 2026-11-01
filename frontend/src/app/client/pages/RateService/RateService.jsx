@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import HeaderClient from "../../components/HeaderClient/HeaderClient";
+import AppHeader from "../../../components/AppHeader/AppHeader";
 
 import RateServiceHeader from "./components/RateServiceHeader/RateServiceHeader";
 import RateServiceProvider from "./components/RateServiceProvider/RateServiceProvider";
@@ -73,7 +73,7 @@ const RateService = () => {
   if (!request || !coordination) {
     return (
       <>
-        <HeaderClient />
+        <AppHeader />
 
         <main className={styles.page}>
           <section className={styles.notFound}>
@@ -99,7 +99,7 @@ const RateService = () => {
 
   return (
     <>
-      <HeaderClient />
+      <AppHeader />
 
       <main className={styles.page}>
         <section className={styles.card}>

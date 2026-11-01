@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Search, ClipboardList } from "lucide-react";
 
-import HeaderClient from "../../components/HeaderClient/HeaderClient";
+import AppHeader from "../../../components/AppHeader/AppHeader";
 import RequestCard from "./components/RequestCard/RequestCard";
 import styles from "./MyRequests.module.css";
 
@@ -94,7 +94,7 @@ const MyRequests = () => {
   };
 
   const handleCoordinate = (request) => {
-    navigate(`/coordinar-servicio/${request.id}`, {
+    navigate(`/app/cliente/coordinar-servicio/${request.id}`, {
       state: { request },
     });
   };
@@ -105,7 +105,7 @@ const MyRequests = () => {
 
   return (
     <>
-      <HeaderClient />
+      <AppHeader />
 
       <main className={styles.page}>
         <div className={styles.container}>

@@ -6,7 +6,7 @@ import { ArrowLeft } from "lucide-react";
 import providers from "../../../provider/data/providers";
 import styles from "./ProviderProfile.module.css";
 
-import HeaderClient from "../../components/HeaderClient/HeaderClient";
+import AppHeader from "../../../components/AppHeader/AppHeader";
 
 import ProviderProfileCard from "./components/ProviderProfileCard/ProviderProfileCard";
 import ProviderAbout from "./components/ProviderAbout/ProviderAbout";
@@ -26,7 +26,7 @@ const ProviderProfile = () => {
   if (!provider) {
     return (
       <>
-        <HeaderClient />
+        <AppHeader />
 
         <main className={styles.page}>
           <div className={styles.notFound}>
@@ -34,7 +34,7 @@ const ProviderProfile = () => {
 
             <p>No pudimos encontrar el perfil que estás buscando.</p>
 
-            <button type="button" onClick={() => navigate("/buscar-servicios")}>
+            <button type="button" onClick={() => navigate("/app/cliente/buscar-servicios")}>
               Volver a buscar servicios
             </button>
           </div>
@@ -65,7 +65,7 @@ const ProviderProfile = () => {
 
   return (
     <>
-      <HeaderClient />
+      <AppHeader />
 
       <main className={styles.page}>
         <div className={styles.container}>
@@ -115,7 +115,7 @@ const ProviderProfile = () => {
                   rating={rating}
                   reviewCount={reviewCount}
                   onSelect={() =>
-                    navigate(`/solicitar-servicio/${provider.id}`)
+                    navigate(`/app/cliente/solicitar-servicio/${provider.id}`)
                   }
                 />
 

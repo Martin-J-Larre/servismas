@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Check, Pencil, Save, X } from "lucide-react";
 import { toast } from "react-toastify";
 
-import HeaderClient from "../../components/HeaderClient/HeaderClient";
+import AppHeader from "../../../components/AppHeader/AppHeader";
 import ProfileSummary from "./components/ProfileSummary/ProfileSummary";
 import PersonalInformation from "./components/PersonalInformation/PersonalInformation";
 import ProfilePreferences from "./components/ProfilePreferences/ProfilePreferences";
@@ -66,7 +66,7 @@ const ClientProfile = () => {
 
   return (
     <div className={styles.page}>
-      <HeaderClient />
+      <AppHeader />
 
       <main className={styles.container}>
         <div className={styles.pageHeader}>

@@ -5,6 +5,8 @@ import "react-toastify/dist/ReactToastify.css";
 import Home from "../landing/pages/Home";
 import Register from "../auth/pages/Register/Register";
 import Login from "../auth/pages/Login/Login";
+
+// Páginas del cliente
 import SearchServices from "../app/client/pages/SearchServices/SearchServices";
 import ProviderProfile from "../app/client/pages/ProviderProfile/ProviderProfile";
 import ServiceRequest from "../app/client/pages/ServiceRequest/ServiceRequest";
@@ -17,44 +19,69 @@ import CoordinateService from "../app/client/pages/CoordinateService/CoordinateS
 import TrackingService from "../app/client/pages/TrackingService/TrackingService";
 import FinalizeService from "../app/client/pages/FinalizeService/FinalizeService";
 import RateService from "../app/client/pages/RateService/RateService";
+
+// Páginas del prestador
 import ProviderDashboard from "../app/provider/pages/ProviderDashboard/ProviderDashboard";
 import PublishService from "../app/provider/pages/PublishService/PublishService";
 import ServicePublished from "../app/provider/pages/ServicePublished/ServicePublished";
 import ReceivedRequests from "../app/provider/pages/ReceivedRequests/ReceivedRequests";
 
-//TODO: Separar en un router cliente y pretador, publica landing y que sea por credenciales, agregar app/cliente, app/prestador y mandar el router a otra page
-
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Páginas públicas */}
         <Route path="/" element={<Home />} />
         <Route path="/registro" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/buscar-servicios" element={<SearchServices />} />
-        <Route path="/prestadores/:id" element={<ProviderProfile />} />
-        <Route path="/solicitar-servicio/:id" element={<ServiceRequest />} />
-        <Route
-          path="/confirmar-solicitud/:id"
-          element={<RequestConfirmation />}
-        />
-        <Route path="/solicitud-exitosa/:id" element={<RequestSuccess />} />
-        <Route path="/mis-servicios" element={<MyServices />} />
-        <Route path="/mis-solicitudes" element={<MyRequests />} />
-        <Route path="/mi-perfil" element={<ClientProfile />} />
-        <Route path="/coordinar-servicio/:id" element={<CoordinateService />} />
-        <Route path="/seguimiento-servicio/:id" element={<TrackingService />} />
-        <Route path="/finalizar-servicio/:id" element={<FinalizeService />} />
-        <Route path="/valorar-servicio/:id" element={<RateService />} />
 
-        <Route path="/prestador/panel" element={<ProviderDashboard />} />
-        <Route path="/prestador/servicios/nuevo" element={<PublishService />} />
-        <Route
-          path="/prestador/servicios/publicado"
-          element={<ServicePublished />}
-        />
-        <Route path="/prestador/solicitudes" element={<ReceivedRequests />} />
+        {/* Flujo del cliente */}
+        <Route path="/app/cliente">
+          <Route index element={<Navigate to="buscar-servicios" replace />} />
 
+          <Route path="buscar-servicios" element={<SearchServices />} />
+          <Route path="prestadores/:id" element={<ProviderProfile />} />
+          <Route path="solicitar-servicio/:id" element={<ServiceRequest />} />
+
+          <Route
+            path="confirmar-solicitud/:id"
+            element={<RequestConfirmation />}
+          />
+
+          <Route path="solicitud-exitosa/:id" element={<RequestSuccess />} />
+
+          <Route path="mis-servicios" element={<MyServices />} />
+          <Route path="mis-solicitudes" element={<MyRequests />} />
+          <Route path="mi-perfil" element={<ClientProfile />} />
+
+          <Route
+            path="coordinar-servicio/:id"
+            element={<CoordinateService />}
+          />
+
+          <Route
+            path="seguimiento-servicio/:id"
+            element={<TrackingService />}
+          />
+
+          <Route path="finalizar-servicio/:id" element={<FinalizeService />} />
+          <Route path="valorar-servicio/:id" element={<RateService />} />
+        </Route>
+
+        {/* Flujo del prestador */}
+        <Route path="/app/prestador">
+          <Route index element={<Navigate to="panel" replace />} />
+
+          <Route path="panel" element={<ProviderDashboard />} />
+
+          <Route path="servicios/nuevo" element={<PublishService />} />
+
+          <Route path="servicios/publicado" element={<ServicePublished />} />
+
+          <Route path="solicitudes" element={<ReceivedRequests />} />
+        </Route>
+
+        {/* Ruta desconocida */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
 

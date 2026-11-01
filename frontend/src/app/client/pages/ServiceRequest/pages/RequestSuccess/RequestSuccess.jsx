@@ -1,7 +1,7 @@
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Check, MapPin, CalendarDays, ArrowRight } from "lucide-react";
 
-import HeaderClient from "../../../../components/HeaderClient/HeaderClient";
+import AppHeader from "../../../../../components/AppHeader/AppHeader";
 import providers from "../../../../../provider/data/providers";
 
 import styles from "./RequestSuccess.module.css";
@@ -20,7 +20,7 @@ const RequestSuccess = () => {
   if (!provider || !requestData) {
     return (
       <>
-        <HeaderClient />
+        <AppHeader />
 
         <main className={styles.page}>
           <section className={styles.card}>
@@ -33,7 +33,7 @@ const RequestSuccess = () => {
             <button
               type="button"
               className={styles.primaryButton}
-              onClick={() => navigate("/buscar-servicios")}
+              onClick={() => navigate("/app/cliente/buscar-servicios")}
             >
               Nueva búsqueda
             </button>
@@ -53,7 +53,7 @@ const RequestSuccess = () => {
 
   return (
     <>
-      <HeaderClient />
+      <AppHeader />
 
       <main className={styles.page}>
         <section className={styles.card}>
@@ -109,7 +109,7 @@ const RequestSuccess = () => {
             <button
               type="button"
               className={styles.primaryButton}
-              onClick={() => navigate("/buscar-servicios")}
+              onClick={() => navigate("/app/cliente/buscar-servicios")}
             >
               Nueva búsqueda
               <ArrowRight size={17} aria-hidden="true" />

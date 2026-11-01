@@ -7,7 +7,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 
-import HeaderClient from "../../components/HeaderClient/HeaderClient";
+import AppHeader from "../../../components/AppHeader/AppHeader";
 import ServiceCard from "./components/ServiceCard/ServiceCard";
 import ServicePagination from "./components/ServicePagination/ServicePagination";
 
@@ -143,7 +143,7 @@ const MyServices = () => {
 
   return (
     <div className={styles.page}>
-      <HeaderClient />
+      <AppHeader />
 
       <main className={styles.main}>
         <div className={styles.container}>

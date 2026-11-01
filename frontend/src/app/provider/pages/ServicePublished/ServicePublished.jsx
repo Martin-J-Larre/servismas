@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { Check, ArrowRight} from "lucide-react";
 
-import HeaderClient from "../../../client/components/HeaderClient/HeaderClient";
+import AppHeader from "../../../components/AppHeader/AppHeader";
 
 import styles from "./ServicePublished.module.css";
 
@@ -12,16 +12,16 @@ const ServicePublished = () => {
   const serviceName = location.state?.serviceName || "Tu servicio";
 
   const handleViewServices = () => {
-    navigate("/prestador/servicios");
+    navigate("/app/prestador/servicios");
   };
 
   const handleGoToDashboard = () => {
-    navigate("/prestador/panel");
+    navigate("/app/prestador/panel");
   };
 
   return (
     <div className={styles.page}>
-      <HeaderClient />
+      <AppHeader />
 
       <main className={styles.main}>
         <section className={styles.successCard} aria-labelledby="success-title">

@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, CheckCircle2, Flag, ShieldCheck } from "lucide-react";
 import { toast } from "react-toastify";
 
-import HeaderClient from "../../components/HeaderClient/HeaderClient";
+import AppHeader from "../../../components/AppHeader/AppHeader";
 
 import FinalizeServiceHeader from "./components/FinalizeServiceHeader/FinalizeServiceHeader";
 import FinalizeServiceSummary from "./components/FinalizeServiceSummary/FinalizeServiceSummary";
@@ -60,7 +60,7 @@ const FinalizeService = () => {
 
       toast.success("El servicio se finalizó correctamente.");
 
-      navigate(`/valorar-servicio/${id}`, {
+      navigate(`/app/cliente/valorar-servicio/${id}`, {
         replace: true,
         state: {
           request,
@@ -73,7 +73,7 @@ const FinalizeService = () => {
   };
 
   const handleBack = () => {
-    navigate(`/seguimiento-servicio/${id}`, {
+    navigate(`/app/cliente/seguimiento-servicio/${id}`, {
       state: {
         request,
         coordination,
@@ -84,7 +84,7 @@ const FinalizeService = () => {
   if (!request || !coordination) {
     return (
       <>
-        <HeaderClient />
+        <AppHeader />
 
         <main className={styles.page}>
           <div className={styles.container}>
@@ -96,7 +96,7 @@ const FinalizeService = () => {
                 solicitudes e intentá ingresar nuevamente.
               </p>
 
-              <Link to="/mis-solicitudes">Volver a mis solicitudes</Link>
+              <Link to="/app/cliente/mis-solicitudes">Volver a mis solicitudes</Link>
             </section>
           </div>
         </main>
@@ -112,7 +112,7 @@ const FinalizeService = () => {
 
   return (
     <>
-      <HeaderClient />
+      <AppHeader />
 
       <main className={styles.page}>
         <div className={styles.container}>

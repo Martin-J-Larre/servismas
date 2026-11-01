@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import HeaderClient from "../../../client/components/HeaderClient/HeaderClient";
+import AppHeader from "../../../components/AppHeader/AppHeader";
 
 import RequestFilters from "./components/RequestFilters/RequestFilters";
 import RequestAlert from "./components/RequestAlert/RequestAlert";
@@ -69,7 +69,7 @@ const ReceivedRequests = () => {
 
   return (
     <div className={styles.page}>
-      <HeaderClient />
+      <AppHeader />
 
       <main className={styles.main}>
         <header className={styles.pageHeader}>

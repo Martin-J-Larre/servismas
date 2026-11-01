@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import HeaderClient from "../../../client/components/HeaderClient/HeaderClient";
+import AppHeader from "../../../components/AppHeader/AppHeader";
 
 import ServiceInformation from "./components/ServiceInformation/ServiceInformation";
 import ServiceArea from "./components/ServiceArea/ServiceArea";
@@ -54,7 +54,7 @@ const PublishService = () => {
   };
 
   const handleCancel = () => {
-    navigate("/prestador/panel");
+    navigate("/app/prestador/panel");
   };
 
   // const handlePublish = (event) => {
@@ -68,7 +68,7 @@ const PublishService = () => {
 
     console.log("Datos del servicio:", formData);
 
-    navigate("/prestador/servicios/publicado", {
+    navigate("/app/prestador/servicios/publicado", {
       state: {
         serviceName: formData.name.trim(),
       },
@@ -77,7 +77,7 @@ const PublishService = () => {
 
   return (
     <div className={styles.page}>
-      <HeaderClient />
+      <AppHeader />
 
       <main className={styles.main}>
         <button

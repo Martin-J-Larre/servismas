@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import HeaderClient from "../../components/HeaderClient/HeaderClient";
+import AppHeader from "../../../components/AppHeader/AppHeader";
 
 import CoordinationHeader from "./components/CoordinationHeader/CoordinationHeader";
 import StatusBanner from "./components/StatusBanner/StatusBanner";
@@ -153,7 +153,7 @@ const CoordinateService = () => {
 
     toast.success("La coordinación quedó confirmada.");
 
-    navigate(`/seguimiento-servicio/${id}`, {
+    navigate(`/app/cliente/seguimiento-servicio/${id}`, {
       state: {
         request,
         coordination: confirmedCoordination,
@@ -163,7 +163,7 @@ const CoordinateService = () => {
 
   // Ir al seguimiento del servicio.
   const handleViewTracking = () => {
-    navigate(`/seguimiento-servicio/${id}`, {
+    navigate(`/app/cliente/seguimiento-servicio/${id}`, {
       state: {
         request,
         coordination,
@@ -173,14 +173,14 @@ const CoordinateService = () => {
 
   // Volver a las solicitudes.
   const handleBack = () => {
-    navigate("/mis-solicitudes");
+    navigate("/app/cliente/mis-solicitudes");
   };
 
   // Si no existe información de la solicitud, mostrar un mensaje.
   if (!request) {
     return (
       <>
-        <HeaderClient />
+        <AppHeader />
 
         <main className={styles.page}>
           <div className={styles.container}>
@@ -289,7 +289,7 @@ const CoordinateService = () => {
 
   return (
     <>
-      <HeaderClient />
+      <AppHeader />
 
       <main className={styles.page}>
         <div className={styles.container}>

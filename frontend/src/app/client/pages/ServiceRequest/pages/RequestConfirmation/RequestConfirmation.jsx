@@ -1,7 +1,7 @@
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, CalendarDays, MapPin, FileText, Send } from "lucide-react";
 
-import HeaderClient from "../../../../components/HeaderClient/HeaderClient";
+import AppHeader from "../../../../../components/AppHeader/AppHeader";
 import providers from "../../../../../provider/data/providers";
 
 import RequestStepper from "../../components/RequestStepper/RequestStepper";
@@ -20,7 +20,7 @@ const RequestConfirmation = () => {
   if (!provider || !requestData) {
     return (
       <>
-        <HeaderClient />
+        <AppHeader />
 
         <main className={styles.page}>
           <section className={styles.card}>
@@ -33,7 +33,7 @@ const RequestConfirmation = () => {
             <button
               type="button"
               className={styles.primaryButton}
-              onClick={() => navigate(`/solicitar-servicio/${id}`)}
+              onClick={() => navigate(`/app/cliente/solicitar-servicio/${id}`)}
             >
               Volver al formulario
             </button>
@@ -44,7 +44,7 @@ const RequestConfirmation = () => {
   }
 
   const handleBack = () => {
-    navigate(`/solicitar-servicio/${id}`, {
+    navigate(`/app/cliente/solicitar-servicio/${id}`, {
       state: { requestData },
     });
   };
@@ -53,7 +53,7 @@ const RequestConfirmation = () => {
   //   // En esta etapa, el envío es simulado.
   //   // Más adelante conectaremos esta acción con el backend.
 
-  //   navigate("/buscar-servicios", {
+  //   navigate("/app/cliente/buscar-servicios", {
   //     state: {
   //       requestSent: true,
   //       providerName: provider.name,
@@ -62,7 +62,7 @@ const RequestConfirmation = () => {
   // };
 
   const handleSubmit = () => {
-    navigate(`/solicitud-exitosa/${id}`, {
+    navigate(`/app/cliente/solicitud-exitosa/${id}`, {
       state: {
         requestData,
       },
@@ -71,7 +71,7 @@ const RequestConfirmation = () => {
 
   return (
     <>
-      <HeaderClient />
+      <AppHeader />
 
       <main className={styles.page}>
         <div className={styles.container}>

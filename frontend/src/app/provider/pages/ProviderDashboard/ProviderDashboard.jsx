@@ -1,6 +1,12 @@
 import { useNavigate } from "react-router-dom";
+import {
+  UserRound,
+  BriefcaseBusiness,
+  ClipboardList,
+  LayoutDashboard,
+} from "lucide-react";
 
-import HeaderClient from "../../../client/components/HeaderClient/HeaderClient";
+import AppHeader from "../../../../app/components/AppHeader/AppHeader";
 
 import ProviderWelcome from "./components/ProviderWelcome/ProviderWelcome";
 import ProviderStats from "./components/ProviderStats/ProviderStats";
@@ -13,16 +19,53 @@ import styles from "./ProviderDashboard.module.css";
 const ProviderDashboard = () => {
   const navigate = useNavigate();
 
-  const handleCreateService = () => {
-    navigate("/prestador/servicios/nuevo");
+  const user = {
+    name: "Juan Pérez",
+    initials: "JP",
+    role: "Prestador",
+  };
+
+  const menuItems = [
+    {
+      label: "Mi perfil",
+      to: "/prestador/perfil",
+      icon: UserRound,
+    },
+    {
+      label: "Panel principal",
+      to: "/prestador/panel",
+      icon: LayoutDashboard,
+    },
+    {
+      label: "Mis servicios",
+      to: "/prestador/servicios",
+      icon: BriefcaseBusiness,
+    },
+    {
+      label: "Solicitudes recibidas",
+      to: "/prestador/solicitudes",
+      icon: ClipboardList,
+    },
+  ];
+
+  const handleLogout = () => {
+    // El cierre de sesión real se implementará con la autenticación.
+    console.log("Cerrar sesión del prestador");
+  };
+
+  const handlePublishService = () => {
+    navigate("/app/prestador/servicios/nuevo");
   };
 
   return (
     <div className={styles.dashboard}>
-      <HeaderClient />
+      <AppHeader user={user} menuItems={menuItems} onLogout={handleLogout} />
 
       <main className={styles.main}>
-        <ProviderWelcome name="Juan" onPublishService={handleCreateService} />
+        <ProviderWelcome
+          name={user.name.split(" ")[0]}
+          onPublishService={handlePublishService}
+        />
 
         <ProviderStats
           publishedServices={3}
@@ -34,9 +77,7 @@ const ProviderDashboard = () => {
 
         <div className={styles.content}>
           <RecentRequests />
-
-          <ProviderServices onCreateService={handleCreateService} />
-
+          <ProviderServices onCreateService={handlePublishService} />
           <ProviderAvailability />
         </div>
       </main>

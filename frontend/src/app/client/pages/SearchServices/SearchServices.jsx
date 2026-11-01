@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SearchX } from "lucide-react";
 
-import HeaderClient from "../../components/HeaderClient/HeaderClient";
+import AppHeader from "../../../components/AppHeader/AppHeader";
 import ServiceSearchBar from "./components/ServiceSearchBar/ServiceSearchBar";
 import ServiceTypeList from "./components/ServiceTypeList/ServiceTypeList";
 import ProviderCard from "./components/ProviderCard/ProviderCard";
@@ -214,12 +214,12 @@ const SearchServices = () => {
   });
 
   const handleViewProfile = (provider) => {
-    navigate(`/prestadores/${provider.id}`);
+    navigate(`/app/prestadores/${provider.id}`);
   };
 
   return (
     <main className={styles.page}>
-      <HeaderClient />
+      <AppHeader />
 
       <section className={styles.searchSection}>
         <p className={styles.eyebrow}>BÚSQUEDA DE SERVICIOS</p>
