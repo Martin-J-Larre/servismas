@@ -1,0 +1,83 @@
+.filters {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.filterButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 28px;
+  padding: 5px 11px;
+  border: 1px solid #e3ebe5;
+  border-radius: 7px;
+  background-color: #ffffff;
+  color: #77847b;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.filterButton:hover:not(.active) {
+  border-color: #b9d9c7;
+  background-color: #f8fcf9;
+  color: #168d60;
+}
+
+.active {
+  border-color: #168d60;
+  background-color: #168d60;
+  color: #ffffff;
+  box-shadow: 0 3px 7px rgb(22 141 96 / 15%);
+}
+
+.count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 15px;
+  height: 15px;
+  padding: 0 4px;
+  border-radius: 5px;
+  background-color: #f0f4f1;
+  color: #849087;
+  font-size: 9px;
+  line-height: 1;
+}
+
+.activeCount {
+  background-color: rgb(255 255 255 / 20%);
+  color: #ffffff;
+}
+
+.filterButton:focus-visible {
+  outline: 2px solid #168d60;
+  outline-offset: 3px;
+}
+
+@media (max-width: 480px) {
+  .filters {
+    gap: 5px;
+  }
+
+  .filterButton {
+    gap: 5px;
+    padding: 5px 8px;
+    font-size: 9px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .filterButton {
+    transition: none;
+  }
+}

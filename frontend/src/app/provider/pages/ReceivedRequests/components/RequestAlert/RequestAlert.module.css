@@ -1,0 +1,38 @@
+.alert {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 29px;
+  margin-bottom: 8px;
+  padding: 7px 11px;
+  border: 1px solid #f7e4a7;
+  border-radius: 8px;
+  background-color: #fffaf0;
+  color: #b7791f;
+}
+
+.alert > svg {
+  flex-shrink: 0;
+  color: #e9a000;
+}
+
+.alert p {
+  margin: 0;
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+.alert strong {
+  font-weight: 700;
+}
+
+@media (max-width: 480px) {
+  .alert {
+    align-items: flex-start;
+    padding: 9px 10px;
+  }
+
+  .alert p {
+    font-size: 10px;
+  }
+}

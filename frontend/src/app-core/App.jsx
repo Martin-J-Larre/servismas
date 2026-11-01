@@ -20,6 +20,9 @@ import RateService from "../app/client/pages/RateService/RateService";
 import ProviderDashboard from "../app/provider/pages/ProviderDashboard/ProviderDashboard";
 import PublishService from "../app/provider/pages/PublishService/PublishService";
 import ServicePublished from "../app/provider/pages/ServicePublished/ServicePublished";
+import ReceivedRequests from "../app/provider/pages/ReceivedRequests/ReceivedRequests";
+
+//TODO: Separar en un router cliente y pretador, publica landing y que sea por credenciales, agregar app/cliente, app/prestador y mandar el router a otra page
 
 const App = () => {
   return (
@@ -50,6 +53,7 @@ const App = () => {
           path="/prestador/servicios/publicado"
           element={<ServicePublished />}
         />
+        <Route path="/prestador/solicitudes" element={<ReceivedRequests />} />
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

@@ -1,0 +1,263 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  min-width: 0;
+  padding: 17px 18px 13px;
+  border: 1px solid #e3ebe5;
+  border-radius: 10px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgb(30 60 42 / 3%);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.card:hover {
+  border-color: #d0e2d6;
+  box-shadow: 0 4px 12px rgb(30 60 42 / 5%);
+}
+
+.mainContent {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  min-width: 0;
+}
+
+.clientAvatar {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid #d9eee1;
+  border-radius: 50%;
+  background-color: #eaf6ef;
+  color: #168d60;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.requestContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.requestHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.clientInfo {
+  min-width: 0;
+}
+
+.clientInfo h2 {
+  margin: 0;
+  color: #2d3d33;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.serviceName {
+  display: block;
+  margin-top: 2px;
+  color: #168d60;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.status {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 8px;
+  border: 1px solid;
+  border-radius: 6px;
+  font-size: 9px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.statusDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+}
+
+.pending {
+  border-color: #f5e4ad;
+  background-color: #fff9e9;
+  color: #b7791f;
+}
+
+.pending .statusDot {
+  background-color: #e9a000;
+}
+
+.accepted {
+  border-color: #d0eddb;
+  background-color: #eff9f3;
+  color: #168d60;
+}
+
+.accepted .statusDot {
+  background-color: #168d60;
+}
+
+.rejected {
+  border-color: #f3d5d5;
+  background-color: #fff3f3;
+  color: #c34d4d;
+}
+
+.rejected .statusDot {
+  background-color: #d95353;
+}
+
+.unknown {
+  border-color: #e3ebe5;
+  background-color: #f6f8f6;
+  color: #77847b;
+}
+
+.unknown .statusDot {
+  background-color: #9aa49d;
+}
+
+.description {
+  margin: 9px 0 11px;
+  color: #77847b;
+  font-size: 10px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.details {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 15px;
+}
+
+.detail {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #849087;
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+.detail svg {
+  flex-shrink: 0;
+  color: #168d60;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 11px;
+  border-top: 1px solid #edf1ee;
+}
+
+.price {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  color: #168d60;
+}
+
+.price > svg {
+  flex-shrink: 0;
+}
+
+.price > div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.price span {
+  color: #849087;
+  font-size: 9px;
+}
+
+.price strong {
+  color: #34443a;
+  font-size: 11px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.viewButton {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 32px;
+  padding: 0 11px;
+  border: 1px solid #168d60;
+  border-radius: 7px;
+  background-color: #ffffff;
+  color: #168d60;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.viewButton:hover {
+  background-color: #168d60;
+  color: #ffffff;
+}
+
+.viewButton:focus-visible {
+  outline: 2px solid #168d60;
+  outline-offset: 3px;
+}
+
+@media (max-width: 560px) {
+  .card {
+    padding: 14px;
+  }
+
+  .requestHeader {
+    flex-wrap: wrap;
+  }
+
+  .details {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 7px;
+  }
+
+  .footer {
+    align-items: flex-start;
+  }
+
+  .viewButton {
+    padding: 0 9px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .viewButton {
+    transition: none;
+  }
+}
