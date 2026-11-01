@@ -1,0 +1,189 @@
+.page {
+  min-height: 100vh;
+  background-color: #f5f9f6;
+  color: #26372e;
+}
+
+.main {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: calc(100vh - 56px);
+  padding: 32px 20px 60px;
+}
+
+.successCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(100%, 350px);
+  padding: 26px 28px 24px;
+  border: 1px solid #e6eee8;
+  border-radius: 12px;
+  background-color: #ffffff;
+  box-shadow: 0 18px 38px rgb(30 60 42 / 15%);
+  text-align: center;
+  animation: appear 0.3s ease-out;
+}
+
+.successIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  margin-bottom: 15px;
+  border-radius: 50%;
+  background-color: #e8f7ee;
+  color: #168d60;
+}
+
+.eyebrow {
+  margin-bottom: 7px;
+  color: #168d60;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.1px;
+}
+
+.successCard h1 {
+  margin: 0;
+  color: #26372e;
+  font-size: 19px;
+  font-weight: 750;
+  letter-spacing: -0.4px;
+}
+
+.description {
+  max-width: 260px;
+  margin: 10px 0 12px;
+  color: #77847b;
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+.description strong {
+  color: #526158;
+  font-weight: 600;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border: 1px solid #d7eee0;
+  border-radius: 20px;
+  background-color: #eff9f2;
+  color: #168d60;
+  font-size: 9px;
+  font-weight: 600;
+}
+
+.statusDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: #168d60;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  margin-top: 19px;
+}
+
+.primaryButton,
+.secondaryButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.primaryButton {
+  border: 1px solid #168d60;
+  background-color: #168d60;
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgb(22 141 96 / 20%);
+}
+
+.primaryButton:hover {
+  border-color: #11784f;
+  background-color: #11784f;
+  box-shadow: 0 5px 13px rgb(22 141 96 / 25%);
+}
+
+.secondaryButton {
+  border: 1px solid #e1e9e4;
+  background-color: #ffffff;
+  color: #77847b;
+}
+
+.secondaryButton:hover {
+  border-color: #c9d9ce;
+  background-color: #f7faf8;
+}
+
+.primaryButton:focus-visible,
+.secondaryButton:focus-visible {
+  outline: 2px solid #168d60;
+  outline-offset: 3px;
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 480px) {
+  .main {
+    padding: 24px 16px 40px;
+  }
+
+  .successCard {
+    padding: 25px 20px;
+  }
+
+  .actions {
+    flex-direction: column-reverse;
+  }
+
+  .primaryButton,
+  .secondaryButton {
+    width: 100%;
+    min-height: 40px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .successCard {
+    animation: none;
+  }
+
+  .primaryButton,
+  .secondaryButton {
+    transition: none;
+  }
+}

@@ -1,0 +1,212 @@
+.section {
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid #e1e9e4;
+  border-radius: 12px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 3px rgb(30 60 42 / 4%);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #edf1ee;
+}
+
+.sectionNumber {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background-color: #168d60;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  box-shadow: 0 3px 8px rgb(22 141 96 / 20%);
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  color: #168d60;
+}
+
+.sectionTitle h2 {
+  margin: 0;
+  color: #293a30;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding-top: 18px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.field label,
+.label {
+  color: #34443a;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputIcon {
+  position: absolute;
+  left: 12px;
+  flex-shrink: 0;
+  color: #849087;
+  pointer-events: none;
+}
+
+.inputWrapper input {
+  width: 100%;
+  min-width: 0;
+  min-height: 42px;
+  padding: 11px 12px 11px 38px;
+  border: 1px solid #e1e9e4;
+  border-radius: 8px;
+  outline: none;
+  background-color: #ffffff;
+  color: #34443a;
+  font-family: inherit;
+  font-size: 12px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.inputWrapper input::placeholder {
+  color: #a0aaa3;
+}
+
+.inputWrapper input:focus {
+  border-color: #168d60;
+  box-shadow: 0 0 0 3px rgb(22 141 96 / 9%);
+}
+
+.hint {
+  color: #849087;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.radiusOptions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.radiusButton {
+  min-height: 36px;
+  padding: 8px 13px;
+  border: 1px solid #e1e9e4;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #77847b;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.radiusButton:hover:not(.selected) {
+  border-color: #a8cfb7;
+  background-color: #f7fbf8;
+  color: #168d60;
+}
+
+.radiusButton.selected {
+  border-color: #168d60;
+  background-color: #168d60;
+  color: #ffffff;
+  box-shadow: 0 3px 8px rgb(22 141 96 / 18%);
+}
+
+.coverageInfo {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 11px 12px;
+  border: 1px solid #dcefe3;
+  border-radius: 8px;
+  background-color: #f2faf5;
+  color: #168d60;
+}
+
+.coverageInfo svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.coverageInfo p {
+  margin: 0;
+  color: #60766a;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.coverageInfo strong {
+  color: #168d60;
+  font-weight: 700;
+}
+
+.radiusButton:focus-visible {
+  outline: 2px solid #168d60;
+  outline-offset: 3px;
+}
+
+.inputWrapper input:focus-visible {
+  outline: none;
+}
+
+@media (max-width: 600px) {
+  .section {
+    padding: 16px;
+  }
+
+  .sectionTitle h2 {
+    font-size: 13px;
+  }
+
+  .radiusOptions {
+    gap: 7px;
+  }
+
+  .radiusButton {
+    flex: 1 1 auto;
+    padding: 8px 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .inputWrapper input,
+  .radiusButton {
+    transition: none;
+  }
+}

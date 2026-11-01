@@ -18,6 +18,8 @@ import TrackingService from "../app/client/pages/TrackingService/TrackingService
 import FinalizeService from "../app/client/pages/FinalizeService/FinalizeService";
 import RateService from "../app/client/pages/RateService/RateService";
 import ProviderDashboard from "../app/provider/pages/ProviderDashboard/ProviderDashboard";
+import PublishService from "../app/provider/pages/PublishService/PublishService";
+import ServicePublished from "../app/provider/pages/ServicePublished/ServicePublished";
 
 const App = () => {
   return (
@@ -43,6 +45,11 @@ const App = () => {
         <Route path="/valorar-servicio/:id" element={<RateService />} />
 
         <Route path="/prestador/panel" element={<ProviderDashboard />} />
+        <Route path="/prestador/servicios/nuevo" element={<PublishService />} />
+        <Route
+          path="/prestador/servicios/publicado"
+          element={<ServicePublished />}
+        />
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

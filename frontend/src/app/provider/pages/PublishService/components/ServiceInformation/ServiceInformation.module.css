@@ -1,0 +1,273 @@
+.section {
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid #e1e9e4;
+  border-radius: 12px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 3px rgb(30 60 42 / 4%);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #edf1ee;
+}
+
+.sectionNumber {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background-color: #168d60;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  box-shadow: 0 3px 8px rgb(22 141 96 / 20%);
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  color: #168d60;
+}
+
+.sectionTitle h2 {
+  margin: 0;
+  color: #293a30;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+  padding-top: 18px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+
+.field label {
+  color: #34443a;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.field input:not([type="file"]),
+.field select,
+.field textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 11px 12px;
+  border: 1px solid #e1e9e4;
+  border-radius: 8px;
+  outline: none;
+  background-color: #ffffff;
+  color: #34443a;
+  font-family: inherit;
+  font-size: 12px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.field input:not([type="file"]),
+.field select {
+  min-height: 42px;
+}
+
+.field select {
+  cursor: pointer;
+}
+
+.field textarea {
+  min-height: 120px;
+  resize: vertical;
+  line-height: 1.7;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: #a0aaa3;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: #168d60;
+  box-shadow: 0 0 0 3px rgb(22 141 96 / 9%);
+}
+
+.field input:focus-visible,
+.field select:focus-visible,
+.field textarea:focus-visible {
+  outline: none;
+}
+
+.hint,
+.uploadDescription {
+  margin: 0;
+  color: #849087;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.labelRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.counter {
+  color: #849087;
+  font-size: 10px;
+}
+
+.optional {
+  color: #849087;
+  font-size: 10px;
+}
+
+.uploadDescription {
+  margin-top: -2px;
+}
+
+.imageList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.imageCard,
+.uploadButton {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 78px;
+  height: 82px;
+  overflow: visible;
+  border-radius: 10px;
+}
+
+.imageCard {
+  border: 1px solid #dce9e0;
+  background-color: #f2faf5;
+}
+
+.imageCard img {
+  width: 100%;
+  height: 100%;
+  border-radius: 9px;
+  object-fit: cover;
+}
+
+.imageLabel {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  padding: 5px 3px;
+  border-radius: 0 0 9px 9px;
+  background-color: rgb(22 141 96 / 88%);
+  color: #ffffff;
+  font-size: 9px;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.removeImage {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 21px;
+  height: 21px;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  background-color: #ef4444;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.removeImage:hover {
+  background-color: #dc2626;
+}
+
+.uploadButton {
+  gap: 4px;
+  border: 1px dashed #cddbd1;
+  background-color: #ffffff;
+  color: #77847b;
+  font-family: inherit;
+  font-size: 10px;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.uploadButton:hover {
+  border-color: #168d60;
+  background-color: #f2faf5;
+}
+
+.uploadIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #60766a;
+}
+
+.fileInput {
+  display: none;
+}
+
+.removeImage:focus-visible,
+.uploadButton:focus-visible {
+  outline: 2px solid #168d60;
+  outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+  .section {
+    padding: 16px;
+  }
+
+  .sectionTitle h2 {
+    font-size: 13px;
+  }
+
+  .imageCard,
+  .uploadButton {
+    width: 72px;
+    height: 76px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .field input:not([type="file"]),
+  .field select,
+  .field textarea,
+  .uploadButton {
+    transition: none;
+  }
+}
