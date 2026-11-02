@@ -1,0 +1,83 @@
+.messageCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+}
+
+.iconWrapper {
+  display: grid;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border-radius: 9px;
+}
+
+.content {
+  min-width: 0;
+}
+
+.content h2 {
+  margin: 0 0 5px;
+  font-size: 12px;
+  font-weight: 750;
+  line-height: 1.5;
+}
+
+.content p {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.content small {
+  display: block;
+  margin-top: 8px;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.pending {
+  border-color: #ffe5b2;
+  background: #fff9eb;
+  color: #946200;
+}
+
+.pending .iconWrapper {
+  background: #fff0ca;
+}
+
+.accepted {
+  border-color: #d0ebd9;
+  background: #f0faf3;
+  color: #168d60;
+}
+
+.accepted .iconWrapper {
+  background: #dcf3e4;
+}
+
+.rejected {
+  border-color: #f7d9d9;
+  background: #fff5f5;
+  color: #c43b3b;
+}
+
+.rejected .iconWrapper {
+  background: #ffe5e5;
+}
+
+@media (max-width: 480px) {
+  .messageCard {
+    gap: 9px;
+    padding: 12px;
+  }
+
+  .iconWrapper {
+    width: 32px;
+    height: 32px;
+  }
+}

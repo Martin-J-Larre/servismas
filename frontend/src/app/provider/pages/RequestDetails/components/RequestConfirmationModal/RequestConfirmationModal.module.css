@@ -1,0 +1,177 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgb(18 30 23 / 45%);
+  backdrop-filter: blur(3px);
+}
+
+.modal {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  padding: 28px;
+  border: 1px solid #e7eee9;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 20px 60px rgb(20 40 28 / 18%);
+  text-align: center;
+  animation: modalAppear 0.2s ease-out;
+}
+
+.closeButton {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #839087;
+  cursor: pointer;
+}
+
+.closeButton:hover:not(:disabled) {
+  background: #f2f6f3;
+  color: #27342d;
+}
+
+.closeButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.iconWrapper {
+  display: grid;
+  width: 54px;
+  height: 54px;
+  place-items: center;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+}
+
+.accept {
+  background: #e8f6ed;
+  color: #168d60;
+}
+
+.reject {
+  background: #fff0f0;
+  color: #d64545;
+}
+
+.modal h2 {
+  margin: 0 0 10px;
+  color: #1d2924;
+  font-size: 19px;
+  font-weight: 750;
+  letter-spacing: -0.4px;
+}
+
+.modal p {
+  margin: 0;
+  color: #748078;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 26px;
+}
+
+.actions button {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 14px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.cancelButton {
+  border-color: #e2e9e4 !important;
+  background: #ffffff;
+  color: #58665d;
+}
+
+.cancelButton:hover:not(:disabled) {
+  background: #f7faf8;
+}
+
+.confirmButton.accept {
+  background: #168d60;
+  color: #ffffff;
+}
+
+.confirmButton.accept:hover:not(:disabled) {
+  background: #11764f;
+}
+
+.confirmButton.reject {
+  background: #d64545;
+  color: #ffffff;
+}
+
+.confirmButton.reject:hover:not(:disabled) {
+  background: #b93434;
+}
+
+.actions button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.actions button:focus-visible,
+.closeButton:focus-visible {
+  outline: 2px solid #168d60;
+  outline-offset: 3px;
+}
+
+@keyframes modalAppear {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 480px) {
+  .modal {
+    padding: 24px 18px;
+  }
+
+  .actions {
+    flex-direction: column-reverse;
+  }
+
+  .actions button {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal {
+    animation: none;
+  }
+}

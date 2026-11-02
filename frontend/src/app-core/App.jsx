@@ -25,12 +25,17 @@ import ProviderDashboard from "../app/provider/pages/ProviderDashboard/ProviderD
 import PublishService from "../app/provider/pages/PublishService/PublishService";
 import ServicePublished from "../app/provider/pages/ServicePublished/ServicePublished";
 import ReceivedRequests from "../app/provider/pages/ReceivedRequests/ReceivedRequests";
+// import ProviderServiceTracking from "../app/provider/pages/ProviderServiceTracking/ProviderServiceTracking";
+import RequestDetails from "../app/provider/pages/RequestDetails/RequestDetails";
+import ServiceManagement from "../app/provider/pages/ServiceManagement/ServiceManagement";
+import ServiceCompleted from "../app/provider/pages/ServiceCompleted/ServiceCompleted";
+import ProviderProfilePage from "../app/provider/pages/ProviderProfile/ProviderProfile";
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Páginas públicas */}
+        {/* Páginas públicas --> Landing / Auth */}
         <Route path="/" element={<Home />} />
         <Route path="/registro" element={<Register />} />
         <Route path="/login" element={<Login />} />
@@ -79,6 +84,20 @@ const App = () => {
           <Route path="servicios/publicado" element={<ServicePublished />} />
 
           <Route path="solicitudes" element={<ReceivedRequests />} />
+
+          {/* <Route
+            path="solicitudes/:id/seguimiento"
+            element={<ProviderServiceTracking />}
+          /> */}
+
+          <Route path="solicitudes/:id" element={<RequestDetails />} />
+          <Route path="solicitudes" element={<ReceivedRequests />} />
+          <Route path="servicios/:id" element={<ServiceManagement />} />
+          <Route
+            path="servicios/:id/finalizado"
+            element={<ServiceCompleted />}
+          />
+          <Route path="mi-perfil" element={<ProviderProfilePage />} />
         </Route>
 
         {/* Ruta desconocida */}

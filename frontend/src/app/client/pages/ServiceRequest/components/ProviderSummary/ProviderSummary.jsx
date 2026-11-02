@@ -55,7 +55,10 @@ const ProviderSummary = ({ provider }) => {
         </div>
       </div>
 
-      <Link to={`/prestadores/${id}`} className={styles.profileLink}>
+      <Link
+        to={`/app/cliente/prestadores/${id}`}
+        className={styles.profileLink}
+      >
         Ver perfil
       </Link>
     </article>

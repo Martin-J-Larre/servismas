@@ -1,0 +1,221 @@
+.card {
+  overflow: hidden;
+  border: 1px solid #dcebe1;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #27342d;
+  font-family: inherit;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-bottom: 1px solid #e3ebe6;
+  background: #f8fcf9;
+}
+
+.iconWrapper {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  place-items: center;
+  border-radius: 12px;
+  background: #e8f6ed;
+  color: #168d60;
+}
+
+.header h3 {
+  margin: 0 0 4px;
+  color: #27342d;
+  font-size: 14px;
+  font-weight: 750;
+  line-height: 1.4;
+}
+
+.header p {
+  margin: 0;
+  color: #839087;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.content {
+  padding: 18px 16px;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 14px;
+  color: #168d60;
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.status svg {
+  flex-shrink: 0;
+}
+
+.content h4 {
+  margin: 0 0 8px;
+  color: #27342d;
+  font-size: 14px;
+  font-weight: 750;
+  line-height: 1.5;
+}
+
+.content > p {
+  margin: 0;
+  color: #718077;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.progressHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 20px;
+  color: #718077;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.progressHeader strong {
+  color: #168d60;
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.progressTrack {
+  width: 100%;
+  height: 5px;
+  margin-top: 8px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #e8eee9;
+}
+
+.progressTrack span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #168d60;
+  transition: width 250ms ease;
+}
+
+.progressLabels {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  margin-top: 7px;
+  color: #839087;
+  font-size: 9px;
+  line-height: 1.4;
+}
+
+.progressLabels span {
+  white-space: nowrap;
+}
+
+.actionButton {
+  display: flex;
+  width: 100%;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 18px;
+  padding: 11px 14px;
+  border: none;
+  border-radius: 8px;
+  background: #168d60;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.4;
+  cursor: pointer;
+  transition: background 150ms ease;
+}
+
+.actionButton:hover {
+  background: #11764f;
+}
+
+.actionButton:focus-visible,
+.backButton:focus-visible {
+  outline: 2px solid #168d60;
+  outline-offset: 3px;
+}
+
+.actionButton svg {
+  flex-shrink: 0;
+}
+
+.completedMessage {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 11px;
+  border-radius: 8px;
+  background: #f0faf3;
+  color: #168d60;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.completedMessage svg {
+  flex-shrink: 0;
+}
+
+.backButton {
+  display: flex;
+  width: 100%;
+  min-height: 38px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin-top: 9px;
+  padding: 9px 12px;
+  border: 1px solid #e3ebe6;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #66766b;
+  font-family: inherit;
+  font-size: 10px;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.backButton:hover {
+  border-color: #168d60;
+  color: #168d60;
+}
+
+.backButton svg {
+  flex-shrink: 0;
+  transform: rotate(180deg);
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 14px;
+  }
+
+  .content {
+    padding: 16px 14px;
+  }
+
+  .progressLabels {
+    font-size: 8px;
+  }
+}

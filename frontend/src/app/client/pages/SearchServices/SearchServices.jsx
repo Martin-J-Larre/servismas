@@ -214,7 +214,7 @@ const SearchServices = () => {
   });
 
   const handleViewProfile = (provider) => {
-    navigate(`/app/prestadores/${provider.id}`);
+    navigate(`/app/cliente/prestadores/${provider.id}`);
   };
 
   return (

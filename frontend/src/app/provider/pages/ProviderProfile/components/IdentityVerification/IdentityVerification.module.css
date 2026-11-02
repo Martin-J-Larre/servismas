@@ -1,0 +1,170 @@
+.identityVerification {
+  padding: 28px;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+}
+
+/* Card header */
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.headerIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  color: #15803d;
+  background-color: #f0fdf4;
+  border-radius: 12px;
+}
+
+.title {
+  margin: 0 0 6px;
+  color: #111827;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.subtitle {
+  margin: 0;
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Verification list */
+
+.verificationList {
+  display: flex;
+  flex-direction: column;
+}
+
+.verificationItem {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.verificationItem:first-child {
+  padding-top: 0;
+}
+
+.verificationItem:last-child {
+  border-bottom: none;
+}
+
+.verificationIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  color: #4b5563;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+}
+
+/* Verification information */
+
+.verificationInfo {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.verificationLabel {
+  color: #111827;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.verificationDescription {
+  color: #6b7280;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* Status badges */
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.verifiedStatus {
+  color: #166534;
+  background-color: #dcfce7;
+}
+
+.pendingStatus {
+  color: #92400e;
+  background-color: #fef3c7;
+}
+
+/* Security notice */
+
+.securityNotice {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 14px;
+  color: #166534;
+  background-color: #f0fdf4;
+  border-radius: 10px;
+}
+
+.securityNotice > svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.securityNotice p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+/* Responsive */
+
+@media (max-width: 600px) {
+  .identityVerification {
+    padding: 20px;
+  }
+
+  .verificationItem {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .verificationInfo {
+    flex-basis: calc(100% - 60px);
+  }
+
+  .status {
+    margin-left: 54px;
+  }
+}

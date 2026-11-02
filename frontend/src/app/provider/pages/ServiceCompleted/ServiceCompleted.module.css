@@ -1,0 +1,145 @@
+.page {
+  display: flex;
+  min-height: calc(100vh - 80px);
+  align-items: flex-start;
+  justify-content: center;
+  padding: 64px 20px;
+  background: #f5faf7;
+  font-family: inherit;
+}
+
+.confirmationCard {
+  display: flex;
+  width: 100%;
+  max-width: 512px;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 48px;
+  border: 1px solid #e1ebe5;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 20px 55px rgb(30 70 48 / 14%);
+  text-align: center;
+}
+
+.iconCircle {
+  display: grid;
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+  place-items: center;
+  margin-bottom: 24px;
+  border-radius: 50%;
+  background: #e9f8f0;
+  color: #168d60;
+}
+
+.eyebrow {
+  margin-bottom: 10px;
+  color: #168d60;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.confirmationCard h1 {
+  margin: 0 0 14px;
+  color: #24332b;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.description {
+  max-width: 390px;
+  margin: 0;
+  color: #718077;
+  font-size: 13px;
+  line-height: 2;
+}
+
+.description strong {
+  color: #27342d;
+  font-weight: 750;
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+  padding: 8px 14px;
+  border: 1px solid #b9e7d0;
+  border-radius: 30px;
+  background: #edf9f3;
+  color: #168d60;
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1.5;
+}
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.primaryButton {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 32px;
+  padding: 13px 30px;
+  border: none;
+  border-radius: 12px;
+  background: #168d60;
+  box-shadow: 0 10px 22px rgb(22 141 96 / 30%);
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+  transition:
+    background 150ms ease,
+    transform 150ms ease;
+}
+
+.primaryButton:hover {
+  transform: translateY(-1px);
+  background: #11764f;
+}
+
+.primaryButton:focus-visible {
+  outline: 2px solid #168d60;
+  outline-offset: 3px;
+}
+
+@media (max-width: 520px) {
+  .page {
+    min-height: calc(100vh - 70px);
+    padding: 36px 16px;
+  }
+
+  .confirmationCard {
+    padding: 32px 20px;
+  }
+
+  .confirmationCard h1 {
+    font-size: 22px;
+  }
+
+  .statusBadge {
+    font-size: 10px;
+  }
+
+  .primaryButton {
+    width: 100%;
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+}

@@ -1,0 +1,98 @@
+.section {
+  min-width: 0;
+}
+
+.title {
+  margin: 0 0 14px;
+  color: #1d2924;
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.clientCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 74px;
+  padding: 12px 15px;
+  border: 1px solid #e7eee9;
+  border-radius: 12px;
+  background: #fafcfb;
+}
+
+.avatar {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  place-items: center;
+  border-radius: 12px;
+  background: #e8f6ed;
+  color: #168d60;
+  font-size: 14px;
+  font-weight: 750;
+}
+
+.clientInfo {
+  min-width: 0;
+}
+
+.clientInfo h3 {
+  margin: 0 0 8px;
+  color: #27342d;
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.metadata {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  color: #839087;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #37443b;
+  font-weight: 650;
+}
+
+.rating svg {
+  color: #e8a52b;
+}
+
+.reviewCount {
+  color: #839087;
+}
+
+.location {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.location svg {
+  flex-shrink: 0;
+  color: #168d60;
+}
+
+.location span {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 480px) {
+  .clientCard {
+    align-items: flex-start;
+    padding: 12px;
+  }
+
+  .metadata {
+    gap: 6px 9px;
+  }
+}

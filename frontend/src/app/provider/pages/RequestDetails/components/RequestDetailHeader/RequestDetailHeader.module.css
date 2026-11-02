@@ -1,0 +1,92 @@
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 16px;
+  border-bottom: 1px solid #eaf0ec;
+}
+
+.content {
+  min-width: 0;
+}
+
+.eyebrow {
+  display: block;
+  margin-bottom: 5px;
+  color: #168d60;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.content h1 {
+  margin: 0 0 6px;
+  color: #1d2924;
+  font-size: 21px;
+  font-weight: 750;
+  letter-spacing: -0.6px;
+}
+
+.content p {
+  margin: 0;
+  color: #748078;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.content small {
+  display: block;
+  margin-top: 8px;
+  color: #9aa59e;
+  font-size: 9px;
+}
+
+.statusBadge {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 9px;
+  border: 1px solid transparent;
+  border-radius: 20px;
+  font-size: 9px;
+  white-space: nowrap;
+}
+
+.statusDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.pending {
+  border-color: #ffe5b2;
+  background: #fff9eb;
+  color: #bd7900;
+}
+
+.accepted {
+  border-color: #d0ebd9;
+  background: #f0faf3;
+  color: #168d60;
+}
+
+.rejected {
+  border-color: #f7d9d9;
+  background: #fff5f5;
+  color: #dc4545;
+}
+
+@media (max-width: 600px) {
+  .header {
+    flex-direction: column;
+    gap: 12px;
+    padding: 17px;
+  }
+
+  .content h1 {
+    font-size: 19px;
+  }
+}

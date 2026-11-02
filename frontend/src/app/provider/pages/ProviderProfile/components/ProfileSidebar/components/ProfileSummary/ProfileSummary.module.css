@@ -1,0 +1,63 @@
+.profileSummary {
+  padding: 24px;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+}
+
+.title {
+  margin: 0 0 20px;
+  color: #111827;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.providerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.providerName {
+  margin: 0;
+  color: #111827;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.infoItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #6b7280;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.infoItem svg {
+  flex-shrink: 0;
+  color: #16a34a;
+}
+
+.ratingInfo {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  color: #111827;
+  font-size: 13px;
+}
+
+.ratingInfo svg {
+  flex-shrink: 0;
+  color: #f59e0b;
+}
+
+.ratingInfo strong {
+  font-weight: 700;
+}
+
+.ratingInfo span {
+  color: #6b7280;
+}

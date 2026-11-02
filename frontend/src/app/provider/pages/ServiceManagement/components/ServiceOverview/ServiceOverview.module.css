@@ -1,0 +1,117 @@
+.overview {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid #e3ebe6;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.avatar {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  place-items: center;
+  border-radius: 11px;
+  background: #e8f6ed;
+  color: #168d60;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.clientMain {
+  min-width: 0;
+  flex: 1;
+}
+
+.clientMain h2 {
+  margin: 0 0 4px;
+  color: #27342d;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.serviceName {
+  margin: 0 0 8px;
+  color: #168d60;
+  font-size: 10px;
+  font-weight: 650;
+}
+
+.metadata {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px 14px;
+}
+
+.metadata span,
+.metadataItem,
+.price {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.metadata span,
+.metadataItem {
+  color: #839087;
+  font-size: 9px;
+}
+
+.metadata svg,
+.metadataItem svg {
+  flex-shrink: 0;
+  color: #168d60;
+}
+
+.aside {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+}
+
+.acceptedBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 8px;
+  border: 1px solid #d0ebd9;
+  border-radius: 20px;
+  background: #f0faf3;
+  color: #168d60;
+  font-size: 9px;
+  white-space: nowrap;
+}
+
+.acceptedBadge > span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.price {
+  color: #168d60;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+@media (max-width: 520px) {
+  .overview {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    padding: 13px;
+  }
+
+  .clientMain {
+    flex-basis: calc(100% - 60px);
+  }
+
+  .aside {
+    width: 100%;
+    padding-left: 54px;
+  }
+}
