@@ -15,6 +15,8 @@ import AccountTypeSelector from "./components/AccountTypeSelector/AccountTypeSel
 
 import styles from "./Register.module.css";
 
+import { registerUser } from "../../../services/auth.service";
+
 const Register = () => {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
@@ -46,26 +48,31 @@ const Register = () => {
     setStep(2);
   };
 
-  const handleAccountTypeSubmit = (data) => {
-  const registrationData = {
-    ...personalData,
-    ...data,
+  const handleAccountTypeSubmit = async (data) => {
+    const registrationData = {
+      firstName: personalData.firstName,
+      lastName: personalData.lastName,
+      email: personalData.email,
+      password: personalData.password,
+      accountType: data.accountType,
+    };
+
+    try {
+      await registerUser(registrationData);
+
+      toast.success(
+        "Tu cuenta se creó correctamente. Ahora podés iniciar sesión.",
+      );
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 1000);
+    } catch (error) {
+      toast.error(
+        error.message || "No se pudo crear la cuenta. Intentá nuevamente.",
+      );
+    }
   };
-
-  // !Simulación temporal: todavía no se crea una cuenta real.
-  console.log("Registro simulado:", {
-    firstName: registrationData.firstName,
-    lastName: registrationData.lastName,
-    email: registrationData.email,
-    accountType: registrationData.accountType,
-  });
-
-  toast.success("Tu cuenta se creó correctamente. Ahora podés iniciar sesión.");
-
-  setTimeout(() => {
-    navigate("/login");
-  }, 1000);
-};
 
   const handleBack = () => {
     setStep(1);

@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import ProtectedRoute from "./routes/ProtectedRoute";
+
 import Home from "../landing/pages/Home";
 import Register from "../auth/pages/Register/Register";
 import Login from "../auth/pages/Login/Login";
@@ -40,64 +42,73 @@ const App = () => {
         <Route path="/registro" element={<Register />} />
         <Route path="/login" element={<Login />} />
 
-        {/* Flujo del cliente */}
-        <Route path="/app/cliente">
-          <Route index element={<Navigate to="buscar-servicios" replace />} />
+        {/* Rutas protegidas del cliente */}
+        <Route element={<ProtectedRoute allowedRole="client" />}>
+          <Route path="/app/cliente">
+            <Route index element={<Navigate to="buscar-servicios" replace />} />
 
-          <Route path="buscar-servicios" element={<SearchServices />} />
-          <Route path="prestadores/:id" element={<ProviderProfile />} />
-          <Route path="solicitar-servicio/:id" element={<ServiceRequest />} />
+            <Route path="buscar-servicios" element={<SearchServices />} />
+            <Route path="prestadores/:id" element={<ProviderProfile />} />
+            <Route path="solicitar-servicio/:id" element={<ServiceRequest />} />
 
-          <Route
-            path="confirmar-solicitud/:id"
-            element={<RequestConfirmation />}
-          />
+            <Route
+              path="confirmar-solicitud/:id"
+              element={<RequestConfirmation />}
+            />
 
-          <Route path="solicitud-exitosa/:id" element={<RequestSuccess />} />
+            <Route path="solicitud-exitosa/:id" element={<RequestSuccess />} />
 
-          <Route path="mis-servicios" element={<MyServices />} />
-          <Route path="mis-solicitudes" element={<MyRequests />} />
-          <Route path="mi-perfil" element={<ClientProfile />} />
+            <Route path="mis-servicios" element={<MyServices />} />
+            <Route path="mis-solicitudes" element={<MyRequests />} />
+            <Route path="mi-perfil" element={<ClientProfile />} />
 
-          <Route
-            path="coordinar-servicio/:id"
-            element={<CoordinateService />}
-          />
+            <Route
+              path="coordinar-servicio/:id"
+              element={<CoordinateService />}
+            />
 
-          <Route
-            path="seguimiento-servicio/:id"
-            element={<TrackingService />}
-          />
+            <Route
+              path="seguimiento-servicio/:id"
+              element={<TrackingService />}
+            />
 
-          <Route path="finalizar-servicio/:id" element={<FinalizeService />} />
-          <Route path="valorar-servicio/:id" element={<RateService />} />
+            <Route
+              path="finalizar-servicio/:id"
+              element={<FinalizeService />}
+            />
+            <Route path="valorar-servicio/:id" element={<RateService />} />
+          </Route>
         </Route>
 
-        {/* Flujo del prestador */}
-        <Route path="/app/prestador">
-          <Route index element={<Navigate to="panel" replace />} />
+        {/* Rutas protegidas del prestador */}
+        <Route element={<ProtectedRoute allowedRole="provider" />}>
+          <Route path="/app/prestador">
+            <Route index element={<Navigate to="panel" replace />} />
 
-          <Route path="panel" element={<ProviderDashboard />} />
+            <Route path="panel" element={<ProviderDashboard />} />
 
-          <Route path="servicios/nuevo" element={<PublishService />} />
+            <Route path="servicios/nuevo" element={<PublishService />} />
 
-          <Route path="servicios/publicado" element={<ServicePublished />} />
+            <Route path="servicios/publicado" element={<ServicePublished />} />
 
-          <Route path="solicitudes" element={<ReceivedRequests />} />
+            <Route path="solicitudes" element={<ReceivedRequests />} />
 
-          {/* <Route
-            path="solicitudes/:id/seguimiento"
-            element={<ProviderServiceTracking />}
-          /> */}
+            {/* <Route
+      path="solicitudes/:id/seguimiento"
+      element={<ProviderServiceTracking />}
+    /> */}
 
-          <Route path="solicitudes/:id" element={<RequestDetails />} />
-          <Route path="solicitudes" element={<ReceivedRequests />} />
-          <Route path="servicios/:id" element={<ServiceManagement />} />
-          <Route
-            path="servicios/:id/finalizado"
-            element={<ServiceCompleted />}
-          />
-          <Route path="mi-perfil" element={<ProviderProfilePage />} />
+            <Route path="solicitudes/:id" element={<RequestDetails />} />
+
+            <Route path="servicios/:id" element={<ServiceManagement />} />
+
+            <Route
+              path="servicios/:id/finalizado"
+              element={<ServiceCompleted />}
+            />
+
+            <Route path="mi-perfil" element={<ProviderProfilePage />} />
+          </Route>
         </Route>
 
         {/* Ruta desconocida */}

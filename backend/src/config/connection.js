@@ -1,8 +1,8 @@
-require("dotenv").config();
+import "dotenv/config";
 
-const pool = require("./database");
+import pool from "./database.js";
 
-const testConnection = async () => {
+const connection = async () => {
   try {
     const [rows] = await pool.query(
       "SELECT DATABASE() AS databaseName, VERSION() AS mysqlVersion",
@@ -18,4 +18,4 @@ const testConnection = async () => {
   }
 };
 
-testConnection();
+connection();

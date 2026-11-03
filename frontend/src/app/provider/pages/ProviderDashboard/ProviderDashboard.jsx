@@ -1,3 +1,8 @@
+// import { useEffect } from "react";
+
+// import { getCurrentUser } from "../../../../services/auth.service";
+
+
 import { useNavigate } from "react-router-dom";
 import {
   UserRound,
@@ -18,6 +23,21 @@ import styles from "./ProviderDashboard.module.css";
 
 const ProviderDashboard = () => {
   const navigate = useNavigate();
+
+// TODO: Borrar despues del test de autenticación con apiRequest e importar getCurrentUser desde auth.service.js
+//   useEffect(() => {
+//   const testAuthentication = async () => {
+//     try {
+//       const response = await getCurrentUser();
+
+//       console.log("Autenticación mediante apiRequest:", response);
+//     } catch (error) {
+//       console.error("Error de autenticación:", error.message);
+//     }
+//   };
+
+//   testAuthentication();
+// }, []);
 
   const user = {
     name: "Juan Pérez",

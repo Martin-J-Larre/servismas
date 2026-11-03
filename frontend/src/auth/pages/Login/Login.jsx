@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -13,10 +13,17 @@ import {
 } from "lucide-react";
 import { toast } from "react-toastify";
 
-import { loginSchema } from "./validation/loginSchema";
 import styles from "./Login.module.css";
 
+import { loginSchema } from "./validation/loginSchema";
+import { useAuth } from "../../../app/context/AuthContext";
+// import { getCurrentUser } from "../../../services/auth.service";
+
 const Login = () => {
+  const navigate = useNavigate();
+
+  const { login } = useAuth();
+
   const [showPassword, setShowPassword] = useState(false);
 
   const {
@@ -32,12 +39,36 @@ const Login = () => {
     },
   });
 
-  const handleLoginSubmit = () => {
-    // todo:Conectaremos el backend para la autenticación real en el futuro.
+  //TODO: Para un test, Borrar cuando se compruebe que funciona el login con el backend
+  // const handleTestAuth = async () => {
+  //   try {
+  //     const response = await getCurrentUser();
 
-    toast.info(
-      "El inicio de sesión estará disponible cuando conectemos el backend."
-    );
+  //     console.log("Usuario autenticado:", response);
+  //   } catch (error) {
+  //     console.error("Error de autenticación:", error.message);
+  //   }
+  // };
+
+  const handleLoginSubmit = async (data) => {
+    try {
+      // 1. Iniciar sesión mediante AuthContext
+      const user = await login(data);
+
+      // 2. Notificar inicio de sesión
+      toast.success("¡Bienvenido a ServisMás!");
+
+      // 3. Redirigir según el tipo de cuenta
+      const redirectPath =
+        user.accountType === "provider" ? "/app/prestador" : "/app/cliente";
+
+      navigate(redirectPath, { replace: true });
+    } catch (error) {
+      toast.error(
+        error.message ||
+          "No se pudo iniciar sesión. Verificá tus credenciales.",
+      );
+    }
   };
 
   const handleForgotPassword = () => {
@@ -47,11 +78,7 @@ const Login = () => {
   return (
     <main className={styles.loginPage}>
       <header className={styles.topBar}>
-        <Link
-          to="/"
-          className={styles.brand}
-          aria-label="ServisMás - Inicio"
-        >
+        <Link to="/" className={styles.brand} aria-label="ServisMás - Inicio">
           <span className={styles.brandIcon}>
             <House size={15} aria-hidden="true" />
           </span>
@@ -146,13 +173,9 @@ const Login = () => {
                 <button
                   type="button"
                   className={styles.visibilityButton}
-                  onClick={() =>
-                    setShowPassword((visible) => !visible)
-                  }
+                  onClick={() => setShowPassword((visible) => !visible)}
                   aria-label={
-                    showPassword
-                      ? "Ocultar contraseña"
-                      : "Mostrar contraseña"
+                    showPassword ? "Ocultar contraseña" : "Mostrar contraseña"
                   }
                 >
                   {showPassword ? (

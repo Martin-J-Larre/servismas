@@ -13,3 +13,7 @@ export const loginUser = async (credentials) => {
     body: JSON.stringify(credentials),
   });
 };
+
+export const getCurrentUser = async () => {
+  return apiRequest("/auth/me");
+};

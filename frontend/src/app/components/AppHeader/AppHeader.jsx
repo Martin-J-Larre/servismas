@@ -9,6 +9,8 @@ import {
   LayoutDashboard,
 } from "lucide-react";
 
+import { useAuth } from "../../context/AuthContext";
+
 import logo from "../../../assets/logo-transparente-negro.png";
 
 import styles from "./AppHeader.module.css";
@@ -57,6 +59,8 @@ const providerMenuItems = [
 const AppHeader = () => {
   const location = useLocation();
   const navigate = useNavigate();
+
+  const { logout } = useAuth();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const profileRef = useRef(null);
@@ -111,8 +115,9 @@ const AppHeader = () => {
   const handleLogout = () => {
     setIsMenuOpen(false);
 
-    // La autenticación real se implementará posteriormente.
-    navigate("/login");
+    logout();
+
+    navigate("/login", { replace: true });
   };
 
   return (
