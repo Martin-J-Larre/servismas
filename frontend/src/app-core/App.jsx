@@ -33,6 +33,9 @@ import ServiceManagement from "../app/provider/pages/ServiceManagement/ServiceMa
 import ServiceCompleted from "../app/provider/pages/ServiceCompleted/ServiceCompleted";
 import ProviderProfilePage from "../app/provider/pages/ProviderProfile/ProviderProfile";
 
+// Test AdreessAutocomplete
+import AddressAutocompleteTest from "../app/components/AddressAutocomplete/AddressAutocompleteTest";
+
 const App = () => {
   return (
     <BrowserRouter>
@@ -41,6 +44,9 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/registro" element={<Register />} />
         <Route path="/login" element={<Login />} />
+
+        {/* Ruta temporal para probar AddressAutocomplete */}
+        <Route path="/test-address" element={<AddressAutocompleteTest />} />
 
         {/* Rutas protegidas del cliente */}
         <Route element={<ProtectedRoute allowedRole="client" />}>

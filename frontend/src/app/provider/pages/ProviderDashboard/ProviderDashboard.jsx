@@ -1,8 +1,3 @@
-// import { useEffect } from "react";
-
-// import { getCurrentUser } from "../../../../services/auth.service";
-
-
 import { useNavigate } from "react-router-dom";
 import {
   UserRound,
@@ -10,6 +5,8 @@ import {
   ClipboardList,
   LayoutDashboard,
 } from "lucide-react";
+
+import { useAuth } from "../../../../app/context/AuthContext";
 
 import AppHeader from "../../../../app/components/AppHeader/AppHeader";
 
@@ -23,27 +20,7 @@ import styles from "./ProviderDashboard.module.css";
 
 const ProviderDashboard = () => {
   const navigate = useNavigate();
-
-// TODO: Borrar despues del test de autenticación con apiRequest e importar getCurrentUser desde auth.service.js
-//   useEffect(() => {
-//   const testAuthentication = async () => {
-//     try {
-//       const response = await getCurrentUser();
-
-//       console.log("Autenticación mediante apiRequest:", response);
-//     } catch (error) {
-//       console.error("Error de autenticación:", error.message);
-//     }
-//   };
-
-//   testAuthentication();
-// }, []);
-
-  const user = {
-    name: "Juan Pérez",
-    initials: "JP",
-    role: "Prestador",
-  };
+  const { user } = useAuth();
 
   const menuItems = [
     {
@@ -68,22 +45,17 @@ const ProviderDashboard = () => {
     },
   ];
 
-  const handleLogout = () => {
-    // El cierre de sesión real se implementará con la autenticación.
-    console.log("Cerrar sesión del prestador");
-  };
-
   const handlePublishService = () => {
     navigate("/app/prestador/servicios/nuevo");
   };
 
   return (
     <div className={styles.dashboard}>
-      <AppHeader user={user} menuItems={menuItems} onLogout={handleLogout} />
+      <AppHeader />
 
       <main className={styles.main}>
         <ProviderWelcome
-          name={user.name.split(" ")[0]}
+          name={user.firstName}
           onPublishService={handlePublishService}
         />
 

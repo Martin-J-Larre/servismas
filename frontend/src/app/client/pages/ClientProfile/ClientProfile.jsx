@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Check, Pencil, Save, X } from "lucide-react";
 import { toast } from "react-toastify";
 
+import { getMyProfile, updateMyProfile } from "../../../../services/auth.service";
+
 import AppHeader from "../../../components/AppHeader/AppHeader";
+import AddressAutocomplete from "../../../components/AddressAutocomplete/AddressAutocomplete";
 import ProfileSummary from "./components/ProfileSummary/ProfileSummary";
 import PersonalInformation from "./components/PersonalInformation/PersonalInformation";
 import ProfilePreferences from "./components/ProfilePreferences/ProfilePreferences";
@@ -12,20 +15,52 @@ import ProfileSidebar from "./components/ProfileSidebar/ProfileSidebar";
 
 import styles from "./ClientProfile.module.css";
 
-const initialClient = {
-  firstName: "María",
-  lastName: "Gómez",
-  city: "Córdoba, Argentina",
-  email: "maria.gomez@email.com",
-  phone: "+54 351 555-1234",
+const emptyClient = {
+  firstName: "",
+  lastName: "",
+  address: null,
+  email: "",
+  phone: "",
 };
 
 const ClientProfile = () => {
   const navigate = useNavigate();
 
-  const [client, setClient] = useState(initialClient);
-  const [formData, setFormData] = useState(initialClient);
+  const [client, setClient] = useState(emptyClient);
+  const [formData, setFormData] = useState(emptyClient);
   const [isEditing, setIsEditing] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const loadProfile = async () => {
+      try {
+        setIsLoading(true);
+        setError("");
+
+        const response = await getMyProfile();
+        const user = response.user;
+
+        const profileData = {
+          firstName: user.firstName ?? "",
+          lastName: user.lastName ?? "",
+          address: user.address ?? null,
+          email: user.email ?? "",
+          phone: user.phone ?? "",
+        };
+
+        setClient(profileData);
+        setFormData(profileData);
+      } catch (error) {
+        console.error("Error al cargar el perfil:", error);
+        setError("No se pudo cargar tu perfil. Intentá nuevamente.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadProfile();
+  }, []);
 
   const handleEditProfile = () => {
     setFormData({ ...client });
@@ -41,28 +76,85 @@ const ClientProfile = () => {
     }));
   };
 
-  const handleSaveProfile = (event) => {
+  const handleAddressChange = (address) => {
+    setFormData((previous) => ({
+      ...previous,
+      address,
+    }));
+  };
+
+  const handleSaveProfile = async (event) => {
     event.preventDefault();
 
-    if (
-      !formData.firstName.trim() ||
-      !formData.lastName.trim() ||
-      !formData.city.trim() ||
-      !formData.email.trim()
-    ) {
-      toast.error("Completá todos los campos obligatorios.");
+    if (!formData.firstName.trim() || !formData.lastName.trim()) {
+      toast.error("El nombre y el apellido son obligatorios.");
       return;
     }
 
-    setClient({ ...formData });
-    setIsEditing(false);
-    toast.success("Los cambios se actualizaron correctamente.");
+    const address = formData.address;
+
+    // Si existe una dirección, debe estar seleccionada correctamente.
+    if (
+      address &&
+      (!address.street?.trim() ||
+        !address.locality?.trim() ||
+        !address.province?.trim() ||
+        address.latitude == null ||
+        address.longitude == null)
+    ) {
+      toast.error("Seleccioná una dirección válida.");
+      return;
+    }
+
+    try {
+      const response = await updateMyProfile({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        phone: formData.phone,
+        address: formData.address,
+      });
+
+      setClient(response.user);
+      setFormData(response.user);
+      setIsEditing(false);
+
+      toast.success("Los cambios se actualizaron correctamente.");
+    } catch (error) {
+      console.error("Error al actualizar el perfil:", error);
+
+      toast.error(error.message || "No se pudieron guardar los cambios.");
+    }
   };
 
   const handleCancelEdit = () => {
     setFormData({ ...client });
     setIsEditing(false);
   };
+
+  if (isLoading) {
+    return (
+      <div className={styles.page}>
+        <AppHeader />
+        <main className={styles.container}>
+          <p>Cargando perfil...</p>
+        </main>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className={styles.page}>
+        <AppHeader />
+        <main className={styles.container}>
+          <p>{error}</p>
+          <button type="button" onClick={() => window.location.reload()}>
+            Reintentar
+          </button>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.page}>
@@ -143,15 +235,10 @@ const ClientProfile = () => {
                     />
                   </div>
 
-                  <div className={styles.formField}>
-                    <label htmlFor="city">Ciudad *</label>
-                    <input
-                      id="city"
-                      name="city"
-                      type="text"
-                      value={formData.city}
-                      onChange={handleInputChange}
-                      required
+                  <div className={`${styles.formField} ${styles.fullWidth}`}>
+                    <AddressAutocomplete
+                      value={formData.address}
+                      onChange={handleAddressChange}
                     />
                   </div>
 

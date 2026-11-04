@@ -5,6 +5,16 @@ const ProfileSummary = ({ client }) => {
   const initials =
     `${client.firstName?.[0] ?? ""}${client.lastName?.[0] ?? ""}`.toUpperCase();
 
+  const address = client.address;
+
+  const streetAddress = address
+    ? [address.street, address.houseNumber].filter(Boolean).join(" ")
+    : "Dirección no especificada";
+
+  const localityAddress = address
+    ? [address.locality, address.province].filter(Boolean).join(", ")
+    : "";
+
   return (
     <section className={styles.card}>
       <div className={styles.avatar} aria-label={`Iniciales: ${initials}`}>
@@ -19,8 +29,15 @@ const ProfileSummary = ({ client }) => {
         <div className={styles.details}>
           <span>
             <MapPin size={13} />
-            {client.city}
+            {streetAddress}
           </span>
+
+          {localityAddress && (
+            <span>
+              <MapPin size={13} />
+              {localityAddress}
+            </span>
+          )}
 
           <span>
             <Mail size={13} />

@@ -60,7 +60,7 @@ const AppHeader = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { logout } = useAuth();
+  const { user: authUser, logout } = useAuth();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const profileRef = useRef(null);
@@ -68,17 +68,20 @@ const AppHeader = () => {
   const isProvider = location.pathname.startsWith("/app/prestador");
   const isClient = location.pathname.startsWith("/app/cliente");
 
-  const user = isProvider
-    ? {
-        name: "Juan Pérez",
-        initials: "JP",
-        role: "Prestador",
-      }
-    : {
-        name: "María González",
-        initials: "MG",
-        role: "Cliente",
-      };
+  const fullName = [authUser?.firstName, authUser?.lastName]
+    .filter(Boolean)
+    .join(" ");
+
+  const initials = [authUser?.firstName, authUser?.lastName]
+    .filter(Boolean)
+    .map((name) => name.charAt(0).toUpperCase())
+    .join("");
+
+  const user = {
+    name: fullName || authUser?.email || "Usuario",
+    initials: initials || "U",
+    role: authUser?.accountType === "provider" ? "Prestador" : "Cliente",
+  };
 
   const menuItems = isProvider
     ? providerMenuItems

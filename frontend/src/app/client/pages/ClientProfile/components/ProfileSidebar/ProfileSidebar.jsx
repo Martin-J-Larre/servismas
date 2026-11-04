@@ -10,6 +10,12 @@ import {
 import styles from "./ProfileSidebar.module.css";
 
 const ProfileSidebar = ({ client, onEditProfile }) => {
+  const localityAddress = client.address
+    ? [client.address.locality, client.address.province]
+        .filter(Boolean)
+        .join(", ")
+    : "No especificada";
+
   const accountItems = [
     {
       label: "Nombre completo",
@@ -20,8 +26,8 @@ const ProfileSidebar = ({ client, onEditProfile }) => {
       value: "Cliente",
     },
     {
-      label: "Ciudad",
-      value: client.city,
+      label: "Dirección",
+      value: localityAddress,
     },
   ];
 

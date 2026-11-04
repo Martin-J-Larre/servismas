@@ -14,6 +14,21 @@ export const loginUser = async (credentials) => {
   });
 };
 
+// Identidad del usuario autenticado
 export const getCurrentUser = async () => {
   return apiRequest("/auth/me");
 };
+
+// Datos completos del perfil desde MySQL
+export const getMyProfile = async () => {
+  return apiRequest("/users/me");
+};
+
+// Actualizar datos del perfil
+export const updateMyProfile = async (profileData) => {
+  return apiRequest("/users/me", {
+    method: "PUT",
+    body: JSON.stringify(profileData),
+  });
+};
+

@@ -1,0 +1,139 @@
+.container {
+  position: relative;
+  width: 100%;
+}
+
+.label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--color-text-secondary, #718078);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.icon {
+  position: absolute;
+  left: 14px;
+  color: var(--color-primary, #15936b);
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+.input {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 90px 12px 44px;
+  border: 1px solid var(--color-border, #dce5e0);
+  border-radius: 8px;
+  outline: none;
+  background-color: var(--color-surface, #ffffff);
+  color: var(--color-text, #263a32);
+  font-family: inherit;
+  font-size: 15px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.input::placeholder {
+  color: var(--color-text-muted, #a0aaa5);
+}
+
+.input:focus {
+  border-color: var(--color-primary, #15936b);
+  box-shadow: 0 0 0 3px rgb(21 147 107 / 10%);
+}
+
+.loader {
+  position: absolute;
+  right: 14px;
+  color: var(--color-primary, #15936b);
+  animation: spin 1s linear infinite;
+}
+
+.clearButton {
+  position: absolute;
+  right: 12px;
+  padding: 5px 8px;
+  border: none;
+  background: transparent;
+  color: var(--color-primary, #15936b);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.clearButton:hover {
+  color: var(--color-primary-dark, #107653);
+}
+
+.suggestions {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 100%;
+  max-height: 240px;
+  margin: 0;
+  padding: 6px;
+  overflow-y: auto;
+  list-style: none;
+  background-color: #ffffff;
+  border: 1px solid var(--color-border, #dce5e0);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 8%);
+}
+
+.suggestion {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 10px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--color-text, #263a32);
+  font-family: inherit;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.suggestion:hover {
+  background-color: var(--color-background, #f2f7f4);
+}
+
+.suggestionIcon {
+  flex-shrink: 0;
+  color: var(--color-primary, #15936b);
+}
+
+.error,
+.helper {
+  margin: 8px 0 0;
+  font-size: 13px;
+}
+
+.error {
+  color: #d64545;
+}
+
+.helper {
+  color: var(--color-text-muted, #87938d);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

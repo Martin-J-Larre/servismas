@@ -2,6 +2,16 @@ import { AtSign, MapPin, Phone, UserRound } from "lucide-react";
 import styles from "./PersonalInformation.module.css";
 
 const PersonalInformation = ({ client }) => {
+  const address = client.address;
+
+  const streetAddress = address
+    ? [address.street, address.houseNumber].filter(Boolean).join(" ")
+    : "No especificada";
+
+  const localityAddress = address
+    ? [address.locality, address.province].filter(Boolean).join(", ")
+    : "No especificada";
+
   return (
     <section className={styles.card}>
       <header className={styles.header}>
@@ -26,11 +36,16 @@ const PersonalInformation = ({ client }) => {
         </div>
 
         <div className={styles.field}>
-          <span className={styles.label}>Ciudad</span>
+          <span className={styles.label}>Dirección</span>
           <p className={styles.value}>
             <MapPin size={13} />
-            {client.city}
+            {streetAddress}
           </p>
+        </div>
+
+        <div className={styles.field}>
+          <span className={styles.label}>Localidad, provincia</span>
+          <p className={styles.value}>{localityAddress}</p>
         </div>
 
         <div className={styles.field}>
