@@ -32,6 +32,7 @@ import RequestDetails from "../app/provider/pages/RequestDetails/RequestDetails"
 import ServiceManagement from "../app/provider/pages/ServiceManagement/ServiceManagement";
 import ServiceCompleted from "../app/provider/pages/ServiceCompleted/ServiceCompleted";
 import ProviderProfilePage from "../app/provider/pages/ProviderProfile/ProviderProfile";
+import ProviderProfileEdit from "../app/provider/pages/ProviderProfile/pages/ProviderProfileEdit/ProviderProfileEdit";
 
 // Test AdreessAutocomplete
 import AddressAutocompleteTest from "../app/components/AddressAutocomplete/AddressAutocompleteTest";
@@ -113,7 +114,10 @@ const App = () => {
               element={<ServiceCompleted />}
             />
 
-            <Route path="mi-perfil" element={<ProviderProfilePage />} />
+            <Route path="mi-perfil">
+              <Route index element={<ProviderProfilePage />} />
+              <Route path="editar" element={<ProviderProfileEdit />} />
+            </Route>
           </Route>
         </Route>
 
