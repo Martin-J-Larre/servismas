@@ -1,7 +1,13 @@
+import { useEffect, useState } from "react";
+
+import {
+  getMyProfile,
+  getMyProviderProfile,
+} from "../../../../services/auth.service";
+
 import styles from "./ProviderProfile.module.css";
 
 import AppHeader from "../../../components/AppHeader/AppHeader";
-
 import ProfileOverview from "./components/ProfileOverview/ProfileOverview";
 import PersonalInformation from "./components/PersonalInformation/PersonalInformation";
 import ProfessionalInformation from "./components/ProfessionalInformation/ProfessionalInformation";
@@ -10,6 +16,46 @@ import IdentityVerification from "./components/IdentityVerification/IdentityVeri
 import ProfileSidebar from "./components/ProfileSidebar/ProfileSidebar";
 
 const ProviderProfile = () => {
+  const [user, setUser] = useState(null);
+  const [provider, setProvider] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const loadProfile = async () => {
+      try {
+        setIsLoading(true);
+        setError("");
+
+        const [userResponse, providerResponse] = await Promise.all([
+          getMyProfile(),
+          getMyProviderProfile(),
+        ]);
+
+        setUser(userResponse.user);
+        setProvider(providerResponse.provider);
+
+        console.log("Datos personales:", userResponse.user);
+        console.log("Datos profesionales:", providerResponse.provider);
+      } catch (error) {
+        console.error("Error al cargar el perfil:", error);
+        setError("No se pudo cargar la información del perfil.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadProfile();
+  }, []);
+
+  if (isLoading) {
+    return <p>Cargando perfil...</p>;
+  }
+
+  if (error) {
+    return <p>{error}</p>;
+  }
+
   return (
     <>
       <AppHeader />
@@ -29,14 +75,14 @@ const ProviderProfile = () => {
 
         <div className={styles.profileLayout}>
           <div className={styles.profileContent}>
-            <ProfileOverview />
-            <PersonalInformation />
-            <ProfessionalInformation />
+            <ProfileOverview user={user} provider={provider} />
+            <PersonalInformation user={user} />
+            <ProfessionalInformation provider={provider} />
             <ProviderReputation />
-            <IdentityVerification />
+            <IdentityVerification provider={provider} />
           </div>
 
-          <ProfileSidebar />
+          <ProfileSidebar user={user} provider={provider} />
         </div>
       </main>
     </>

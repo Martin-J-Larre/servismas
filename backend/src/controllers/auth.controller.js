@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import pool from "../config/database.js";
 import { createUser } from "../models/auth.model.js";
 
-// ! Register a new user
+// Register a new user
 export const register = async (req, res) => {
   try {
     const { firstName, lastName, email, password, accountType } = req.body;
@@ -68,7 +68,7 @@ export const register = async (req, res) => {
   }
 };
 
-// ! Login a user
+// Login a user
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;

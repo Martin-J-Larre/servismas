@@ -9,13 +9,14 @@ import {
 
 import styles from "./IdentityVerification.module.css";
 
-const IdentityVerification = () => {
+const IdentityVerification = ({ provider }) => {
   const verifications = [
     {
       id: "identity",
       label: "Identidad",
       description: "Documento de identidad",
-      status: "verified",
+      status:
+        provider?.verificationStatus === "verificado" ? "verified" : "pending",
       icon: IdCard,
     },
     {

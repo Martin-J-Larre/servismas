@@ -1,33 +1,36 @@
 import { MapPin, Star, BadgeCheck } from "lucide-react";
 import styles from "./ProfileOverview.module.css";
 
-const ProfileOverview = () => {
-  // Datos de ejemplo para desarrollar la interfaz.
-  const provider = {
-    firstName: "Juan",
-    lastName: "Pérez",
-    initials: "JP",
-    city: "Córdoba Capital",
-    rating: 4.8,
-    reviewCount: 124,
-    description:
-      "Prestador de servicios de plomería con experiencia en reparaciones e instalaciones.",
-    isVerified: true,
-  };
+const ProfileOverview = ({ user, provider }) => {
+  const firstName = user?.firstName || "";
+  const lastName = user?.lastName || "";
+
+  // TODO: Este buscar una fucion que haga lo mismo y mandarla a una carpeta utils o helpers para que se pueda reutilizar en otros componentes
+  const initials = `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
+
+  const city = user?.address?.locality || "Ciudad no especificada";
+
+  const isVerified = provider?.verificationStatus === "verificado";
+
+  const rating = 4.8;
+  const reviewCount = 124;
+
+  const description =
+    "Prestador de servicios de plomería con experiencia en reparaciones e instalaciones.";
 
   return (
     <section className={styles.profileOverview}>
       <div className={styles.avatar}>
-        <span>{provider.initials}</span>
+        <span>{initials}</span>
       </div>
 
       <div className={styles.profileInfo}>
         <div className={styles.nameContainer}>
           <h2 className={styles.name}>
-            {provider.firstName} {provider.lastName}
+            {firstName} {lastName}
           </h2>
 
-          {provider.isVerified && (
+          {isVerified && (
             <span
               className={styles.verifiedBadge}
               title="Identidad verificada"
@@ -41,17 +44,17 @@ const ProfileOverview = () => {
         <div className={styles.metaInfo}>
           <span className={styles.location}>
             <MapPin size={16} />
-            {provider.city}
+            {city}
           </span>
 
           <span className={styles.rating}>
             <Star size={16} fill="currentColor" />
-            <strong>{provider.rating}</strong>
-            <span>({provider.reviewCount} reseñas)</span>
+            <strong>{rating}</strong>
+            <span>({reviewCount} reseñas)</span>
           </span>
         </div>
 
-        <p className={styles.description}>{provider.description}</p>
+        <p className={styles.description}>{description}</p>
       </div>
     </section>
   );

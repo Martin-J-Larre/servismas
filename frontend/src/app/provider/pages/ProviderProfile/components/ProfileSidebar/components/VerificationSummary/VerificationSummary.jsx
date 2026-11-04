@@ -2,12 +2,13 @@ import { ShieldCheck, CheckCircle2, Clock3 } from "lucide-react";
 
 import styles from "./VerificationSummary.module.css";
 
-const VerificationSummary = () => {
+const VerificationSummary = ({ provider }) => {
   const verifications = [
     {
       id: "identity",
       label: "Identidad",
-      status: "verified",
+      status:
+        provider?.verificationStatus === "verificado" ? "verified" : "pending",
     },
     {
       id: "phone",

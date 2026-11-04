@@ -2,11 +2,11 @@ import { BriefcaseBusiness, Wrench, MapPin, CalendarDays } from "lucide-react";
 
 import styles from "./ProfessionalInformation.module.css";
 
-const ProfessionalInformation = () => {
+const ProfessionalInformation = ({ provider }) => {
   const professionalInfo = [
     {
       label: "Experiencia",
-      value: "5 años de experiencia",
+      value: provider?.experience || "No especificada",
       icon: BriefcaseBusiness,
     },
     {

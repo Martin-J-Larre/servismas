@@ -32,3 +32,15 @@ export const updateMyProfile = async (profileData) => {
   });
 };
 
+// Datos profesionales del prestador desde MySQL
+export const getMyProviderProfile = async () => {
+  return apiRequest("/providers/me");
+};
+
+// Actualizar información profesional del prestador
+export const updateMyProviderProfile = async (profileData) => {
+  return apiRequest("/providers/me", {
+    method: "PUT",
+    body: JSON.stringify(profileData),
+  });
+};

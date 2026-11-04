@@ -4,12 +4,12 @@ import ProfileActions from "./components/ProfileActions/ProfileActions";
 import ProfileSummary from "./components/ProfileSummary/ProfileSummary";
 import VerificationSummary from "./components/VerificationSummary/VerificationSummary";
 
-const ProfileSidebar = () => {
+const ProfileSidebar = ({ user, provider }) => {
   return (
     <aside className={styles.profileSidebar}>
       <ProfileActions />
-      <ProfileSummary />
-      <VerificationSummary />
+      <ProfileSummary user={user} />
+      <VerificationSummary provider={provider} />
     </aside>
   );
 };

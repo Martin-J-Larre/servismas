@@ -1,31 +1,31 @@
 import { UserRound, Mail, Phone, MapPin } from "lucide-react";
 import styles from "./PersonalInformation.module.css";
 
-const PersonalInformation = () => {
+const PersonalInformation = ({ user }) => {
   const personalInfo = [
     {
       label: "Nombre",
-      value: "Juan",
+      value: user?.firstName || "No especificado",
       icon: UserRound,
     },
     {
       label: "Apellido",
-      value: "Pérez",
+      value: user?.lastName || "No especificado",
       icon: UserRound,
     },
     {
       label: "Ciudad",
-      value: "Córdoba Capital",
+      value: user?.address?.locality || "No especificada",
       icon: MapPin,
     },
     {
       label: "Teléfono",
-      value: "+54 351 555-1234",
+      value: user?.phone || "No especificado",
       icon: Phone,
     },
     {
       label: "Correo electrónico",
-      value: "juan.perez@example.com",
+      value: user?.email || "No especificado",
       icon: Mail,
     },
   ];
