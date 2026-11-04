@@ -10,6 +10,19 @@ import {
 
 import styles from "./ServiceSummary.module.css";
 
+const categories = [
+  { id: 1, name: "Electricidad" },
+  { id: 2, name: "Plomería" },
+  { id: 3, name: "Gasista" },
+  { id: 4, name: "Pintura" },
+  { id: 5, name: "Carpintería" },
+  { id: 6, name: "Albañilería" },
+  { id: 7, name: "Refrigeración" },
+  { id: 8, name: "Limpieza" },
+  { id: 9, name: "Jardinería" },
+  { id: 10, name: "Otros" },
+];
+
 const formatPrice = (value) => {
   if (value === "" || value === null || value === undefined) {
     return null;
@@ -33,10 +46,25 @@ const ServiceSummary = ({ formData }) => {
 
   const configuredDays = availableDays.filter((day) => day.start && day.end);
 
+  const selectedCategory = categories.find(
+    (category) => category.id === Number(formData.categoryId),
+  );
+
   const hasName = formData.name.trim().length > 0;
-  const hasCategory = formData.category !== "";
+  const hasCategory = Boolean(selectedCategory);
   const hasDescription = formData.description.trim().length > 0;
   const hasImages = formData.images.length > 0;
+
+  const locationLabel = formData.location
+    ? [
+        formData.location.street,
+        formData.location.houseNumber,
+        formData.location.locality,
+        formData.location.province,
+      ]
+        .filter(Boolean)
+        .join(", ")
+    : "Zona sin especificar";
 
   const minimumPrice = formatPrice(formData.priceMin);
   const maximumPrice = formatPrice(formData.priceMax);
@@ -66,7 +94,7 @@ const ServiceSummary = ({ formData }) => {
 
         <div className={styles.previewContent}>
           <span className={styles.category}>
-            {formData.category || "Categoría del servicio"}
+            {selectedCategory?.name || "Categoría del servicio"}
           </span>
 
           <h3>{hasName ? formData.name : "Nombre de tu servicio"}</h3>
@@ -89,7 +117,9 @@ const ServiceSummary = ({ formData }) => {
 
           <div className={styles.detailContent}>
             <span className={styles.detailLabel}>Zona de cobertura</span>
-            <strong>{formData.location || "Zona sin especificar"}</strong>
+
+            <strong>{locationLabel}</strong>
+
             <small>
               {formData.radius === null
                 ? "Sin límite de distancia"
@@ -166,10 +196,12 @@ const ServiceSummary = ({ formData }) => {
 
           <div className={styles.detailContent}>
             <span className={styles.detailLabel}>Fotos del servicio</span>
+
             <strong>
               {formData.images.length} de 6{" "}
               {formData.images.length === 1 ? "foto" : "fotos"}
             </strong>
+
             <small>
               {hasImages
                 ? "Las imágenes están listas para la publicación."

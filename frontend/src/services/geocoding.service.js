@@ -20,7 +20,7 @@ export const searchAddresses = async (query) => {
 
     console.error("Error de Photon:", errorDetails);
 
-    throw new Error("No se pudieron obtener las direcciones.");
+    throw new Error("No se pudieron obtener las ubicaciones.");
   }
 
   const data = await response.json();
@@ -36,20 +36,23 @@ export const searchAddresses = async (query) => {
         properties.village ||
         properties.municipality ||
         properties.county ||
-        "";
+        null;
 
       return {
-        street: properties.street || "",
-        houseNumber: properties.housenumber || "",
+        street: properties.street || null,
+        houseNumber: properties.housenumber || null,
         locality,
-        province: properties.state || "",
+        province: properties.state || null,
         country: "Argentina",
         latitude,
         longitude,
       };
     })
     .filter(
-      (address) =>
-        address.locality && address.province && address.country === "Argentina",
+      (location) =>
+        location.locality &&
+        location.province &&
+        Number.isFinite(location.latitude) &&
+        Number.isFinite(location.longitude),
     );
 };

@@ -48,7 +48,7 @@ const AddressAutocomplete = ({ value, onChange }) => {
         console.error("Error al consultar Photon:", err);
 
         setSuggestions([]);
-        setError("No se pudieron buscar las direcciones.");
+        setError("No se pudieron buscar las ubicaciones.");
       } finally {
         setIsLoading(false);
       }
@@ -67,8 +67,6 @@ const AddressAutocomplete = ({ value, onChange }) => {
   };
 
   const handleSelectAddress = (address) => {
-    console.log("Dirección seleccionada:", address);
-
     setQuery(formatAddress(address));
     setIsSelected(true);
     setSuggestions([]);
@@ -89,7 +87,7 @@ const AddressAutocomplete = ({ value, onChange }) => {
   return (
     <div className={styles.container}>
       <label htmlFor="address-search" className={styles.label}>
-        Buscar dirección
+        Zona donde prestás el servicio
       </label>
 
       <div className={styles.inputWrapper}>
@@ -100,7 +98,7 @@ const AddressAutocomplete = ({ value, onChange }) => {
           type="text"
           value={query}
           onChange={handleInputChange}
-          placeholder="Ingresá una calle, localidad..."
+          placeholder="Ingresá una localidad o provincia..."
           autoComplete="off"
           className={styles.input}
         />
@@ -112,7 +110,7 @@ const AddressAutocomplete = ({ value, onChange }) => {
             type="button"
             onClick={handleClear}
             className={styles.clearButton}
-            aria-label="Limpiar dirección"
+            aria-label="Limpiar ubicación"
           >
             Limpiar
           </button>
@@ -129,7 +127,6 @@ const AddressAutocomplete = ({ value, onChange }) => {
                 onClick={() => handleSelectAddress(address)}
               >
                 <MapPin size={18} className={styles.suggestionIcon} />
-
                 <span>{formatAddress(address)}</span>
               </button>
             </li>
@@ -145,7 +142,7 @@ const AddressAutocomplete = ({ value, onChange }) => {
         suggestions.length === 0 &&
         !error && (
           <p className={styles.helper}>
-            No se encontraron direcciones. Probá con otra búsqueda.
+            No se encontraron ubicaciones. Probá con otra búsqueda.
           </p>
         )}
     </div>

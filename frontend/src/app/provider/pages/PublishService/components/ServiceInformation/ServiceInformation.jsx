@@ -6,16 +6,16 @@ import styles from "./ServiceInformation.module.css";
 const MAX_IMAGES = 6;
 
 const categories = [
-  "Electricidad",
-  "Plomería",
-  "Gasista",
-  "Pintura",
-  "Carpintería",
-  "Albañilería",
-  "Limpieza",
-  "Jardinería",
-  "Refrigeración",
-  "Otros",
+  { id: 1, name: "Electricidad" },
+  { id: 2, name: "Plomería" },
+  { id: 3, name: "Gasista" },
+  { id: 4, name: "Pintura" },
+  { id: 5, name: "Carpintería" },
+  { id: 6, name: "Albañilería" },
+  { id: 7, name: "Refrigeración" },
+  { id: 8, name: "Limpieza" },
+  { id: 9, name: "Jardinería" },
+  { id: 10, name: "Otros" },
 ];
 
 const ServiceInformation = ({ formData, onChange }) => {
@@ -76,15 +76,17 @@ const ServiceInformation = ({ formData, onChange }) => {
 
           <select
             id="service-category"
-            value={formData.category}
-            onChange={(event) => onChange("category", event.target.value)}
+            value={formData.categoryId}
+            onChange={(event) =>
+              onChange("categoryId", Number(event.target.value))
+            }
             required
           >
             <option value="">Seleccioná una categoría</option>
 
             {categories.map((category) => (
-              <option value={category} key={category}>
-                {category}
+              <option value={category.id} key={category.id}>
+                {category.name}
               </option>
             ))}
           </select>
