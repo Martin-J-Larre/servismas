@@ -1,4 +1,8 @@
-import { createService } from "../models/service.model.js";
+import {
+  createService,
+  getServiceTypes,
+  getCategoriesByType,
+} from "../models/service.model.js";
 
 const validDays = [
   "Lunes",
@@ -120,6 +124,48 @@ export const publishService = async (req, res) => {
 
     return res.status(500).json({
       message: "Ocurrió un error al publicar el servicio.",
+    });
+  }
+};
+
+// Obtener todos los tipos de servicio
+export const getServiceTypesController = async (req, res) => {
+  try {
+    const types = await getServiceTypes();
+
+    return res.status(200).json({
+      types,
+    });
+  } catch (error) {
+    console.error("Error al obtener los tipos de servicio:", error);
+
+    return res.status(500).json({
+      message: "No se pudieron obtener los tipos de servicio.",
+    });
+  }
+};
+
+// Obtener categorías según el tipo de servicio
+export const getCategoriesByTypeController = async (req, res) => {
+  try {
+    const typeId = Number(req.query.typeId);
+
+    if (!Number.isInteger(typeId) || typeId <= 0) {
+      return res.status(400).json({
+        message: "El tipo de servicio seleccionado no es válido.",
+      });
+    }
+
+    const categories = await getCategoriesByType(typeId);
+
+    return res.status(200).json({
+      categories,
+    });
+  } catch (error) {
+    console.error("Error al obtener las categorías:", error);
+
+    return res.status(500).json({
+      message: "No se pudieron obtener las categorías.",
     });
   }
 };

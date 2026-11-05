@@ -76,3 +76,34 @@ export const createService = async ({
     connection.release();
   }
 };
+
+// Obtener todos los tipos de servicio
+export const getServiceTypes = async () => {
+  const [rows] = await pool.execute(
+    `SELECT
+      id_tipo_servicio AS id,
+      nombre,
+      descripcion
+    FROM tipo_servicio
+    ORDER BY id_tipo_servicio`,
+  );
+
+  return rows;
+};
+
+// Obtener categorías según el tipo de servicio
+export const getCategoriesByType = async (typeId) => {
+  const [rows] = await pool.execute(
+    `SELECT
+      id_categoria AS id,
+      nombre,
+      descripcion,
+      id_tipo_servicio AS typeId
+    FROM categoria
+    WHERE id_tipo_servicio = ?
+    ORDER BY id_categoria`,
+    [typeId],
+  );
+
+  return rows;
+};

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import AppHeader from "../../../components/AppHeader/AppHeader";
@@ -10,9 +10,14 @@ import ServiceSummary from "./components/ServiceSummary/ServiceSummary";
 
 import styles from "./PublishService.module.css";
 
-import { publishService } from "../../../../services/service.service";
+import {
+  publishService,
+  getServiceTypes,
+  getCategoriesByType,
+} from "../../../../services/service.service";
 
 const initialFormData = {
+  typeServiceId: "",
   categoryId: "",
   name: "",
   description: "",
@@ -39,11 +44,62 @@ const PublishService = () => {
   const [isPublishing, setIsPublishing] = useState(false);
   const [publishError, setPublishError] = useState("");
   const [formData, setFormData] = useState(initialFormData);
+  const [serviceTypes, setServiceTypes] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [isLoadingTypes, setIsLoadingTypes] = useState(true);
+  const [isLoadingCategories, setIsLoadingCategories] = useState(false);
+  const [catalogError, setCatalogError] = useState("");
+
+  useEffect(() => {
+    const loadServiceTypes = async () => {
+      try {
+        setCatalogError("");
+
+        const response = await getServiceTypes();
+
+        setServiceTypes(response.types);
+      } catch (error) {
+        console.error("Error al cargar los tipos de servicio:", error);
+        setCatalogError("No se pudieron cargar los tipos de servicio.");
+      } finally {
+        setIsLoadingTypes(false);
+      }
+    };
+
+    loadServiceTypes();
+  }, []);
+
+  useEffect(() => {
+    if (!formData.typeServiceId) {
+      setCategories([]);
+      return;
+    }
+
+    const loadCategories = async () => {
+      try {
+        setIsLoadingCategories(true);
+        setCatalogError("");
+        setCategories([]);
+
+        const response = await getCategoriesByType(formData.typeServiceId);
+
+        setCategories(response.categories);
+      } catch (error) {
+        console.error("Error al cargar las categorías:", error);
+        setCatalogError("No se pudieron cargar las categorías.");
+      } finally {
+        setIsLoadingCategories(false);
+      }
+    };
+
+    loadCategories();
+  }, [formData.typeServiceId]);
 
   const updateFormData = (field, value) => {
     setFormData((previousData) => ({
       ...previousData,
       [field]: value,
+      ...(field === "typeServiceId" && { categoryId: "" }),
     }));
   };
 
@@ -64,9 +120,16 @@ const PublishService = () => {
     event.preventDefault();
     setPublishError("");
 
-    const { name, description, categoryId, location, availability } = formData;
+    const {
+      name,
+      description,
+      typeServiceId,
+      categoryId,
+      location,
+      availability,
+    } = formData;
 
-    if (!name.trim() || !description.trim() || !categoryId) {
+    if (!name.trim() || !description.trim() || !typeServiceId || !categoryId) {
       setPublishError("Completá todos los campos obligatorios.");
       return;
     }
@@ -147,7 +210,15 @@ const PublishService = () => {
 
         <form className={styles.layout} onSubmit={handlePublish}>
           <div className={styles.formSections}>
-            <ServiceInformation formData={formData} onChange={updateFormData} />
+            <ServiceInformation
+              formData={formData}
+              onChange={updateFormData}
+              serviceTypes={serviceTypes}
+              categories={categories}
+              isLoadingTypes={isLoadingTypes}
+              isLoadingCategories={isLoadingCategories}
+              catalogError={catalogError}
+            />
 
             <ServiceArea formData={formData} onChange={updateFormData} />
 

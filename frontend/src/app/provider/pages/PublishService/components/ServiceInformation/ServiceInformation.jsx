@@ -5,20 +5,15 @@ import styles from "./ServiceInformation.module.css";
 
 const MAX_IMAGES = 6;
 
-const categories = [
-  { id: 1, name: "Electricidad" },
-  { id: 2, name: "Plomería" },
-  { id: 3, name: "Gasista" },
-  { id: 4, name: "Pintura" },
-  { id: 5, name: "Carpintería" },
-  { id: 6, name: "Albañilería" },
-  { id: 7, name: "Refrigeración" },
-  { id: 8, name: "Limpieza" },
-  { id: 9, name: "Jardinería" },
-  { id: 10, name: "Otros" },
-];
-
-const ServiceInformation = ({ formData, onChange }) => {
+const ServiceInformation = ({
+  formData,
+  onChange,
+  serviceTypes,
+  categories,
+  isLoadingTypes,
+  isLoadingCategories,
+  catalogError,
+}) => {
   const fileInputRef = useRef(null);
 
   const handleImageSelection = (event) => {
@@ -72,25 +67,74 @@ const ServiceInformation = ({ formData, onChange }) => {
 
       <div className={styles.fields}>
         <div className={styles.field}>
+          <label htmlFor="service-type">Tipo de servicio</label>
+
+          <select
+            id="service-type"
+            value={formData.typeServiceId}
+            onChange={(event) =>
+              onChange(
+                "typeServiceId",
+                event.target.value ? Number(event.target.value) : "",
+              )
+            }
+            disabled={isLoadingTypes || serviceTypes.length === 0}
+            required
+          >
+            <option value="">
+              {isLoadingTypes
+                ? "Cargando tipos de servicio..."
+                : "Seleccioná un tipo de servicio"}
+            </option>
+
+            {serviceTypes.map((type) => (
+              <option value={type.id} key={type.id}>
+                {type.nombre}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className={styles.field}>
           <label htmlFor="service-category">Categoría</label>
 
           <select
             id="service-category"
             value={formData.categoryId}
             onChange={(event) =>
-              onChange("categoryId", Number(event.target.value))
+              onChange(
+                "categoryId",
+                event.target.value ? Number(event.target.value) : "",
+              )
+            }
+            disabled={
+              !formData.typeServiceId ||
+              isLoadingCategories ||
+              categories.length === 0
             }
             required
           >
-            <option value="">Seleccioná una categoría</option>
+            <option value="">
+              {!formData.typeServiceId
+                ? "Primero seleccioná un tipo de servicio"
+                : isLoadingCategories
+                  ? "Cargando categorías..."
+                  : "Seleccioná una categoría"}
+            </option>
 
             {categories.map((category) => (
               <option value={category.id} key={category.id}>
-                {category.name}
+                {category.nombre}
               </option>
             ))}
           </select>
         </div>
+
+        {catalogError && (
+          <p role="alert" className={styles.hint}>
+            {catalogError}
+          </p>
+        )}
 
         <div className={styles.field}>
           <label htmlFor="service-name">Nombre del servicio</label>
