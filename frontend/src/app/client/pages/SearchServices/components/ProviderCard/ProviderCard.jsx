@@ -1,19 +1,16 @@
 import { MapPin, House, Star, ArrowRight } from "lucide-react";
 import styles from "./ProviderCard.module.css";
 
-const ProviderCard = ({ provider, onViewProfile }) => {
-  const {
-    name,
-    initials,
-    specialty,
-    rating,
-    reviewCount,
-    location,
-    category,
-    description,
-    availability,
-  } = provider;
+const ProviderCard = ({ service, onViewProfile }) => {
+  const { firstName, lastName, location, category, description } = service;
 
+  // Datos estáticos de demostración.
+  const rating = 4.8;
+  const reviewCount = 12;
+  const availability = "Disponible";
+
+  const name = `${firstName} ${lastName}`;
+  const initials = `${firstName?.charAt(0) ?? ""}${lastName?.charAt(0) ?? ""}`;
   const isAvailable = availability === "Disponible";
 
   return (
@@ -27,7 +24,7 @@ const ProviderCard = ({ provider, onViewProfile }) => {
           <div className={styles.header}>
             <div className={styles.identity}>
               <h3 className={styles.name}>{name}</h3>
-              <p className={styles.specialty}>{specialty}</p>
+              <p className={styles.specialty}>{category}</p>
             </div>
 
             <span
@@ -65,12 +62,7 @@ const ProviderCard = ({ provider, onViewProfile }) => {
           <div className={styles.metadata}>
             <span>
               <MapPin size={13} aria-hidden="true" />
-              {location}
-            </span>
-
-            <span>
-              <House size={13} aria-hidden="true" />
-              {category}
+              {location?.locality}
             </span>
           </div>
 
@@ -82,7 +74,7 @@ const ProviderCard = ({ provider, onViewProfile }) => {
         <button
           type="button"
           className={styles.profileButton}
-          onClick={() => onViewProfile?.(provider)}
+          onClick={() => onViewProfile?.(service)}
         >
           Ver perfil
           <ArrowRight size={16} aria-hidden="true" />

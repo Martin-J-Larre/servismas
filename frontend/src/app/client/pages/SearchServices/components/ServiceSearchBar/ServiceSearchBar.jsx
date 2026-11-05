@@ -2,75 +2,36 @@ import { Search, BriefcaseBusiness, MapPin, CalendarDays } from "lucide-react";
 
 import styles from "./ServiceSearchBar.module.css";
 
-const serviceTypes = [
-  {
-    id: "home",
-    name: "Servicios para el hogar",
-    categories: [
-      "Plomería",
-      "Electricidad",
-      "Limpieza",
-      "Pintura",
-      "Carpintería",
-      "Reparaciones",
-    ],
-  },
-  {
-    id: "pets",
-    name: "Servicios para mascotas",
-    categories: [
-      "Paseo de mascotas",
-      "Cuidado de mascotas",
-      "Peluquería para mascotas",
-      "Adiestramiento",
-    ],
-  },
-  {
-    id: "personal-care",
-    name: "Cuidado de personas",
-    categories: [
-      "Cuidado de adultos mayores",
-      "Cuidado infantil",
-      "Acompañamiento",
-    ],
-  },
-  {
-    id: "procedures",
-    name: "Trámites y gestiones",
-    categories: ["Trámites administrativos", "Gestiones personales"],
-  },
-  {
-    id: "professional",
-    name: "Servicios profesionales",
-    categories: ["Informática", "Diseño", "Asesoramiento profesional"],
-  },
-  {
-    id: "gardening",
-    name: "Jardinería y exteriores",
-    categories: [
-      "Jardinería",
-      "Mantenimiento de jardines",
-      "Limpieza de exteriores",
-    ],
-  },
-];
-
-const ServiceSearchBar = ({ searchCriteria, onChange, onSearch }) => {
+const ServiceSearchBar = ({
+  serviceTypes,
+  categories,
+  loadingCategories,
+  searchCriteria,
+  onChange,
+  onSearch,
+}) => {
   const selectedType = serviceTypes.find(
-    (type) => type.id === searchCriteria.serviceType,
+    (type) => String(type.id) === String(searchCriteria.serviceType),
   );
+
+  const getTypeName = (type) => type?.name ?? type?.nombre ?? "";
+
+  const getCategoryName = (category) =>
+    category?.name ?? category?.nombre ?? "";
 
   const handleChange = (event) => {
     const { name, value } = event.target;
 
     onChange((previousData) => {
       if (name === "serviceType") {
-        const newType = serviceTypes.find((type) => type.id === value);
+        const newType = serviceTypes.find(
+          (type) => String(type.id) === String(value),
+        );
 
         return {
           ...previousData,
           serviceType: value,
-          serviceTypeName: newType?.name ?? "",
+          serviceTypeName: getTypeName(newType),
           category: "",
         };
       }
@@ -91,7 +52,7 @@ const ServiceSearchBar = ({ searchCriteria, onChange, onSearch }) => {
 
     onSearch({
       ...searchCriteria,
-      serviceTypeName: selectedType?.name ?? "",
+      serviceTypeName: getTypeName(selectedType),
     });
   };
 
@@ -114,7 +75,7 @@ const ServiceSearchBar = ({ searchCriteria, onChange, onSearch }) => {
 
             {serviceTypes.map((type) => (
               <option key={type.id} value={type.id}>
-                {type.name}
+                {getTypeName(type)}
               </option>
             ))}
           </select>
@@ -132,17 +93,19 @@ const ServiceSearchBar = ({ searchCriteria, onChange, onSearch }) => {
             name="category"
             value={searchCriteria.category}
             onChange={handleChange}
-            disabled={!selectedType}
+            disabled={!selectedType || loadingCategories}
           >
             <option value="">
-              {selectedType
-                ? "Seleccioná una categoría"
-                : "Primero elegí un tipo"}
+              {!selectedType
+                ? "Primero elegí un tipo"
+                : loadingCategories
+                  ? "Cargando categorías..."
+                  : "Todas las categorías"}
             </option>
 
-            {selectedType?.categories.map((category) => (
-              <option key={category} value={category}>
-                {category}
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {getCategoryName(category)}
               </option>
             ))}
           </select>

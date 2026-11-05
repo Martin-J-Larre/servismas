@@ -1,4 +1,4 @@
-import { Star, MessageSquare, UserRound } from "lucide-react";
+import { Star, UserRound } from "lucide-react";
 
 import styles from "./ProviderReviews.module.css";
 

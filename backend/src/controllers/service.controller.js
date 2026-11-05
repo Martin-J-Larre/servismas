@@ -3,6 +3,7 @@ import {
   getServiceTypes,
   getCategoriesByType,
   getServicesByProvider,
+  searchServices,
 } from "../models/service.model.js";
 
 const validDays = [
@@ -171,7 +172,6 @@ export const getCategoriesByTypeController = async (req, res) => {
   }
 };
 
-
 // Obtener los servicios publicados por el prestador autenticado
 export const getMyServices = async (req, res) => {
   try {
@@ -187,6 +187,104 @@ export const getMyServices = async (req, res) => {
 
     return res.status(500).json({
       message: "No se pudieron obtener los servicios publicados.",
+    });
+  }
+};
+
+// // Buscar servicios por tipo de servicio
+// export const searchServicesController = async (req, res) => {
+//   try {
+//     const typeId = Number(req.query.typeId);
+
+//     // Validar tipo de servicio
+//     if (!Number.isInteger(typeId) || typeId <= 0) {
+//       return res.status(400).json({
+//         message: "El tipo de servicio seleccionado no es válido.",
+//       });
+//     }
+
+//     // Buscar servicios
+//     const services = await searchServices(typeId);
+
+//     return res.status(200).json({
+//       services,
+//     });
+//   } catch (error) {
+//     console.error("Error al buscar servicios:", error);
+
+//     return res.status(500).json({
+//       message: "No se pudieron obtener los servicios.",
+//     });
+//   }
+// };
+
+export const searchServicesController = async (req, res) => {
+  try {
+    const typeId = Number(req.query.typeId);
+
+    const categoryId = req.query.categoryId
+      ? Number(req.query.categoryId)
+      : null;
+
+    const locality = req.query.locality?.trim() || null;
+    const date = req.query.date || null;
+
+    // Validar tipo de servicio
+    if (!Number.isInteger(typeId) || typeId <= 0) {
+      return res.status(400).json({
+        message: "El tipo de servicio seleccionado no es válido.",
+      });
+    }
+
+    // Validar categoría, si fue proporcionada
+    if (
+      categoryId !== null &&
+      (!Number.isInteger(categoryId) || categoryId <= 0)
+    ) {
+      return res.status(400).json({
+        message: "La categoría seleccionada no es válida.",
+      });
+    }
+
+    // Validar formato y existencia de la fecha
+    if (date) {
+      const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+
+      if (!dateRegex.test(date)) {
+        return res.status(400).json({
+          message: "La fecha debe tener el formato YYYY-MM-DD.",
+        });
+      }
+
+      const [year, month, day] = date.split("-").map(Number);
+
+      const selectedDate = new Date(Date.UTC(year, month - 1, day));
+
+      const isValidDate =
+        selectedDate.getUTCFullYear() === year &&
+        selectedDate.getUTCMonth() === month - 1 &&
+        selectedDate.getUTCDate() === day;
+
+      if (!isValidDate) {
+        return res.status(400).json({
+          message: "La fecha seleccionada no es válida.",
+        });
+      }
+    }
+
+    const services = await searchServices({
+      typeId,
+      categoryId,
+      locality,
+      date,
+    });
+
+    return res.status(200).json({ services });
+  } catch (error) {
+    console.error("Error al buscar servicios:", error);
+
+    return res.status(500).json({
+      message: "No se pudieron obtener los servicios.",
     });
   }
 };

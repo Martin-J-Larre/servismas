@@ -22,3 +22,29 @@ export const publishService = async (serviceData) => {
     body: JSON.stringify(serviceData),
   });
 };
+
+// Buscar servicios según criterios
+export const searchServices = async ({
+  typeId,
+  categoryId,
+  locality,
+  date,
+}) => {
+  const params = new URLSearchParams();
+
+  params.append("typeId", typeId);
+
+  if (categoryId) {
+    params.append("categoryId", categoryId);
+  }
+
+  if (locality) {
+    params.append("locality", locality);
+  }
+
+  if (date) {
+    params.append("date", date);
+  }
+
+  return apiRequest(`/services/search?${params.toString()}`);
+};

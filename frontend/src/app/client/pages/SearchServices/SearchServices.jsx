@@ -2,95 +2,317 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SearchX } from "lucide-react";
 
+import {
+  getServiceTypes,
+  getCategoriesByType,
+  searchServices,
+} from "../../../../services/service.service";
+
 import AppHeader from "../../../components/AppHeader/AppHeader";
 import ServiceSearchBar from "./components/ServiceSearchBar/ServiceSearchBar";
 import ServiceTypeList from "./components/ServiceTypeList/ServiceTypeList";
 import ProviderCard from "./components/ProviderCard/ProviderCard";
 import SearchFilters from "./components/SearchFilters/SearchFilters";
 
-import providers from "../../../provider/data/providers";
 import styles from "./SearchServices.module.css";
 
-// TODO: 1 Agregar una libreria de location para ver donde se encuentra el usuario y filtrar por distancia, o agregar un input de location para que el usuario pueda escribir su ubicación y filtrar por eso.
-//TODO: 2 Agregar una funcion o algo que traslade la disponibilidad del prestador con la fecha para que coincidan con Disponibilidad en el filter aside o cambiarlo a uno con fechas !!!
+const STORAGE_KEY = "servismas-search-state";
 
-const serviceCategories = {
-  home: [
-    "Plomería",
-    "Electricidad",
-    "Limpieza",
-    "Pintura",
-    "Carpintería",
-    "Reparaciones",
-  ],
-  pets: [
-    "Paseo de mascotas",
-    "Cuidado de mascotas",
-    "Peluquería para mascotas",
-    "Adiestramiento",
-  ],
-  "personal-care": [
-    "Cuidado de adultos mayores",
-    "Cuidado infantil",
-    "Acompañamiento",
-  ],
-  procedures: ["Trámites administrativos", "Gestiones personales"],
-  professional: ["Informática", "Diseño", "Asesoramiento profesional"],
-  gardening: [
-    "Jardinería",
-    "Mantenimiento de jardines",
-    "Limpieza de exteriores",
-  ],
+const getSavedState = () => {
+  try {
+    const savedState = sessionStorage.getItem(STORAGE_KEY);
+    return savedState ? JSON.parse(savedState) : {};
+  } catch {
+    return {};
+  }
 };
 
 const SearchServices = () => {
-  const [selectedServiceType, setSelectedServiceType] = useState(() => {
-    const savedState = sessionStorage.getItem("servismas-search-state");
+  const [initialState] = useState(getSavedState);
 
-    return savedState ? JSON.parse(savedState).selectedServiceType : null;
+  const [serviceTypes, setServiceTypes] = useState([]);
+  const [loadingTypes, setLoadingTypes] = useState(true);
+  const [typesError, setTypesError] = useState("");
+
+  const [categories, setCategories] = useState([]);
+  const [loadingCategories, setLoadingCategories] = useState(false);
+  const [categoriesError, setCategoriesError] = useState("");
+
+  const [services, setServices] = useState([]);
+  const [loadingServices, setLoadingServices] = useState(false);
+  const [servicesError, setServicesError] = useState("");
+
+  const [selectedServiceType, setSelectedServiceType] = useState(
+    initialState.selectedServiceType ?? null,
+  );
+
+  const [showResults, setShowResults] = useState(
+    initialState.showResults ?? false,
+  );
+
+  const [searchCriteria, setSearchCriteria] = useState(
+    initialState.searchCriteria ?? {
+      serviceType: "",
+      serviceTypeName: "",
+      category: "",
+      location: "",
+      date: "",
+    },
+  );
+
+  const [selectedFilterCategory, setSelectedFilterCategory] = useState(
+    initialState.selectedFilterCategory ?? "",
+  );
+
+  const [selectedAvailability, setSelectedAvailability] = useState(
+    initialState.selectedAvailability ?? "",
+  );
+
+  const [minimumRating, setMinimumRating] = useState(
+    initialState.minimumRating ?? 0,
+  );
+
+  const [activeSearch, setActiveSearch] = useState(() => {
+    if (
+      initialState.showResults &&
+      initialState.selectedServiceType &&
+      initialState.searchCriteria?.serviceType
+    ) {
+      return initialState.searchCriteria;
+    }
+
+    return null;
   });
 
-  const [showResults, setShowResults] = useState(() => {
-    const savedState = sessionStorage.getItem("servismas-search-state");
+  const navigate = useNavigate();
 
-    return savedState ? JSON.parse(savedState).showResults : false;
-  });
+  // ==========================================
+  // FUNCIONES DE MANEJO DE EVENTOS
+  // ==========================================
 
-  const [searchCriteria, setSearchCriteria] = useState(() => {
-    const savedState = sessionStorage.getItem("servismas-search-state");
+  // Cambiar criterios desde el buscador.
+  const handleSearchCriteriaChange = (updateCriteria) => {
+    const newCriteria =
+      typeof updateCriteria === "function"
+        ? updateCriteria(searchCriteria)
+        : { ...searchCriteria, ...updateCriteria };
 
-    return savedState
-      ? JSON.parse(savedState).searchCriteria
-      : {
-          serviceType: "",
-          serviceTypeName: "",
-          category: "",
-          location: "",
-          date: "",
-        };
-  });
+    const typeChanged =
+      String(newCriteria.serviceType) !== String(searchCriteria.serviceType);
 
-  const [selectedFilterCategory, setSelectedFilterCategory] = useState(() => {
-    const savedState = sessionStorage.getItem("servismas-search-state");
+    setSearchCriteria(newCriteria);
 
-    return savedState ? JSON.parse(savedState).selectedFilterCategory : "";
-  });
+    if (typeChanged) {
+      setSelectedFilterCategory("");
+      setSelectedAvailability("");
+      setMinimumRating(0);
 
-  const [selectedAvailability, setSelectedAvailability] = useState(() => {
-    const savedState = sessionStorage.getItem("servismas-search-state");
+      if (newCriteria.serviceType) {
+        const selectedType = serviceTypes.find(
+          (type) => String(type.id) === String(newCriteria.serviceType),
+        );
 
-    return savedState ? JSON.parse(savedState).selectedAvailability : "";
-  });
+        setSelectedServiceType({
+          id: newCriteria.serviceType,
+          name:
+            selectedType?.name ??
+            selectedType?.nombre ??
+            newCriteria.serviceTypeName ??
+            "",
+        });
 
-  const [minimumRating, setMinimumRating] = useState(() => {
-    const savedState = sessionStorage.getItem("servismas-search-state");
+        setShowResults(true);
+        setActiveSearch(newCriteria);
+      } else {
+        setSelectedServiceType(null);
+        setShowResults(false);
+        setActiveSearch(null);
+        setServices([]);
+      }
+    } else if (!newCriteria.serviceType) {
+      setSelectedServiceType(null);
+    }
+  };
 
-    return savedState ? JSON.parse(savedState).minimumRating : 0;
-  });
+  // Seleccionar un tipo desde "Explorá por tipo de servicio".
+  const handleSelectServiceType = (serviceType) => {
+    const serviceTypeName = serviceType.name ?? serviceType.nombre;
 
+    const newCriteria = {
+      ...searchCriteria,
+      serviceType: serviceType.id,
+      serviceTypeName,
+      category: "",
+    };
+
+    setSelectedServiceType({
+      id: serviceType.id,
+      name: serviceTypeName,
+    });
+
+    setSearchCriteria(newCriteria);
+
+    setSelectedFilterCategory("");
+    setSelectedAvailability("");
+    setMinimumRating(0);
+
+    setShowResults(true);
+    setActiveSearch(newCriteria);
+  };
+
+  // Ejecutar búsqueda desde el botón del buscador.
+  const handleSearch = (criteria) => {
+    const selectedType = serviceTypes.find(
+      (type) => String(type.id) === String(criteria.serviceType),
+    );
+
+    const newCriteria = {
+      ...criteria,
+      serviceTypeName:
+        selectedType?.name ??
+        selectedType?.nombre ??
+        criteria.serviceTypeName ??
+        "",
+    };
+
+    setSearchCriteria(newCriteria);
+
+    setSelectedServiceType({
+      id: newCriteria.serviceType,
+      name: newCriteria.serviceTypeName,
+    });
+
+    setSelectedFilterCategory("");
+    setSelectedAvailability("");
+    setMinimumRating(0);
+
+    setShowResults(true);
+    setActiveSearch(newCriteria);
+  };
+
+  // Navegar al perfil del prestador.
+  const handleViewProfile = (service) => {
+    navigate(`/app/cliente/prestadores/${service.providerId}`);
+  };
+
+  // Limpiar los filtros laterales.
+  const handleClearFilters = () => {
+    setSelectedFilterCategory("");
+    setSelectedAvailability("");
+    setMinimumRating(0);
+  };
+
+  // ==========================================
+  // EFECTOS
+  // ==========================================
+
+  // Obtener los tipos de servicio.
+  useEffect(() => {
+    const fetchServiceTypes = async () => {
+      try {
+        setLoadingTypes(true);
+        setTypesError("");
+
+        const response = await getServiceTypes();
+
+        setServiceTypes(response.types ?? []);
+      } catch (error) {
+        console.error("Error al obtener los tipos de servicio:", error);
+        setTypesError("No se pudieron cargar los tipos de servicio.");
+      } finally {
+        setLoadingTypes(false);
+      }
+    };
+
+    fetchServiceTypes();
+  }, []);
+
+  // Obtener las categorías del tipo de servicio seleccionado.
+  useEffect(() => {
+    if (!searchCriteria.serviceType) {
+      setCategories([]);
+      return;
+    }
+
+    let isActive = true;
+
+    const fetchCategories = async () => {
+      try {
+        setLoadingCategories(true);
+        setCategoriesError("");
+
+        const response = await getCategoriesByType(searchCriteria.serviceType);
+
+        if (isActive) {
+          setCategories(response.categories ?? []);
+        }
+      } catch (error) {
+        console.error("Error al obtener las categorías:", error);
+
+        if (isActive) {
+          setCategories([]);
+          setCategoriesError("No se pudieron cargar las categorías.");
+        }
+      } finally {
+        if (isActive) {
+          setLoadingCategories(false);
+        }
+      }
+    };
+
+    fetchCategories();
+
+    return () => {
+      isActive = false;
+    };
+  }, [searchCriteria.serviceType]);
+
+  // Ejecutar la búsqueda cuando cambia activeSearch.
+  useEffect(() => {
+    if (!activeSearch?.serviceType) return;
+
+    let isActive = true;
+
+    const fetchServices = async () => {
+      try {
+        setLoadingServices(true);
+        setServicesError("");
+
+        const response = await searchServices({
+          typeId: activeSearch.serviceType,
+          categoryId: activeSearch.category,
+          locality: activeSearch.location,
+          date: activeSearch.date,
+        });
+
+        if (isActive) {
+          setServices(response.services ?? []);
+        }
+      } catch (error) {
+        console.error("Error al buscar servicios:", error);
+
+        if (isActive) {
+          setServices([]);
+          setServicesError("No se pudieron obtener los servicios.");
+        }
+      } finally {
+        if (isActive) {
+          setLoadingServices(false);
+        }
+      }
+    };
+
+    fetchServices();
+
+    return () => {
+      isActive = false;
+    };
+  }, [activeSearch]);
+
+  // Guardar el estado de búsqueda.
   useEffect(() => {
     sessionStorage.setItem(
-      "servismas-search-state",
+      STORAGE_KEY,
       JSON.stringify({
         selectedServiceType,
         showResults,
@@ -109,113 +331,36 @@ const SearchServices = () => {
     minimumRating,
   ]);
 
-  const navigate = useNavigate();
+  // ==========================================
+  // FILTRADO DE RESULTADOS
+  // ==========================================
 
-  const handleSearchCriteriaChange = (updateCriteria) => {
-    const newCriteria =
-      typeof updateCriteria === "function"
-        ? updateCriteria(searchCriteria)
-        : updateCriteria;
-
-    setSearchCriteria(newCriteria);
-
-    const typeChanged = newCriteria.serviceType !== searchCriteria.serviceType;
-
-    if (typeChanged) {
-      setSelectedFilterCategory("");
-      setSelectedAvailability("");
-      setMinimumRating(0);
-    }
-
-    if (newCriteria.serviceType) {
-      setSelectedServiceType({
-        id: newCriteria.serviceType,
-        name: newCriteria.serviceTypeName,
-      });
-    } else {
-      setSelectedServiceType(null);
-    }
-  };
-
-  const handleSearch = (criteria) => {
-    setSearchCriteria(criteria);
-
-    setSelectedServiceType({
-      id: criteria.serviceType,
-      name: criteria.serviceTypeName,
-    });
-
-    setSelectedFilterCategory("");
-    setSelectedAvailability("");
-    setMinimumRating(0);
-    setShowResults(true);
-  };
-
-  const handleSelectServiceType = (serviceType) => {
-    setSelectedServiceType(serviceType);
-
-    setSearchCriteria((previousCriteria) => ({
-      ...previousCriteria,
-      serviceType: serviceType.id,
-      serviceTypeName: serviceType.name,
-      category: "",
-    }));
-
-    setSelectedFilterCategory("");
-    setSelectedAvailability("");
-    setMinimumRating(0);
-    setShowResults(true);
-  };
-
-  const categories = selectedServiceType
-    ? (serviceCategories[selectedServiceType.id] ?? [])
-    : [];
-
-  const filteredProviders = providers.filter((provider) => {
-    if (provider.serviceType !== searchCriteria.serviceType) {
-      return false;
-    }
-
-    if (
-      searchCriteria.category &&
-      provider.category !== searchCriteria.category
-    ) {
-      return false;
-    }
-
+  const filteredServices = services.filter((service) => {
     if (
       selectedFilterCategory &&
-      provider.category !== selectedFilterCategory
+      String(service.categoryId) !== String(selectedFilterCategory)
     ) {
       return false;
     }
 
-    if (
-      selectedAvailability &&
-      provider.availability !== selectedAvailability
-    ) {
+    // Datos de demostración hasta implementar estos campos en el backend.
+    const demoRating = 4.8;
+    const demoAvailability = "Disponible";
+
+    if (selectedAvailability && demoAvailability !== selectedAvailability) {
       return false;
     }
 
-    if (provider.rating < minimumRating) {
-      return false;
-    }
-
-    if (
-      searchCriteria.location &&
-      !provider.location
-        .toLowerCase()
-        .includes(searchCriteria.location.trim().toLowerCase())
-    ) {
+    if (demoRating < minimumRating) {
       return false;
     }
 
     return true;
   });
 
-  const handleViewProfile = (provider) => {
-    navigate(`/app/cliente/prestadores/${provider.id}`);
-  };
+  // ==========================================
+  // RENDERIZADO
+  // ==========================================
 
   return (
     <main className={styles.page}>
@@ -234,13 +379,21 @@ const SearchServices = () => {
         </p>
 
         <ServiceSearchBar
+          serviceTypes={serviceTypes}
+          categories={categories}
+          loadingCategories={loadingCategories}
           searchCriteria={searchCriteria}
           onChange={handleSearchCriteriaChange}
           onSearch={handleSearch}
         />
+
+        {categoriesError && <p role="alert">{categoriesError}</p>}
       </section>
 
       <ServiceTypeList
+        serviceTypes={serviceTypes}
+        loading={loadingTypes}
+        error={typesError}
         onSelectServiceType={handleSelectServiceType}
         selectedServiceType={selectedServiceType}
       />
@@ -252,14 +405,16 @@ const SearchServices = () => {
 
             <h2>
               {searchCriteria.category
-                ? `Prestadores de ${searchCriteria.category.toLowerCase()}`
-                : `Prestadores de ${selectedServiceType.name.toLowerCase()}`}
+                ? `Servicios de ${
+                    categories.find(
+                      (category) =>
+                        String(category.id) === String(searchCriteria.category),
+                    )?.name ?? selectedServiceType.name
+                  }`
+                : `Servicios de ${selectedServiceType.name.toLowerCase()}`}
             </h2>
 
-            <p>
-              Explorá los profesionales disponibles para el servicio que
-              necesitás.
-            </p>
+            <p>Explorá los servicios publicados por nuestros prestadores.</p>
           </div>
 
           <div className={styles.resultsLayout}>
@@ -276,19 +431,23 @@ const SearchServices = () => {
             <div className={styles.resultsContent}>
               <div className={styles.resultsToolbar}>
                 <p className={styles.resultsCount}>
-                  <strong>{filteredProviders.length}</strong>{" "}
-                  {filteredProviders.length === 1
-                    ? "prestador encontrado"
-                    : "prestadores encontrados"}
+                  <strong>{filteredServices.length}</strong>{" "}
+                  {filteredServices.length === 1
+                    ? "servicio encontrado"
+                    : "servicios encontrados"}
                 </p>
               </div>
 
-              {filteredProviders.length > 0 ? (
+              {loadingServices ? (
+                <p>Cargando servicios...</p>
+              ) : servicesError ? (
+                <p role="alert">{servicesError}</p>
+              ) : filteredServices.length > 0 ? (
                 <div className={styles.providersGrid}>
-                  {filteredProviders.map((provider) => (
+                  {filteredServices.map((service) => (
                     <ProviderCard
-                      key={provider.id}
-                      provider={provider}
+                      key={service.id}
+                      service={service}
                       onViewProfile={handleViewProfile}
                     />
                   ))}
@@ -297,21 +456,14 @@ const SearchServices = () => {
                 <div className={styles.emptyState}>
                   <SearchX size={34} strokeWidth={1.6} aria-hidden="true" />
 
-                  <h3>No encontramos prestadores</h3>
+                  <h3>No encontramos servicios</h3>
 
                   <p>
-                    Probá cambiar la categoría, la disponibilidad o la
-                    valoración mínima para ver otros resultados.
+                    Probá cambiar los criterios de búsqueda o limpiar los
+                    filtros para ver otros resultados.
                   </p>
 
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSelectedFilterCategory("");
-                      setSelectedAvailability("");
-                      setMinimumRating(0);
-                    }}
-                  >
+                  <button type="button" onClick={handleClearFilters}>
                     Limpiar filtros
                   </button>
                 </div>

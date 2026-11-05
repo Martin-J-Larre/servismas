@@ -40,15 +40,20 @@ const SearchFilters = ({
 
           {categories.map((category) => (
             <button
-              key={category}
+              key={category.id}
               type="button"
               className={`${styles.categoryButton} ${
-                selectedCategory === category ? styles.selected : ""
+                String(selectedCategory) === String(category.id)
+                  ? styles.selected
+                  : ""
               }`}
-              aria-pressed={selectedCategory === category}
-              onClick={() => onCategoryChange?.(category)}
+              aria-pressed={String(selectedCategory) === String(category.id)}
+              onClick={() => onCategoryChange?.(category.id)}
             >
-              {category}
+              {String(selectedCategory) === String(category.id) && (
+                <Check size={14} aria-hidden="true" />
+              )}
+              {category.nombre}
             </button>
           ))}
         </div>

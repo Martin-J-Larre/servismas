@@ -177,3 +177,165 @@ export const getServicesByProvider = async (providerId) => {
     };
   });
 };
+
+// // Buscar servicios por tipo de servicio
+// export const searchServices = async (typeId) => {
+//   const [rows] = await pool.execute(
+//     `SELECT
+//       s.id_servicio AS id,
+//       s.nombre AS name,
+//       s.descripcion AS description,
+
+//       c.id_categoria AS categoryId,
+//       c.nombre AS category,
+
+//       ts.id_tipo_servicio AS typeId,
+//       ts.nombre AS serviceType,
+
+//       u.id_usuario AS providerId,
+//       u.nombre AS firstName,
+//       u.apellido AS lastName,
+
+//       p.experiencia AS experience,
+//       p.estado_verificacion AS verificationStatus,
+
+//       ag.ubicacion AS location
+
+//     FROM servicio s
+
+//     INNER JOIN categoria c
+//       ON s.id_categoria = c.id_categoria
+
+//     INNER JOIN tipo_servicio ts
+//       ON c.id_tipo_servicio = ts.id_tipo_servicio
+
+//     INNER JOIN prestador p
+//       ON s.id_usuario_prestador = p.id_usuario
+
+//     INNER JOIN usuario u
+//       ON p.id_usuario = u.id_usuario
+
+//     INNER JOIN area_geografica ag
+//       ON s.id_area_geografica = ag.id_area_geografica
+
+//     WHERE ts.id_tipo_servicio = ?
+
+//     ORDER BY
+//       c.id_categoria,
+//       s.id_servicio`,
+//     [typeId],
+//   );
+
+//   return rows.map((service) => {
+//     let location = service.location;
+
+//     try {
+//       location = JSON.parse(location);
+//     } catch {
+//       // Conservar el valor original si no es JSON válido
+//     }
+
+//     return {
+//       ...service,
+//       location,
+//     };
+//   });
+// };
+
+// Buscar servicios por tipo, categoría, localidad y fecha
+export const searchServices = async ({
+  typeId,
+  categoryId,
+  locality,
+  date,
+}) => {
+  let query = `
+    SELECT
+      s.id_servicio AS id,
+      s.nombre AS name,
+      s.descripcion AS description,
+      c.id_categoria AS categoryId,
+      c.nombre AS category,
+      ts.id_tipo_servicio AS typeId,
+      ts.nombre AS serviceType,
+      u.id_usuario AS providerId,
+      u.nombre AS firstName,
+      u.apellido AS lastName,
+      p.experiencia AS experience,
+      p.estado_verificacion AS verificationStatus,
+      ag.ubicacion AS location
+    FROM servicio s
+    INNER JOIN categoria c ON s.id_categoria = c.id_categoria
+    INNER JOIN tipo_servicio ts ON c.id_tipo_servicio = ts.id_tipo_servicio
+    INNER JOIN prestador p ON s.id_usuario_prestador = p.id_usuario
+    INNER JOIN usuario u ON p.id_usuario = u.id_usuario
+    INNER JOIN area_geografica ag ON s.id_area_geografica = ag.id_area_geografica
+    WHERE ts.id_tipo_servicio = ?
+  `;
+
+  const params = [typeId];
+
+  // Filtrar por categoría
+  if (categoryId) {
+    query += " AND c.id_categoria = ?";
+    params.push(categoryId);
+  }
+
+  // Filtrar por localidad
+  if (locality) {
+    query +=
+      " AND JSON_UNQUOTE(JSON_EXTRACT(ag.ubicacion, '$.locality')) LIKE ?";
+    params.push(`%${locality}%`);
+  }
+
+  // Filtrar por día de disponibilidad
+  if (date) {
+    const selectedDate = new Date(`${date}T12:00:00`);
+
+    // Validar que la fecha sea válida
+    if (Number.isNaN(selectedDate.getTime())) {
+      throw new Error("La fecha recibida no es válida.");
+    }
+
+    const days = [
+      "domingo",
+      "lunes",
+      "martes",
+      "miércoles",
+      "jueves",
+      "viernes",
+      "sábado",
+    ];
+
+    const day = days[selectedDate.getDay()];
+
+    query += `
+      AND EXISTS (
+        SELECT 1
+        FROM disponibilidad d
+        WHERE d.id_servicio = s.id_servicio
+        AND LOWER(d.dia) = ?
+      )
+    `;
+
+    params.push(day);
+  }
+
+  query += " ORDER BY c.id_categoria, s.id_servicio";
+
+  const [rows] = await pool.execute(query, params);
+
+  // Convertir la ubicación JSON en un objeto JavaScript
+  return rows.map((service) => {
+    let location = service.location;
+
+    try {
+      location = JSON.parse(location);
+    } catch {}
+
+    return {
+      ...service,
+      location,
+    };
+  });
+};

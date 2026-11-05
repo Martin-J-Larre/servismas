@@ -1,11 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  UserRound,
-  BriefcaseBusiness,
-  ClipboardList,
-  LayoutDashboard,
-} from "lucide-react";
 
 import { useAuth } from "../../../../app/context/AuthContext";
 
@@ -24,29 +18,6 @@ const ProviderDashboard = () => {
   const { user } = useAuth();
 
   const [activeSection, setActiveSection] = useState("published");
-
-  const menuItems = [
-    {
-      label: "Mi perfil",
-      to: "/prestador/perfil",
-      icon: UserRound,
-    },
-    {
-      label: "Panel principal",
-      to: "/prestador/panel",
-      icon: LayoutDashboard,
-    },
-    {
-      label: "Mis servicios",
-      to: "/prestador/servicios",
-      icon: BriefcaseBusiness,
-    },
-    {
-      label: "Solicitudes recibidas",
-      to: "/prestador/solicitudes",
-      icon: ClipboardList,
-    },
-  ];
 
   const handlePublishService = () => {
     navigate("/app/prestador/servicios/nuevo");
