@@ -1,9 +1,4 @@
-import {
-  FileText,
-  UsersRound,
-  Check,
-  Star,
-} from "lucide-react";
+import { FileText, UsersRound, Check, Star } from "lucide-react";
 
 import styles from "./ProviderStats.module.css";
 
@@ -13,6 +8,8 @@ const ProviderStats = ({
   completedServices = 24,
   rating = 4.8,
   reviewCount = 124,
+  activeSection,
+  onSectionChange,
 }) => {
   const stats = [
     {
@@ -28,7 +25,6 @@ const ProviderStats = ({
       value: pendingRequests,
       description: "Requieren tu atención",
       icon: UsersRound,
-      highlighted: true,
     },
     {
       id: "completed",
@@ -63,13 +59,17 @@ const ProviderStats = ({
     <section className={styles.stats} aria-label="Resumen de actividad">
       {stats.map((stat) => {
         const Icon = stat.icon;
+        const isActive = activeSection === stat.id;
 
         return (
-          <article
+          <button
+            type="button"
             key={stat.id}
             className={`${styles.statCard} ${
-              stat.highlighted ? styles.highlighted : ""
+              isActive ? styles.highlighted : ""
             }`}
+            onClick={() => onSectionChange(stat.id)}
+            aria-pressed={isActive}
           >
             <span className={styles.iconWrapper}>
               <Icon size={16} strokeWidth={1.8} aria-hidden="true" />
@@ -79,10 +79,8 @@ const ProviderStats = ({
 
             <strong className={styles.value}>{stat.value}</strong>
 
-            <small className={styles.description}>
-              {stat.description}
-            </small>
-          </article>
+            <small className={styles.description}>{stat.description}</small>
+          </button>
         );
       })}
     </section>

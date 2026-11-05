@@ -13,7 +13,7 @@ export const createService = async ({
   try {
     await connection.beginTransaction();
 
-    // 1. Crear el área geográfica
+    // Crear el área geográfica
     const [areaResult] = await connection.execute(
       `INSERT INTO area_geografica (ubicacion)
        VALUES (?)`,
@@ -22,7 +22,7 @@ export const createService = async ({
 
     const areaId = areaResult.insertId;
 
-    // 2. Crear el servicio
+    // Crear el servicio
     const [serviceResult] = await connection.execute(
       `INSERT INTO servicio (
         nombre,
@@ -37,7 +37,7 @@ export const createService = async ({
 
     const serviceId = serviceResult.insertId;
 
-    // 3. Registrar disponibilidad
+    // Registrar disponibilidad
     if (availability.length > 0) {
       const values = availability.map(({ day, start, end }) => [
         day,
@@ -106,4 +106,74 @@ export const getCategoriesByType = async (typeId) => {
   );
 
   return rows;
+};
+
+// Obtener los servicios publicados por un prestador
+export const getServicesByProvider = async (providerId) => {
+  // 1. Obtener los servicios y sus datos relacionados
+  const [services] = await pool.execute(
+    `SELECT
+      s.id_servicio AS id,
+      s.nombre AS name,
+      s.descripcion AS description,
+      c.nombre AS category,
+      ag.ubicacion AS location
+    FROM servicio s
+    INNER JOIN categoria c
+      ON s.id_categoria = c.id_categoria
+    INNER JOIN area_geografica ag
+      ON s.id_area_geografica = ag.id_area_geografica
+    WHERE s.id_usuario_prestador = ?
+    ORDER BY s.id_servicio DESC`,
+    [providerId],
+  );
+
+  // Si el prestador no tiene servicios, devolver un array vacío
+  if (services.length === 0) {
+    return [];
+  }
+
+  // Obtener las disponibilidades de esos servicios
+  const serviceIds = services.map((service) => service.id);
+  const placeholders = serviceIds.map(() => "?").join(", ");
+
+  const [availability] = await pool.execute(
+    `SELECT
+      id_servicio AS serviceId,
+      dia AS day,
+      TIME_FORMAT(hora_inicio, '%H:%i') AS start,
+      TIME_FORMAT(hora_fin, '%H:%i') AS end
+    FROM disponibilidad
+    WHERE id_servicio IN (${placeholders})
+    ORDER BY FIELD(
+      dia,
+      'Lunes',
+      'Martes',
+      'Miércoles',
+      'Jueves',
+      'Viernes',
+      'Sábado',
+      'Domingo'
+    ), hora_inicio`,
+    serviceIds,
+  );
+
+  // Asociar las disponibilidades a cada servicio
+  return services.map((service) => {
+    let location = service.location;
+
+    try {
+      location = JSON.parse(location);
+    } catch {
+      // Si no es JSON válido, conservar el valor original
+    }
+
+    return {
+      ...service,
+      location,
+      availability: availability
+        .filter((item) => item.serviceId === service.id)
+        .map(({ day, start, end }) => ({ day, start, end })),
+    };
+  });
 };

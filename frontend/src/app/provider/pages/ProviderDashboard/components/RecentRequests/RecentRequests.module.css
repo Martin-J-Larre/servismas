@@ -49,17 +49,17 @@
 }
 
 .requestList {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
 }
 
 .requestCard {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 15px;
+  min-width: 0;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px;
   border: 1px solid #e8eeea;
   border-radius: 10px;
   background-color: #ffffff;
@@ -70,53 +70,36 @@
   border-color: #c8e2d2;
 }
 
-.requestMain {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  min-width: 0;
-}
-
-.avatar {
-  display: flex;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background-color: #e8f6ef;
-  color: #168d60;
-  font-size: 11px;
-  font-weight: 700;
-}
-
-.requestInfo {
-  min-width: 0;
-}
-
-.titleRow {
+.requestHeader {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 10px;
 }
 
-.titleRow h3 {
-  margin: 0;
-  color: #34443a;
+.category {
+  color: #168d60;
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .status {
   display: inline-flex;
   align-items: center;
-  padding: 4px 8px;
+  gap: 6px;
+  padding: 5px 9px;
   border-radius: 20px;
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 600;
   white-space: nowrap;
+}
+
+.statusDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: currentColor;
 }
 
 .pending {
@@ -129,25 +112,33 @@
   color: #168d60;
 }
 
-.clientName {
-  margin: 6px 0 0;
-  color: #77847b;
-  font-size: 10px;
+.requestCard h3 {
+  margin: -5px 0 0;
+  color: #34443a;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.description {
+  margin: 0;
+  color: #849087;
+  font-size: 12px;
+  line-height: 1.6;
 }
 
 .details {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px 14px;
-  margin-top: 10px;
+  flex-direction: column;
+  gap: 9px;
 }
 
 .details span {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 8px;
   color: #849087;
-  font-size: 10px;
+  font-size: 11px;
   line-height: 1.5;
 }
 
@@ -156,16 +147,33 @@
   color: #168d60;
 }
 
+.requestFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid #edf1ee;
+}
+
+.requestFooter strong {
+  color: #34443a;
+  font-size: 13px;
+  font-weight: 700;
+}
+
 .detailButton {
+  display: flex;
   flex-shrink: 0;
-  padding: 8px 11px;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
   border: 1px solid #d2e7da;
-  border-radius: 7px;
+  border-radius: 9px;
   background-color: #ffffff;
   color: #168d60;
-  font-family: inherit;
-  font-size: 10px;
-  font-weight: 600;
   cursor: pointer;
   transition:
     background-color 0.2s ease,
@@ -183,23 +191,15 @@
   outline-offset: 3px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
+  .requestList {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
   .section {
     padding: 16px;
-  }
-
-  .requestCard {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .detailButton {
-    align-self: flex-end;
-  }
-
-  .details {
-    flex-direction: column;
-    gap: 6px;
   }
 }
 

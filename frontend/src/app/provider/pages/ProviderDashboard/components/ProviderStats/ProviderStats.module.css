@@ -16,9 +16,24 @@
   border-radius: 12px;
   background-color: #ffffff;
   box-shadow: 0 2px 3px rgb(30 60 42 / 5%);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
   transition:
     background-color 0.2s ease,
-    border-color 0.2s ease;
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.statCard:hover {
+  border-color: #168d60;
+  box-shadow: 0 3px 8px rgb(30 60 42 / 10%);
+}
+
+.statCard:focus-visible {
+  outline: 2px solid #168d60;
+  outline-offset: 3px;
 }
 
 .iconWrapper {

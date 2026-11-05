@@ -4,6 +4,7 @@ import {
   publishService,
   getServiceTypesController,
   getCategoriesByTypeController,
+  getMyServices,
 } from "../controllers/service.controller.js";
 
 import { authenticateToken } from "../middlewares/auth.middleware.js";
@@ -16,6 +17,9 @@ router.get("/types", getServiceTypesController);
 
 // Consultar categorías según el tipo de servicio
 router.get("/categories", getCategoriesByTypeController);
+
+// Consultar los servicios del prestador autenticado
+router.get("/my", authenticateToken, authorizeRole("provider"), getMyServices);
 
 // Publicar un servicio
 router.post("/", authenticateToken, authorizeRole("provider"), publishService);

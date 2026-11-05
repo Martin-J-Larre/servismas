@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   UserRound,
@@ -8,19 +9,21 @@ import {
 
 import { useAuth } from "../../../../app/context/AuthContext";
 
-import AppHeader from "../../../../app/components/AppHeader/AppHeader";
+import styles from "./ProviderDashboard.module.css";
 
+import AppHeader from "../../../../app/components/AppHeader/AppHeader";
 import ProviderWelcome from "./components/ProviderWelcome/ProviderWelcome";
 import ProviderStats from "./components/ProviderStats/ProviderStats";
-import RecentRequests from "./components/RecentRequests/RecentRequests";
 import ProviderServices from "./components/ProviderServices/ProviderServices";
-import ProviderAvailability from "./components/ProviderAvailability/ProviderAvailability";
-
-import styles from "./ProviderDashboard.module.css";
+import RecentRequests from "./components/RecentRequests/RecentRequests";
+import CompletedServices from "./components/CompletedServices/CompletedServices";
+import ProviderReviews from "./components/ProviderReviews/ProviderReviews";
 
 const ProviderDashboard = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+
+  const [activeSection, setActiveSection] = useState("published");
 
   const menuItems = [
     {
@@ -65,12 +68,18 @@ const ProviderDashboard = () => {
           completedServices={24}
           rating={4.8}
           reviewCount={124}
+          activeSection={activeSection}
+          onSectionChange={setActiveSection}
         />
 
         <div className={styles.content}>
-          <RecentRequests />
-          <ProviderServices onCreateService={handlePublishService} />
-          <ProviderAvailability />
+          {activeSection === "published" && <ProviderServices />}
+
+          {activeSection === "pending" && <RecentRequests />}
+
+          {activeSection === "completed" && <CompletedServices />}
+
+          {activeSection === "rating" && <ProviderReviews />}
         </div>
       </main>
     </div>

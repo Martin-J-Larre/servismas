@@ -2,6 +2,7 @@ import {
   createService,
   getServiceTypes,
   getCategoriesByType,
+  getServicesByProvider,
 } from "../models/service.model.js";
 
 const validDays = [
@@ -22,7 +23,7 @@ export const publishService = async (req, res) => {
   try {
     const { name, description, categoryId, location, availability } = req.body;
 
-    // 1. Validar campos obligatorios
+    // Validar campos obligatorios
     if (
       typeof name !== "string" ||
       !name.trim() ||
@@ -37,14 +38,14 @@ export const publishService = async (req, res) => {
       });
     }
 
-    // 2. Validar nombre
+    // Validar nombre
     if (name.trim().length > 100) {
       return res.status(400).json({
         message: "El nombre no puede superar los 100 caracteres.",
       });
     }
 
-    // 3. Validar categoría
+    // Validar categoría
     const parsedCategoryId = Number(categoryId);
 
     if (!Number.isInteger(parsedCategoryId) || parsedCategoryId <= 0) {
@@ -53,7 +54,7 @@ export const publishService = async (req, res) => {
       });
     }
 
-    // 4. Validar ubicación
+    // Validar ubicación
     if (
       typeof location !== "object" ||
       Array.isArray(location) ||
@@ -77,7 +78,7 @@ export const publishService = async (req, res) => {
       });
     }
 
-    // 5. Validar disponibilidad
+    // Validar disponibilidad
     if (!Array.isArray(availability) || availability.length === 0) {
       return res.status(400).json({
         message: "Debe seleccionar al menos un día disponible.",
@@ -102,10 +103,10 @@ export const publishService = async (req, res) => {
       });
     }
 
-    // 6. Obtener el prestador autenticado
+    // Obtener el prestador autenticado
     const providerId = req.user.id;
 
-    // 7. Crear servicio
+    // Crear servicio
     const service = await createService({
       name: name.trim(),
       description: description.trim(),
@@ -166,6 +167,26 @@ export const getCategoriesByTypeController = async (req, res) => {
 
     return res.status(500).json({
       message: "No se pudieron obtener las categorías.",
+    });
+  }
+};
+
+
+// Obtener los servicios publicados por el prestador autenticado
+export const getMyServices = async (req, res) => {
+  try {
+    const providerId = req.user.id;
+
+    const services = await getServicesByProvider(providerId);
+
+    return res.status(200).json({
+      services,
+    });
+  } catch (error) {
+    console.error("Error al obtener los servicios del prestador:", error);
+
+    return res.status(500).json({
+      message: "No se pudieron obtener los servicios publicados.",
     });
   }
 };
