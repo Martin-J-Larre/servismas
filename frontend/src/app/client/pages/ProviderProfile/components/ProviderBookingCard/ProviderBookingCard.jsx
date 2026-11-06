@@ -1,4 +1,3 @@
-import { useParams, useNavigate } from "react-router-dom";
 import { MapPin, Star, ShieldCheck } from "lucide-react";
 
 import styles from "./ProviderBookingCard.module.css";
@@ -12,6 +11,11 @@ const ProviderBookingCard = ({
   reviewCount,
   onSelect,
 }) => {
+  const locationText =
+    typeof location === "string"
+      ? location
+      : [location?.locality, location?.province].filter(Boolean).join(", ");
+
   return (
     <section className={styles.card}>
       <div className={styles.provider}>
@@ -28,10 +32,10 @@ const ProviderBookingCard = ({
         </div>
       </div>
 
-      {location && (
+      {locationText && (
         <div className={styles.location}>
           <MapPin size={17} aria-hidden="true" />
-          <span>{location}</span>
+          <span>{locationText}</span>
         </div>
       )}
 

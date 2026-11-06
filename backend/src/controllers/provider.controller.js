@@ -1,6 +1,7 @@
 import {
   getProviderById,
   updateProviderProfile,
+  getPublicProviderProfile,
 } from "../models/provider.model.js";
 
 export const getMyProviderProfile = async (req, res) => {
@@ -69,6 +70,34 @@ export const updateMyProviderProfile = async (req, res) => {
 
     return res.status(500).json({
       message: "Error al actualizar la información profesional.",
+    });
+  }
+};
+
+export const getPublicProviderProfileController = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!Number.isInteger(Number(id)) || Number(id) <= 0) {
+      return res.status(400).json({
+        message: "ID de prestador inválido.",
+      });
+    }
+
+    const provider = await getPublicProviderProfile(Number(id));
+
+    if (!provider) {
+      return res.status(404).json({
+        message: "Prestador no encontrado.",
+      });
+    }
+
+    return res.status(200).json({ provider });
+  } catch (error) {
+    console.error("Error al obtener el perfil público:", error);
+
+    return res.status(500).json({
+      message: "Error al obtener el perfil del prestador.",
     });
   }
 };

@@ -2,6 +2,13 @@ import { MapPin, Wrench } from "lucide-react";
 import styles from "./ProviderAbout.module.css";
 
 const ProviderAbout = ({ experience, serviceArea }) => {
+  const serviceAreaText =
+    typeof serviceArea === "string"
+      ? serviceArea
+      : [serviceArea?.locality, serviceArea?.province, serviceArea?.country]
+          .filter(Boolean)
+          .join(", ");
+
   return (
     <section className={styles.card}>
       <h2 className={styles.title}>Sobre el prestador</h2>
@@ -25,7 +32,7 @@ const ProviderAbout = ({ experience, serviceArea }) => {
 
           <div className={styles.infoContent}>
             <h3>Área de servicio</h3>
-            <p>{serviceArea || "Zona de servicio no especificada."}</p>
+            <p>{serviceAreaText || "Zona de servicio no especificada."}</p>
           </div>
         </article>
       </div>

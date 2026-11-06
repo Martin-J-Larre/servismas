@@ -11,9 +11,21 @@ const ProviderProfileCard = ({ provider }) => {
     reviewCount,
     location,
     availability,
+    serviceType,
+    verificationStatus,
   } = provider;
 
   const isAvailable = availability === "Disponible";
+
+  // La ubicación llega como objeto desde el backend.
+  const locationText =
+    typeof location === "string"
+      ? location
+      : [location?.locality, location?.province].filter(Boolean).join(", ");
+
+  // Adaptar el estado de verificación a los valores reales del backend.
+  const isVerified =
+    verificationStatus === "verificado" || verificationStatus === "verified";
 
   return (
     <section className={styles.card}>
@@ -39,20 +51,26 @@ const ProviderProfileCard = ({ provider }) => {
         </div>
 
         <div className={styles.metadata}>
-          <span className={styles.metadataItem}>
-            <MapPin size={15} aria-hidden="true" />
-            {location}
-          </span>
+          {locationText && (
+            <span className={styles.metadataItem}>
+              <MapPin size={15} aria-hidden="true" />
+              {locationText}
+            </span>
+          )}
 
-          <span className={styles.metadataItem}>
-            <BriefcaseBusiness size={15} aria-hidden="true" />
-            Servicios para el hogar
-          </span>
+          {serviceType && (
+            <span className={styles.metadataItem}>
+              <BriefcaseBusiness size={15} aria-hidden="true" />
+              {serviceType}
+            </span>
+          )}
 
-          <span className={`${styles.metadataItem} ${styles.verifiedBadge}`}>
-            <ShieldCheck size={15} aria-hidden="true" />
-            Perfil verificado
-          </span>
+          {isVerified && (
+            <span className={`${styles.metadataItem} ${styles.verifiedBadge}`}>
+              <ShieldCheck size={15} aria-hidden="true" />
+              Perfil verificado
+            </span>
+          )}
         </div>
       </div>
 

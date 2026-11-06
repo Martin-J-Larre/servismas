@@ -48,3 +48,8 @@ export const searchServices = async ({
 
   return apiRequest(`/services/search?${params.toString()}`);
 };
+
+// Obtener el perfil público de un prestador
+export const getPublicProviderProfile = async (providerId) => {
+  return apiRequest(`/providers/${providerId}`);
+};

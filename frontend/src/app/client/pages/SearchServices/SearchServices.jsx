@@ -191,8 +191,13 @@ const SearchServices = () => {
   };
 
   // Navegar al perfil del prestador.
+  // Navegar al perfil del prestador.
   const handleViewProfile = (service) => {
-    navigate(`/app/cliente/prestadores/${service.providerId}`);
+    navigate(`/app/cliente/prestadores/${service.providerId}`, {
+      state: {
+        selectedServiceId: service.id,
+      },
+    });
   };
 
   // Limpiar los filtros laterales.

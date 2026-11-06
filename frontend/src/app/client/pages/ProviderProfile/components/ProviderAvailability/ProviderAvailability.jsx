@@ -1,8 +1,14 @@
 import { CalendarDays, Clock } from "lucide-react";
 import styles from "./ProviderAvailability.module.css";
 
-const ProviderAvailability = ({ availability, schedule }) => {
-  const weeklySchedule = Array.isArray(schedule) ? schedule : [];
+const ProviderAvailability = ({ availability }) => {
+  const weeklySchedule = Array.isArray(availability) ? availability : [];
+
+  const formatTime = (time) => {
+    if (!time) return "";
+
+    return time.slice(0, 5);
+  };
 
   return (
     <section className={styles.card}>
@@ -15,7 +21,11 @@ const ProviderAvailability = ({ availability, schedule }) => {
 
         <div className={styles.content}>
           <h3>Disponibilidad general</h3>
-          <p>{availability || "Disponibilidad no especificada."}</p>
+          <p>
+            {weeklySchedule.length > 0
+              ? "El prestador tiene horarios de atención definidos."
+              : "Disponibilidad no especificada."}
+          </p>
         </div>
       </div>
 
@@ -31,14 +41,8 @@ const ProviderAvailability = ({ availability, schedule }) => {
               <div className={styles.scheduleRow} key={item.day}>
                 <span className={styles.day}>{item.day}</span>
 
-                <span
-                  className={
-                    item.available
-                      ? styles.availableHours
-                      : styles.unavailableHours
-                  }
-                >
-                  {item.hours}
+                <span className={styles.availableHours}>
+                  {formatTime(item.start)} - {formatTime(item.end)}
                 </span>
               </div>
             ))}
