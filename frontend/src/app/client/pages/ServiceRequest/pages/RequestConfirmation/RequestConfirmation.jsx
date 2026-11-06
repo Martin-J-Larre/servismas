@@ -1,9 +1,10 @@
+import { useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, CalendarDays, MapPin, FileText, Send } from "lucide-react";
 
-import AppHeader from "../../../../../components/AppHeader/AppHeader";
-import providers from "../../../../../provider/data/providers";
+import { createRequest } from "../../../../../../services/service.service";
 
+import AppHeader from "../../../../../components/AppHeader/AppHeader";
 import RequestStepper from "../../components/RequestStepper/RequestStepper";
 
 import styles from "./RequestConfirmation.module.css";
@@ -13,11 +14,13 @@ const RequestConfirmation = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const requestData = location.state?.requestData;
+  const { requestData, provider, providerId, selectedServiceId } =
+    location.state || {};
 
-  const provider = providers.find((item) => String(item.id) === String(id));
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  if (!provider || !requestData) {
+  if (!provider || !requestData || !providerId || !selectedServiceId) {
     return (
       <>
         <AppHeader />
@@ -26,14 +29,18 @@ const RequestConfirmation = () => {
           <section className={styles.card}>
             <h1>No se puede confirmar la solicitud</h1>
             <p>
-              No encontramos los datos de la solicitud. Volvé a completar el
+              No encontramos todos los datos necesarios. Volvé a completar el
               formulario para continuar.
             </p>
 
             <button
               type="button"
               className={styles.primaryButton}
-              onClick={() => navigate(`/app/cliente/solicitar-servicio/${id}`)}
+              onClick={() =>
+                navigate(`/app/cliente/solicitar-servicio/${id}`, {
+                  state: { selectedServiceId },
+                })
+              }
             >
               Volver al formulario
             </button>
@@ -45,28 +52,38 @@ const RequestConfirmation = () => {
 
   const handleBack = () => {
     navigate(`/app/cliente/solicitar-servicio/${id}`, {
-      state: { requestData },
+      state: { selectedServiceId, requestData },
     });
   };
 
-  // const handleSubmit = () => {
-  //   // En esta etapa, el envío es simulado.
-  //   // Más adelante conectaremos esta acción con el backend.
+  const handleSubmit = async () => {
+    try {
+      setLoading(true);
+      setError("");
 
-  //   navigate("/app/cliente/buscar-servicios", {
-  //     state: {
-  //       requestSent: true,
-  //       providerName: provider.name,
-  //     },
-  //   });
-  // };
+      const response = await createRequest({
+        description: requestData.description,
+        address: requestData.address,
+        date: requestData.date,
+        providerId,
+        serviceId: selectedServiceId,
+      });
 
-  const handleSubmit = () => {
-    navigate(`/app/cliente/solicitud-exitosa/${id}`, {
-      state: {
-        requestData,
-      },
-    });
+      navigate(`/app/cliente/solicitud-exitosa/${id}`, {
+        state: {
+          requestData,
+          provider,
+          request: response.request,
+        },
+      });
+    } catch (error) {
+      setError(
+        error.message ||
+          "No pudimos registrar la solicitud. Intentá nuevamente.",
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -89,9 +106,7 @@ const RequestConfirmation = () => {
 
                 <div className={styles.providerInfo}>
                   <div className={styles.avatar} aria-hidden="true">
-                    {provider.initials ||
-                      provider.name?.charAt(0).toUpperCase() ||
-                      "P"}
+                    {provider.initials || "P"}
                   </div>
 
                   <div>
@@ -131,18 +146,13 @@ const RequestConfirmation = () => {
                     <p>{requestData.date}</p>
                   </div>
                 </div>
-
-                {requestData.additionalInfo?.trim() && (
-                  <div className={styles.detail}>
-                    <FileText size={20} aria-hidden="true" />
-
-                    <div>
-                      <h3>Información adicional</h3>
-                      <p>{requestData.additionalInfo}</p>
-                    </div>
-                  </div>
-                )}
               </section>
+
+              {error && (
+                <p role="alert" className={styles.error}>
+                  {error}
+                </p>
+              )}
 
               <div className={styles.notice}>
                 Al enviar la solicitud, el prestador podrá revisar los detalles
@@ -155,6 +165,7 @@ const RequestConfirmation = () => {
                   type="button"
                   className={styles.secondaryButton}
                   onClick={handleBack}
+                  disabled={loading}
                 >
                   <ArrowLeft size={18} aria-hidden="true" />
                   Volver
@@ -164,9 +175,10 @@ const RequestConfirmation = () => {
                   type="button"
                   className={styles.primaryButton}
                   onClick={handleSubmit}
+                  disabled={loading}
                 >
                   <Send size={18} aria-hidden="true" />
-                  Enviar solicitud
+                  {loading ? "Enviando..." : "Enviar solicitud"}
                 </button>
               </div>
             </div>

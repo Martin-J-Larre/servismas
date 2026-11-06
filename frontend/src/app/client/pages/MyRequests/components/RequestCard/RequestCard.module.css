@@ -258,6 +258,41 @@
   outline-offset: 2px;
 }
 
+.summaryCard {
+  display: flex;
+  min-height: 70px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  padding: 12px;
+  background-color: #ffffff;
+  border: 1px solid #dce5e0;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgb(15 23 42 / 3%);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.summaryCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgb(15 23 42 / 7%);
+}
+
+.summaryActive {
+  border-color: #16845b;
+  box-shadow: 0 0 0 2px rgb(22 132 91 / 12%);
+}
+
+.summaryCard:focus-visible {
+  outline: 2px solid #16845b;
+  outline-offset: 3px;
+}
+
 @media (max-width: 420px) {
   .dates {
     grid-template-columns: 1fr;

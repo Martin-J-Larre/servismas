@@ -11,9 +11,7 @@ const RequestSuccess = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const provider = providers.find(
-    (item) => String(item.id) === String(id)
-  );
+  const provider = providers.find((item) => String(item.id) === String(id));
 
   const requestData = location.state?.requestData;
 
@@ -65,8 +63,8 @@ const RequestSuccess = () => {
 
           <p className={styles.description}>
             Tu solicitud fue enviada correctamente a{" "}
-            <strong>{provider.name}</strong>. Recibirás una respuesta cuando
-            el prestador acepte la solicitud o proponga cambios.
+            <strong>{provider.name}</strong>. Recibirás una respuesta cuando el
+            prestador acepte la solicitud o proponga cambios.
           </p>
 
           <div className={styles.providerCard}>
@@ -101,9 +99,9 @@ const RequestSuccess = () => {
             <button
               type="button"
               className={styles.secondaryButton}
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/app/cliente/mis-solicitudes")}
             >
-              Ir al inicio
+              Ir a mis solicitudes
             </button>
 
             <button

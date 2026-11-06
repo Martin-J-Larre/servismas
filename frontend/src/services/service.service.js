@@ -53,3 +53,13 @@ export const searchServices = async ({
 export const getPublicProviderProfile = async (providerId) => {
   return apiRequest(`/providers/${providerId}`);
 };
+
+// Crear una solicitud de servicio
+export const createRequest = async (requestData) => {
+  return apiRequest("/requests", {
+    method: "POST",
+    body: JSON.stringify(requestData),
+  });
+};
+
+export const getMyRequests = async () => apiRequest("/requests/my");

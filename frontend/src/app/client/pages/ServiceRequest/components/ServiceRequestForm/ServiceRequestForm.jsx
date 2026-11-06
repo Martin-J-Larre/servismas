@@ -1,15 +1,30 @@
 import { useState } from "react";
-import { CalendarDays, MapPin, ArrowRight } from "lucide-react";
+import { CalendarDays, ArrowRight } from "lucide-react";
+
+import AddressAutocomplete from "../../../../../components/AddressAutocomplete/AddressAutocomplete";
+
 import styles from "./ServiceRequestForm.module.css";
+
+const formatAddress = (address) => {
+  if (!address) return "";
+
+  const street = [address.street, address.houseNumber]
+    .filter(Boolean)
+    .join(" ");
+
+  return [street, address.locality, address.province]
+    .filter(Boolean)
+    .join(", ");
+};
 
 const ServiceRequestForm = ({ initialData = {}, onContinue }) => {
   const [formData, setFormData] = useState({
     description: initialData.description || "",
     address: initialData.address || "",
     date: initialData.date || "",
-    additionalInfo: initialData.additionalInfo || "",
   });
 
+  const [selectedAddress, setSelectedAddress] = useState(null);
   const [errors, setErrors] = useState({});
 
   const handleChange = (event) => {
@@ -26,6 +41,20 @@ const ServiceRequestForm = ({ initialData = {}, onContinue }) => {
     }));
   };
 
+  const handleAddressChange = (address) => {
+    setSelectedAddress(address);
+
+    setFormData((previousData) => ({
+      ...previousData,
+      address: formatAddress(address),
+    }));
+
+    setErrors((previousErrors) => ({
+      ...previousErrors,
+      address: "",
+    }));
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -35,8 +64,8 @@ const ServiceRequestForm = ({ initialData = {}, onContinue }) => {
       newErrors.description = "Describí el servicio que necesitás.";
     }
 
-    if (!formData.address.trim()) {
-      newErrors.address = "Ingresá la dirección del servicio.";
+    if (!selectedAddress || !formData.address.trim()) {
+      newErrors.address = "Seleccioná una dirección de las sugerencias.";
     }
 
     if (!formData.date) {
@@ -59,6 +88,7 @@ const ServiceRequestForm = ({ initialData = {}, onContinue }) => {
   };
 
   const today = new Date();
+
   const minDate = [
     today.getFullYear(),
     String(today.getMonth() + 1).padStart(2, "0"),
@@ -91,27 +121,13 @@ const ServiceRequestForm = ({ initialData = {}, onContinue }) => {
       </div>
 
       <div className={styles.field}>
-        <label htmlFor="address">Dirección</label>
-
-        <div className={styles.inputWrapper}>
-          <MapPin size={17} aria-hidden="true" />
-
-          <input
-            id="address"
-            name="address"
-            type="text"
-            value={formData.address}
-            onChange={handleChange}
-            placeholder="Ej. Av. Colón 1234, Córdoba"
-            aria-invalid={Boolean(errors.address)}
-            aria-describedby={errors.address ? "address-error" : undefined}
-          />
-        </div>
+        <AddressAutocomplete
+          value={selectedAddress}
+          onChange={handleAddressChange}
+        />
 
         {errors.address && (
-          <span id="address-error" className={styles.error}>
-            {errors.address}
-          </span>
+          <span className={styles.error}>{errors.address}</span>
         )}
       </div>
 
@@ -138,21 +154,6 @@ const ServiceRequestForm = ({ initialData = {}, onContinue }) => {
             {errors.date}
           </span>
         )}
-      </div>
-
-      <div className={styles.field}>
-        <label htmlFor="additionalInfo">
-          Información adicional <span>(opcional)</span>
-        </label>
-
-        <textarea
-          id="additionalInfo"
-          name="additionalInfo"
-          value={formData.additionalInfo}
-          onChange={handleChange}
-          placeholder="Agregá cualquier detalle relevante para el prestador..."
-          rows={3}
-        />
       </div>
 
       <button type="submit" className={styles.submitButton}>

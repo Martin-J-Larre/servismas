@@ -24,7 +24,9 @@ export const createRequest = async ({
     );
 
     if (services.length === 0) {
-      throw new Error("El servicio seleccionado no pertenece al prestador indicado.");
+      throw new Error(
+        "El servicio seleccionado no pertenece al prestador indicado.",
+      );
     }
 
     // Registrar la solicitud
@@ -41,14 +43,7 @@ export const createRequest = async ({
         id_servicio
       )
       VALUES (?, ?, ?, 'pendiente', NULL, NULL, ?, ?, ?)`,
-      [
-        description,
-        address,
-        date,
-        clientId,
-        providerId,
-        serviceId,
-      ],
+      [description, address, date, clientId, providerId, serviceId],
     );
 
     await connection.commit();
@@ -68,4 +63,49 @@ export const createRequest = async ({
   } finally {
     connection.release();
   }
+};
+
+// Obtener las solicitudes de un cliente
+export const getMyRequests = async (clientId) => {
+  const [requests] = await pool.execute(
+    `SELECT
+      s.id_solicitud AS id,
+      s.informacion_servicio AS description,
+      s.direccion AS address,
+      s.fecha_realizacion AS serviceDate,
+      s.fecha_solicitud AS requestDate,
+      s.estado AS status,
+      s.costo_visita_presupuesto AS visitCost,
+      s.precio_final_acordado AS agreedPrice,
+
+      s.id_usuario_prestador AS providerId,
+      s.id_servicio AS serviceId,
+
+      CONCAT(u.nombre, ' ', u.apellido) AS providerName,
+
+      sv.nombre AS serviceName,
+      c.nombre AS category,
+      ts.nombre AS specialty
+
+    FROM solicitud s
+
+    INNER JOIN usuario u
+      ON s.id_usuario_prestador = u.id_usuario
+
+    INNER JOIN servicio sv
+      ON s.id_servicio = sv.id_servicio
+
+    INNER JOIN categoria c
+      ON sv.id_categoria = c.id_categoria
+
+    INNER JOIN tipo_servicio ts
+      ON c.id_tipo_servicio = ts.id_tipo_servicio
+
+    WHERE s.id_usuario_cliente = ?
+
+    ORDER BY s.fecha_solicitud DESC`,
+    [clientId],
+  );
+
+  return requests;
 };

@@ -67,6 +67,38 @@
   background-color: #f9fafb;
 }
 
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 24px 32px 0;
+  padding: 8px 0;
+  border: none;
+  background: transparent;
+  color: #526358;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.backButton:hover {
+  color: #16804a;
+}
+
+.backButton:focus-visible {
+  outline: 2px solid #16804a;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+@media (max-width: 600px) {
+  .backButton {
+    margin: 20px 20px 0;
+  }
+}
+
 @media (max-width: 560px) {
   .page {
     padding: 24px 14px 36px;

@@ -1,93 +1,102 @@
-import { useMemo, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Search, ClipboardList } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ClipboardList } from "lucide-react";
 
 import AppHeader from "../../../components/AppHeader/AppHeader";
 import RequestCard from "./components/RequestCard/RequestCard";
+
+import { getMyRequests } from "../../../../services/service.service";
 import styles from "./MyRequests.module.css";
 
-const mockRequests = [
-  {
-    id: 1,
-    providerName: "Juan Pérez",
-    specialty: "Plomería",
-    category: "Plomería",
-    serviceName: "Reparación de pérdida de agua",
-    requestDate: "25 de septiembre de 2026",
-    serviceDate: "2 de octubre de 2026",
-    location: "Av. Colón 1234, Córdoba",
-    description: "Reparación de pérdida de agua en el baño principal.",
-    status: "Aceptada",
-  },
-  {
-    id: 2,
-    providerName: "Sofía Ramírez",
-    specialty: "Limpieza del hogar",
-    category: "Limpieza",
-    serviceName: "Limpieza profunda del hogar",
-    requestDate: "30 de septiembre de 2026",
-    serviceDate: "",
-    location: "Av. San Juan 456, Córdoba",
-    description: "Limpieza profunda de 3 ambientes y cocina.",
-    status: "Pendiente",
-  },
-  {
-    id: 3,
-    providerName: "Carlos Méndez",
-    specialty: "Pintura interior",
-    category: "Pintura",
-    serviceName: "Pintura de living y comedor",
-    requestDate: "10 de septiembre de 2026",
-    serviceDate: "",
-    location: "Calle Belgrano 789, Córdoba",
-    description: "Pintura de living y comedor, dos manos de látex.",
-    status: "Rechazada",
-  },
-];
+const statusLabels = {
+  pendiente: "Pendiente",
+  aceptada: "Aceptada",
+  rechazada: "Rechazada",
+  completada: "Completada",
+  finalizada: "Completada",
+  cancelada: "Cancelada",
+};
 
-const filters = [
-  { label: "Todas", value: "Todas" },
-  { label: "Pendiente", value: "Pendiente" },
-  { label: "Aceptada", value: "Aceptada" },
-  { label: "Rechazada", value: "Rechazada" },
-];
+const formatDate = (date) => {
+  if (!date) return "";
+
+  // Evita desplazamientos de fecha al interpretar valores YYYY-MM-DD.
+  if (typeof date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(date)) {
+    const [year, month, day] = date.split("-").map(Number);
+    return new Date(year, month - 1, day).toLocaleDateString("es-AR", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+  }
+
+  return new Date(date).toLocaleDateString("es-AR", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+};
 
 const MyRequests = () => {
   const navigate = useNavigate();
 
+  const [requests, setRequests] = useState([]);
   const [activeFilter, setActiveFilter] = useState("Todas");
-  const [searchTerm, setSearchTerm] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  const filteredRequests = useMemo(() => {
-    return mockRequests.filter((request) => {
-      const matchesStatus =
-        activeFilter === "Todas" || request.status === activeFilter;
+  useEffect(() => {
+    const fetchRequests = async () => {
+      try {
+        setIsLoading(true);
+        setError("");
 
-      const normalizedSearch = searchTerm.trim().toLowerCase();
+        const data = await getMyRequests();
 
-      const matchesSearch = [
-        request.providerName,
-        request.specialty,
-        request.serviceName,
-        request.location,
-      ].some((value) => value.toLowerCase().includes(normalizedSearch));
+        const formattedRequests = (data.requests ?? []).map((request) => ({
+          ...request,
+          providerName: request.providerName ?? "Prestador",
+          specialty: request.specialty ?? request.category ?? "",
+          category: request.category ?? "",
+          requestDate: formatDate(request.requestDate),
+          serviceDate: formatDate(request.serviceDate),
+          location: request.address ?? "",
+          description: request.description ?? "",
+          status: statusLabels[request.status?.toLowerCase()] ?? request.status,
+        }));
 
-      return matchesStatus && matchesSearch;
-    });
-  }, [activeFilter, searchTerm]);
+        setRequests(formattedRequests);
+      } catch (error) {
+        console.error("Error al obtener las solicitudes:", error);
+        setError(error.message || "No se pudieron cargar las solicitudes.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchRequests();
+  }, []);
 
   const counts = useMemo(
     () => ({
-      total: mockRequests.length,
-      pending: mockRequests.filter((request) => request.status === "Pendiente")
+      total: requests.length,
+      pending: requests.filter((request) => request.status === "Pendiente")
         .length,
-      accepted: mockRequests.filter((request) => request.status === "Aceptada")
+      accepted: requests.filter((request) => request.status === "Aceptada")
         .length,
-      rejected: mockRequests.filter((request) => request.status === "Rechazada")
+      rejected: requests.filter((request) => request.status === "Rechazada")
         .length,
     }),
-    [],
+    [requests],
   );
+
+  const filteredRequests = useMemo(() => {
+    if (activeFilter === "Todas") {
+      return requests;
+    }
+
+    return requests.filter((request) => request.status === activeFilter);
+  }, [requests, activeFilter]);
 
   const handleViewDetails = (request) => {
     console.log("Ver solicitud:", request);
@@ -116,79 +125,76 @@ const MyRequests = () => {
                 Consultá el estado de tus solicitudes de servicio.
               </p>
             </div>
-
-            <Link to="/buscar-servicios" className={styles.newSearchButton}>
-              <Search size={14} />
-              Nueva búsqueda
-            </Link>
           </header>
 
           <section
             className={styles.summary}
             aria-label="Resumen de solicitudes"
           >
-            <article className={`${styles.summaryCard} ${styles.totalCard}`}>
+            <button
+              type="button"
+              className={`${styles.summaryCard} ${styles.totalCard} ${
+                activeFilter === "Todas" ? styles.summaryActive : ""
+              }`}
+              onClick={() => setActiveFilter("Todas")}
+              aria-pressed={activeFilter === "Todas"}
+              disabled={isLoading}
+            >
               <strong>{counts.total}</strong>
               <span>Total</span>
-            </article>
+            </button>
 
-            <article className={`${styles.summaryCard} ${styles.pendingCard}`}>
+            <button
+              type="button"
+              className={`${styles.summaryCard} ${styles.pendingCard} ${
+                activeFilter === "Pendiente" ? styles.summaryActive : ""
+              }`}
+              onClick={() => setActiveFilter("Pendiente")}
+              aria-pressed={activeFilter === "Pendiente"}
+              disabled={isLoading}
+            >
               <strong>{counts.pending}</strong>
               <span>Pendientes</span>
-            </article>
+            </button>
 
-            <article className={`${styles.summaryCard} ${styles.acceptedCard}`}>
+            <button
+              type="button"
+              className={`${styles.summaryCard} ${styles.acceptedCard} ${
+                activeFilter === "Aceptada" ? styles.summaryActive : ""
+              }`}
+              onClick={() => setActiveFilter("Aceptada")}
+              aria-pressed={activeFilter === "Aceptada"}
+              disabled={isLoading}
+            >
               <strong>{counts.accepted}</strong>
               <span>Aceptadas</span>
-            </article>
+            </button>
 
-            <article className={`${styles.summaryCard} ${styles.rejectedCard}`}>
+            <button
+              type="button"
+              className={`${styles.summaryCard} ${styles.rejectedCard} ${
+                activeFilter === "Rechazada" ? styles.summaryActive : ""
+              }`}
+              onClick={() => setActiveFilter("Rechazada")}
+              aria-pressed={activeFilter === "Rechazada"}
+              disabled={isLoading}
+            >
               <strong>{counts.rejected}</strong>
               <span>Rechazadas</span>
-            </article>
+            </button>
           </section>
 
           <section className={styles.requestsSection}>
-            <div className={styles.toolbar}>
-              <div className={styles.filters} aria-label="Filtrar solicitudes">
-                {filters.map((filter) => {
-                  const count =
-                    filter.value === "Todas"
-                      ? counts.total
-                      : mockRequests.filter(
-                          (request) => request.status === filter.value,
-                        ).length;
-
-                  return (
-                    <button
-                      key={filter.value}
-                      type="button"
-                      className={`${styles.filterButton} ${
-                        activeFilter === filter.value ? styles.filterActive : ""
-                      }`}
-                      onClick={() => setActiveFilter(filter.value)}
-                      aria-pressed={activeFilter === filter.value}
-                    >
-                      {filter.label}
-                      <span className={styles.filterCount}>{count}</span>
-                    </button>
-                  );
-                })}
+            {isLoading ? (
+              <div className={styles.emptyState}>
+                <p>Cargando tus solicitudes...</p>
               </div>
-            </div>
-
-            <label className={styles.searchBox}>
-              <Search size={15} />
-              <input
-                type="search"
-                placeholder="Buscar solicitud..."
-                value={searchTerm}
-                onChange={(event) => setSearchTerm(event.target.value)}
-                aria-label="Buscar solicitudes"
-              />
-            </label>
-
-            {filteredRequests.length > 0 ? (
+            ) : error ? (
+              <div className={styles.emptyState}>
+                <h2>No pudimos cargar tus solicitudes</h2>
+                <p>{error}</p>
+              </div>
+            ) : filteredRequests.length > 0 ? (
               <div className={styles.requestGrid}>
                 {filteredRequests.map((request) => (
                   <RequestCard
@@ -203,19 +209,24 @@ const MyRequests = () => {
             ) : (
               <div className={styles.emptyState}>
                 <ClipboardList size={28} />
-                <h2>No encontramos solicitudes</h2>
+                <h2>
+                  {requests.length === 0
+                    ? "Todavía no tenés solicitudes"
+                    : "No hay solicitudes en esta categoría"}
+                </h2>
                 <p>
-                  Probá cambiar el filtro o utilizar otro término de búsqueda.
+                  {requests.length === 0
+                    ? "Cuando solicites un servicio, aparecerá acá."
+                    : "Probá seleccionando otra categoría."}
                 </p>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveFilter("Todas");
-                    setSearchTerm("");
-                  }}
-                >
-                  Limpiar filtros
-                </button>
+                {activeFilter !== "Todas" && (
+                  <button
+                    type="button"
+                    onClick={() => setActiveFilter("Todas")}
+                  >
+                    Ver todas las solicitudes
+                  </button>
+                )}
               </div>
             )}
           </section>
