@@ -5,6 +5,7 @@ import authRoutes from "./routes/auth.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import providerRoutes from "./routes/provider.routes.js";
 import serviceRoutes from "./routes/service.routes.js";
+import requestRoutes from "./routes/request.routes.js";
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/providers", providerRoutes);
 app.use("/api/services", serviceRoutes);
+app.use("/api/requests", requestRoutes);
 
 // Ruta de prueba
 app.get("/api/health", (req, res) => {
