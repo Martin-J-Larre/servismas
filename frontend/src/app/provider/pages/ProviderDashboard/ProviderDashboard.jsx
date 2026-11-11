@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useAuth } from "../../../../app/context/AuthContext";
+import { useAuth } from "../../../hooks/useAuth";
 
 import styles from "./ProviderDashboard.module.css";
 

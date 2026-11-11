@@ -1,12 +1,8 @@
+import { createContext, useState } from "react";
 
-import { createContext, useContext, useState } from "react";
+import { loginUser, registerUser } from "../../services/auth.service";
 
-import {
-  loginUser,
-  registerUser,
-} from "../../services/auth.service";
-
-const AuthContext = createContext(null);
+export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   // Recuperar sesión almacenada
@@ -76,15 +72,4 @@ export const AuthProvider = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
-};
-
-// Hook personalizado
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-
-  if (!context) {
-    throw new Error("useAuth debe utilizarse dentro de un AuthProvider.");
-  }
-
-  return context;
 };

@@ -9,13 +9,14 @@ import {
   accountTypeSchema,
 } from "./validation/registerSchema";
 
+import AuthHeader from "../../components/AuthHeader/AuthHeader";
 import RegisterHeader from "./components/RegisterHeader/RegisterHeader";
 import PersonalDataForm from "./components/PersonalDataForm/PersonalDataForm";
 import AccountTypeSelector from "./components/AccountTypeSelector/AccountTypeSelector";
 
 import styles from "./Register.module.css";
 
-import { useAuth } from "../../../app/context/AuthContext";
+import { useAuth } from "../../../app/hooks/useAuth";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -83,18 +84,7 @@ const Register = () => {
 
   return (
     <main className={styles.registerPage}>
-      <header className={styles.topBar}>
-        <a href="/" className={styles.brand} aria-label="ServisMás - Inicio">
-          <span className={styles.brandIcon}>⌂</span>
-          <span>
-            Servis<span>Más</span>
-          </span>
-        </a>
-
-        <a href="/" className={styles.backToHome}>
-          ← Volver al inicio
-        </a>
-      </header>
+      <AuthHeader />
 
       <section className={styles.registerContent}>
         <RegisterHeader step={step} />

@@ -2,22 +2,14 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Eye,
-  EyeOff,
-  Mail,
-  Lock,
-  House,
-  ArrowLeft,
-  ArrowRight,
-} from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, ArrowRight } from "lucide-react";
 import { toast } from "react-toastify";
 
 import styles from "./Login.module.css";
+import AuthHeader from "../../components/AuthHeader/AuthHeader";
 
 import { loginSchema } from "./validation/loginSchema";
-import { useAuth } from "../../../app/context/AuthContext";
-// import { getCurrentUser } from "../../../services/auth.service";
+import { useAuth } from "../../../app/hooks/useAuth";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -38,17 +30,6 @@ const Login = () => {
       password: "",
     },
   });
-
-  //TODO: Para un test, Borrar cuando se compruebe que funciona el login con el backend
-  // const handleTestAuth = async () => {
-  //   try {
-  //     const response = await getCurrentUser();
-
-  //     console.log("Usuario autenticado:", response);
-  //   } catch (error) {
-  //     console.error("Error de autenticación:", error.message);
-  //   }
-  // };
 
   const handleLoginSubmit = async (data) => {
     try {
@@ -77,22 +58,7 @@ const Login = () => {
 
   return (
     <main className={styles.loginPage}>
-      <header className={styles.topBar}>
-        <Link to="/" className={styles.brand} aria-label="ServisMás - Inicio">
-          <span className={styles.brandIcon}>
-            <House size={15} aria-hidden="true" />
-          </span>
-
-          <span>
-            Servis<span className={styles.brandAccent}>Más</span>
-          </span>
-        </Link>
-
-        <Link to="/" className={styles.backToHome}>
-          <ArrowLeft size={12} aria-hidden="true" />
-          Volver al inicio
-        </Link>
-      </header>
+      <AuthHeader />
 
       <section className={styles.loginContent}>
         <div className={styles.loginCard}>
