@@ -15,10 +15,12 @@ import AccountTypeSelector from "./components/AccountTypeSelector/AccountTypeSel
 
 import styles from "./Register.module.css";
 
-import { registerUser } from "../../../services/auth.service";
+import { useAuth } from "../../../app/context/AuthContext";
 
 const Register = () => {
   const navigate = useNavigate();
+  const { register: registerAccount } = useAuth();
+
   const [step, setStep] = useState(1);
   const [personalData, setPersonalData] = useState(null);
   const [accountType, setAccountType] = useState("client");
@@ -58,15 +60,16 @@ const Register = () => {
     };
 
     try {
-      await registerUser(registrationData);
+      // Crear cuenta e iniciar sesión automáticamente
+      const user = await registerAccount(registrationData);
 
-      toast.success(
-        "Tu cuenta se creó correctamente. Ahora podés iniciar sesión.",
-      );
+      toast.success("¡Tu cuenta se creó correctamente!");
 
-      setTimeout(() => {
-        navigate("/login");
-      }, 1000);
+      // Redirigir según el tipo de cuenta
+      const redirectPath =
+        user.accountType === "provider" ? "/app/prestador" : "/app/cliente";
+
+      navigate(redirectPath, { replace: true });
     } catch (error) {
       toast.error(
         error.message || "No se pudo crear la cuenta. Intentá nuevamente.",

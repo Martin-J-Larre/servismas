@@ -1,6 +1,10 @@
+
 import { createContext, useContext, useState } from "react";
 
-import { loginUser } from "../../services/auth.service";
+import {
+  loginUser,
+  registerUser,
+} from "../../services/auth.service";
 
 const AuthContext = createContext(null);
 
@@ -24,10 +28,8 @@ export const AuthProvider = ({ children }) => {
   // Verificar si existe una sesión
   const isAuthenticated = Boolean(token && user);
 
-  // Iniciar sesión
-  const login = async (credentials) => {
-    const response = await loginUser(credentials);
-
+  // Guardar sesión
+  const saveSession = (response) => {
     localStorage.setItem("token", response.token);
     localStorage.setItem("user", JSON.stringify(response.user));
 
@@ -35,6 +37,20 @@ export const AuthProvider = ({ children }) => {
     setUser(response.user);
 
     return response.user;
+  };
+
+  // Iniciar sesión
+  const login = async (credentials) => {
+    const response = await loginUser(credentials);
+
+    return saveSession(response);
+  };
+
+  // Registrar usuario e iniciar sesión automáticamente
+  const register = async (userData) => {
+    const response = await registerUser(userData);
+
+    return saveSession(response);
   };
 
   // Cerrar sesión
@@ -53,6 +69,7 @@ export const AuthProvider = ({ children }) => {
         token,
         isAuthenticated,
         login,
+        register,
         logout,
       }}
     >
@@ -61,7 +78,7 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// Hook personalizado // TODO: Hacer una carpeta hooks y poner los custom hooks ahí
+// Hook personalizado
 export const useAuth = () => {
   const context = useContext(AuthContext);
 

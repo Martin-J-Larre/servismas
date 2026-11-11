@@ -23,7 +23,12 @@ export const register = async (req, res) => {
       });
     }
 
-    // 3. Comprobar si el email ya está registrado
+    // 3. Comprobar configuración JWT antes de crear el usuario
+    if (!process.env.JWT_SECRET) {
+      throw new Error("JWT_SECRET no está configurado.");
+    }
+
+    // 4. Comprobar si el email ya está registrado
     const [existingUsers] = await pool.execute(
       "SELECT id_usuario FROM usuario WHERE email = ?",
       [email],
@@ -35,10 +40,10 @@ export const register = async (req, res) => {
       });
     }
 
-    // 4. Encriptar contraseña
+    // 5. Encriptar contraseña
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // 5. Crear usuario y perfil (cliente o prestador) en la base de datos metdodo createUser
+    // 6. Crear usuario y perfil en la base de datos
     const newUser = await createUser({
       firstName,
       lastName,
@@ -47,10 +52,29 @@ export const register = async (req, res) => {
       accountType,
     });
 
-    // 6. Responder al frontend
+    // 7. Generar token JWT
+    const token = jwt.sign(
+      {
+        sub: String(newUser.id),
+        accountType: newUser.accountType,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: process.env.JWT_EXPIRES_IN || "1d",
+      },
+    );
+
+    // 8. Responder al frontend
     return res.status(201).json({
       message: "Usuario registrado correctamente.",
-      user: newUser,
+      token,
+      user: {
+        id: newUser.id,
+        firstName,
+        lastName,
+        email,
+        accountType: newUser.accountType,
+      },
     });
   } catch (error) {
     console.error("Error al registrar usuario:", error);
