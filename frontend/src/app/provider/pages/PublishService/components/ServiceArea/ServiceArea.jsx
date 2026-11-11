@@ -30,6 +30,9 @@ const ServiceArea = ({ formData, onChange }) => {
       <div className={styles.content}>
         <div className={styles.field}>
           <AddressAutocomplete
+            mode="coverage"
+            label="Zona donde prestás el servicio"
+            placeholder="Ingresá una localidad y provincia..."
             value={formData.location}
             onChange={(address) => onChange("location", address)}
           />

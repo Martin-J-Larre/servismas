@@ -3,7 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Check, Pencil, Save, X } from "lucide-react";
 import { toast } from "react-toastify";
 
-import { getMyProfile, updateMyProfile } from "../../../../services/auth.service";
+import {
+  getMyProfile,
+  updateMyProfile,
+} from "../../../../services/auth.service";
 
 import AppHeader from "../../../components/AppHeader/AppHeader";
 import AddressAutocomplete from "../../../components/AddressAutocomplete/AddressAutocomplete";
@@ -237,6 +240,8 @@ const ClientProfile = () => {
 
                   <div className={`${styles.formField} ${styles.fullWidth}`}>
                     <AddressAutocomplete
+                      mode="full"
+                      placeholder="Ingresá calle y número..."
                       value={formData.address}
                       onChange={handleAddressChange}
                     />

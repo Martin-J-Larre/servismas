@@ -1,10 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { MapPin, LoaderCircle } from "lucide-react";
 import { searchAddresses } from "../../../services/geocoding.service";
 import styles from "./AddressAutocomplete.module.css";
 
-const formatAddress = (address) => {
+const formatAddress = (address, mode) => {
   if (!address) return "";
+
+  if (mode === "coverage") {
+    return [address.locality, address.province].filter(Boolean).join(", ");
+  }
 
   const street = [address.street, address.houseNumber]
     .filter(Boolean)
@@ -15,8 +19,43 @@ const formatAddress = (address) => {
     .join(", ");
 };
 
-const AddressAutocomplete = ({ value, onChange }) => {
-  const [query, setQuery] = useState(() => formatAddress(value));
+const isValidAddress = (address, mode) => {
+  const hasCoordinates =
+    Number.isFinite(address.latitude) && Number.isFinite(address.longitude);
+
+  const hasLocation =
+    Boolean(address.locality?.trim()) && Boolean(address.province?.trim());
+
+  if (mode === "coverage") {
+    return hasLocation && hasCoordinates;
+  }
+
+  return (
+    Boolean(address.street?.trim()) &&
+    Boolean(address.houseNumber?.trim()) &&
+    hasLocation &&
+    hasCoordinates
+  );
+};
+
+const AddressAutocomplete = ({
+  mode = "full",
+  label,
+  placeholder,
+  value,
+  onChange,
+}) => {
+  const inputId = useId();
+
+  const defaultLabel =
+    mode === "coverage" ? "Zona donde prestás el servicio" : "Dirección";
+
+  const defaultPlaceholder =
+    mode === "coverage"
+      ? "Ingresá una localidad o provincia..."
+      : "Ingresá calle y número...";
+
+  const [query, setQuery] = useState(() => formatAddress(value, mode));
   const [suggestions, setSuggestions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -24,10 +63,10 @@ const AddressAutocomplete = ({ value, onChange }) => {
 
   useEffect(() => {
     if (value) {
-      setQuery(formatAddress(value));
+      setQuery(formatAddress(value, mode));
       setIsSelected(true);
     }
-  }, [value]);
+  }, [value, mode]);
 
   useEffect(() => {
     if (query.trim().length < 3 || isSelected) {
@@ -43,10 +82,11 @@ const AddressAutocomplete = ({ value, onChange }) => {
 
         const results = await searchAddresses(query);
 
-        setSuggestions(results);
+        setSuggestions(
+          results.filter((address) => isValidAddress(address, mode)),
+        );
       } catch (err) {
         console.error("Error al consultar Photon:", err);
-
         setSuggestions([]);
         setError("No se pudieron buscar las ubicaciones.");
       } finally {
@@ -55,23 +95,21 @@ const AddressAutocomplete = ({ value, onChange }) => {
     }, 400);
 
     return () => clearTimeout(timeoutId);
-  }, [query, isSelected]);
+  }, [query, isSelected, mode]);
 
   const handleInputChange = (event) => {
     setQuery(event.target.value);
     setIsSelected(false);
     setSuggestions([]);
     setError("");
-
     onChange?.(null);
   };
 
   const handleSelectAddress = (address) => {
-    setQuery(formatAddress(address));
+    setQuery(formatAddress(address, mode));
     setIsSelected(true);
     setSuggestions([]);
     setError("");
-
     onChange?.(address);
   };
 
@@ -80,25 +118,24 @@ const AddressAutocomplete = ({ value, onChange }) => {
     setIsSelected(false);
     setSuggestions([]);
     setError("");
-
     onChange?.(null);
   };
 
   return (
     <div className={styles.container}>
-      <label htmlFor="address-search" className={styles.label}>
-        Zona donde prestás el servicio
+      <label htmlFor={inputId} className={styles.label}>
+        {label || defaultLabel}
       </label>
 
       <div className={styles.inputWrapper}>
         <MapPin size={20} className={styles.icon} />
 
         <input
-          id="address-search"
+          id={inputId}
           type="text"
           value={query}
           onChange={handleInputChange}
-          placeholder="Ingresá una localidad o provincia..."
+          placeholder={placeholder || defaultPlaceholder}
           autoComplete="off"
           className={styles.input}
         />
@@ -127,7 +164,7 @@ const AddressAutocomplete = ({ value, onChange }) => {
                 onClick={() => handleSelectAddress(address)}
               >
                 <MapPin size={18} className={styles.suggestionIcon} />
-                <span>{formatAddress(address)}</span>
+                <span>{formatAddress(address, mode)}</span>
               </button>
             </li>
           ))}

@@ -122,6 +122,9 @@ const ServiceRequestForm = ({ initialData = {}, onContinue }) => {
 
       <div className={styles.field}>
         <AddressAutocomplete
+          mode="full"
+          label="Dirección donde se va a realizar el servicio"
+          placeholder="Ingresá calle y número..."
           value={selectedAddress}
           onChange={handleAddressChange}
         />

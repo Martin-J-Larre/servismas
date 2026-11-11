@@ -235,6 +235,9 @@ const ProviderProfileEdit = () => {
 
               <div className={`${styles.formField} ${styles.fullWidth}`}>
                 <AddressAutocomplete
+                  mode="full"
+                  label="Dirección"
+                  placeholder="Ingresá calle y número..."
                   value={formData.address}
                   onChange={handleAddressChange}
                 />
