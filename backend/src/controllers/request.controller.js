@@ -1,4 +1,8 @@
-import { createRequest, getMyRequests } from "../models/request.model.js";
+import {
+  createRequest,
+  getMyRequests,
+  getMyProviderRequests,
+} from "../models/request.model.js";
 
 // Registrar una solicitud de servicio
 export const createRequestController = async (req, res) => {
@@ -80,6 +84,25 @@ export const getMyRequestsController = async (req, res) => {
     });
   } catch (error) {
     console.error("Error al obtener las solicitudes:", error);
+
+    return res.status(500).json({
+      message: "Error interno al obtener las solicitudes.",
+    });
+  }
+};
+
+// Obtener las solicitudes del prestador autenticado
+export const getMyProviderRequestsController = async (req, res) => {
+  try {
+    const providerId = req.user.id;
+
+    const requests = await getMyProviderRequests(providerId);
+
+    return res.status(200).json({
+      requests,
+    });
+  } catch (error) {
+    console.error("Error al obtener las solicitudes del prestador:", error);
 
     return res.status(500).json({
       message: "Error interno al obtener las solicitudes.",

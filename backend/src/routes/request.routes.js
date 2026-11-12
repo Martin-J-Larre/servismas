@@ -1,8 +1,11 @@
 import { Router } from "express";
+
 import {
   createRequestController,
   getMyRequestsController,
+  getMyProviderRequestsController,
 } from "../controllers/request.controller.js";
+
 import { authenticateToken } from "../middlewares/auth.middleware.js";
 import { authorizeRole } from "../middlewares/role.middleware.js";
 
@@ -14,6 +17,14 @@ router.get(
   authenticateToken,
   authorizeRole("client"),
   getMyRequestsController,
+);
+
+// Obtener las solicitudes del prestador autenticado
+router.get(
+  "/provider/my",
+  authenticateToken,
+  authorizeRole("provider"),
+  getMyProviderRequestsController,
 );
 
 // Registrar una solicitud (solo clientes autenticados)

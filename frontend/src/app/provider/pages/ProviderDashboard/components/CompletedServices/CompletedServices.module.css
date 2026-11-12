@@ -162,6 +162,36 @@
   white-space: nowrap;
 }
 
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 36px 20px;
+  border-radius: 10px;
+  background-color: #f7faf8;
+  text-align: center;
+}
+
+.emptyState svg {
+  color: #168d60;
+}
+
+.emptyState p {
+  margin: 0;
+  color: #34443a;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.emptyState span {
+  max-width: 340px;
+  color: #849087;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
 @media (max-width: 700px) {
   .serviceCard {
     align-items: flex-start;

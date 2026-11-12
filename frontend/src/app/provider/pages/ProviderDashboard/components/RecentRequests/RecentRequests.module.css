@@ -191,6 +191,26 @@
   outline-offset: 3px;
 }
 
+.message,
+.errorMessage {
+  margin: 0;
+  padding: 28px 16px;
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.message {
+  background-color: #f7faf8;
+  color: #849087;
+}
+
+.errorMessage {
+  background-color: #fff5f5;
+  color: #b54747;
+}
+
 @media (max-width: 700px) {
   .requestList {
     grid-template-columns: 1fr;

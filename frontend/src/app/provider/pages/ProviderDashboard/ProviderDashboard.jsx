@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "../../../hooks/useAuth";
+import {
+  getMyServices,
+  getMyProviderRequests,
+} from "../../../../services/service.service";
 
 import styles from "./ProviderDashboard.module.css";
 
@@ -19,6 +23,42 @@ const ProviderDashboard = () => {
 
   const [activeSection, setActiveSection] = useState("published");
 
+  const [stats, setStats] = useState({
+    publishedServices: 0,
+    pendingRequests: 0,
+    completedServices: 0,
+    rating: 4.8,
+    reviewCount: 124,
+  });
+
+  useEffect(() => {
+    const loadDashboardStats = async () => {
+      try {
+        const [servicesResponse, requestsResponse] = await Promise.all([
+          getMyServices(),
+          getMyProviderRequests(),
+        ]);
+
+        const services = servicesResponse.services ?? [];
+        const requests = requestsResponse.requests ?? [];
+
+        const pendingRequests = requests.filter(
+          (request) => request.status === "pendiente",
+        ).length;
+
+        setStats((previous) => ({
+          ...previous,
+          publishedServices: services.length,
+          pendingRequests,
+        }));
+      } catch (error) {
+        console.error("Error al cargar las estadísticas:", error);
+      }
+    };
+
+    loadDashboardStats();
+  }, []);
+
   const handlePublishService = () => {
     navigate("/app/prestador/servicios/nuevo");
   };
@@ -34,11 +74,7 @@ const ProviderDashboard = () => {
         />
 
         <ProviderStats
-          publishedServices={3}
-          pendingRequests={2}
-          completedServices={24}
-          rating={4.8}
-          reviewCount={124}
+          {...stats}
           activeSection={activeSection}
           onSectionChange={setActiveSection}
         />

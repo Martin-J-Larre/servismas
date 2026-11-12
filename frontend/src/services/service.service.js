@@ -61,5 +61,9 @@ export const createRequest = async (requestData) => {
     body: JSON.stringify(requestData),
   });
 };
-
+// Obtener las solicitudes del cliente autenticado
 export const getMyRequests = async () => apiRequest("/requests/my");
+
+// Obtener las solicitudes recibidas por el prestador autenticado
+export const getMyProviderRequests = async () =>
+  apiRequest("/requests/provider/my");
