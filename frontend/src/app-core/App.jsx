@@ -27,12 +27,13 @@ import ProviderDashboard from "../app/provider/pages/ProviderDashboard/ProviderD
 import PublishService from "../app/provider/pages/PublishService/PublishService";
 import ServicePublished from "../app/provider/pages/ServicePublished/ServicePublished";
 import ReceivedRequests from "../app/provider/pages/ReceivedRequests/ReceivedRequests";
-// import ProviderServiceTracking from "../app/provider/pages/ProviderServiceTracking/ProviderServiceTracking";
 import RequestDetails from "../app/provider/pages/RequestDetails/RequestDetails";
 import ServiceManagement from "../app/provider/pages/ServiceManagement/ServiceManagement";
 import ServiceCompleted from "../app/provider/pages/ServiceCompleted/ServiceCompleted";
 import ProviderProfilePage from "../app/provider/pages/ProviderProfile/ProviderProfile";
 import ProviderProfileEdit from "../app/provider/pages/ProviderProfile/pages/ProviderProfileEdit/ProviderProfileEdit";
+import ProviderServiceDetail from "../app/provider/pages/ProviderServiceDetail/ProviderServiceDetail";
+import ProviderServiceEdit from "../app/provider/pages/ProviderServiceEdit/ProviderServiceEdit";
 
 const App = () => {
   return (
@@ -94,11 +95,6 @@ const App = () => {
 
             <Route path="solicitudes" element={<ReceivedRequests />} />
 
-            {/* <Route
-      path="solicitudes/:id/seguimiento"
-      element={<ProviderServiceTracking />}
-    /> */}
-
             <Route path="solicitudes/:id" element={<RequestDetails />} />
 
             <Route path="servicios/:id" element={<ServiceManagement />} />
@@ -106,6 +102,16 @@ const App = () => {
             <Route
               path="servicios/:id/finalizado"
               element={<ServiceCompleted />}
+            />
+
+            <Route
+              path="mis-servicios/:id"
+              element={<ProviderServiceDetail />}
+            />
+
+            <Route
+              path="mis-servicios/:id/editar"
+              element={<ProviderServiceEdit />}
             />
 
             <Route path="mi-perfil">

@@ -1,0 +1,163 @@
+.page {
+  min-height: 100vh;
+  background-color: #f5f8f6;
+  color: #26372e;
+}
+
+.main {
+  width: min(1180px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 30px 0 48px;
+}
+
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #77847b;
+  font-family: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.backButton:hover {
+  color: #168d60;
+}
+
+.backButton span {
+  font-size: 19px;
+  line-height: 1;
+}
+
+.pageHeader {
+  margin: 24px 0 26px;
+}
+
+.eyebrow {
+  display: block;
+  margin-bottom: 7px;
+  color: #168d60;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+}
+
+.pageHeader h1 {
+  margin: 0;
+  color: #24372c;
+  font-size: clamp(25px, 3vw, 32px);
+  font-weight: 700;
+  letter-spacing: -0.8px;
+}
+
+.pageHeader p {
+  margin: 10px 0 0;
+  color: #77847b;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  align-items: start;
+  gap: 24px;
+}
+
+.formSections {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+
+.sidebar {
+  position: sticky;
+  top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.saveButton,
+.cancelButton {
+  width: 100%;
+  min-height: 42px;
+  border-radius: 7px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.saveButton {
+  border: 1px solid #168d60;
+  background-color: #168d60;
+  color: #ffffff;
+}
+
+.saveButton:hover:not(:disabled) {
+  background-color: #11764f;
+}
+
+.saveButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.cancelButton {
+  border: 1px solid #dce5df;
+  background-color: #ffffff;
+  color: #77847b;
+}
+
+.cancelButton:hover {
+  background-color: #f5f8f6;
+  color: #26372e;
+}
+
+.errorMessage {
+  margin: 0;
+  color: #c0392b;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.backButton:focus-visible,
+.saveButton:focus-visible,
+.cancelButton:focus-visible {
+  outline: 2px solid #168d60;
+  outline-offset: 3px;
+}
+
+@media (max-width: 850px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sidebar {
+    position: static;
+  }
+}
+
+@media (max-width: 600px) {
+  .main {
+    width: calc(100% - 32px);
+    padding-top: 24px;
+    padding-bottom: 32px;
+  }
+
+  .pageHeader {
+    margin: 20px 0;
+  }
+}

@@ -15,6 +15,19 @@ export const getMyServices = async () => {
   return apiRequest("/services/my");
 };
 
+// Obtener un servicio publicado por ID
+export const getMyServiceById = async (serviceId) => {
+  return apiRequest(`/services/my/${serviceId}`);
+};
+
+// Actualizar un servicio publicado
+export const updateMyService = async (serviceId, serviceData) => {
+  return apiRequest(`/services/my/${serviceId}`, {
+    method: "PUT",
+    body: JSON.stringify(serviceData),
+  });
+};
+
 // Publicar un servicio
 export const publishService = async (serviceData) => {
   return apiRequest("/services", {

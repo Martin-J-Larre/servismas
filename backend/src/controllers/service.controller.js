@@ -4,6 +4,8 @@ import {
   getCategoriesByType,
   getServicesByProvider,
   searchServices,
+  getServiceById,
+  updateService,
 } from "../models/service.model.js";
 
 const validDays = [
@@ -191,32 +193,37 @@ export const getMyServices = async (req, res) => {
   }
 };
 
-// // Buscar servicios por tipo de servicio
-// export const searchServicesController = async (req, res) => {
-//   try {
-//     const typeId = Number(req.query.typeId);
+// Obtener un servicio publicado por ID
+export const getMyServiceById = async (req, res) => {
+  try {
+    const serviceId = Number(req.params.id);
+    const providerId = req.user.id;
 
-//     // Validar tipo de servicio
-//     if (!Number.isInteger(typeId) || typeId <= 0) {
-//       return res.status(400).json({
-//         message: "El tipo de servicio seleccionado no es válido.",
-//       });
-//     }
+    if (!Number.isInteger(serviceId) || serviceId <= 0) {
+      return res.status(400).json({
+        message: "El servicio seleccionado no es válido.",
+      });
+    }
 
-//     // Buscar servicios
-//     const services = await searchServices(typeId);
+    const service = await getServiceById(serviceId, providerId);
 
-//     return res.status(200).json({
-//       services,
-//     });
-//   } catch (error) {
-//     console.error("Error al buscar servicios:", error);
+    if (!service) {
+      return res.status(404).json({
+        message: "No se encontró el servicio solicitado.",
+      });
+    }
 
-//     return res.status(500).json({
-//       message: "No se pudieron obtener los servicios.",
-//     });
-//   }
-// };
+    return res.status(200).json({
+      service,
+    });
+  } catch (error) {
+    console.error("Error al obtener el servicio:", error);
+
+    return res.status(500).json({
+      message: "No se pudo obtener el servicio.",
+    });
+  }
+};
 
 export const searchServicesController = async (req, res) => {
   try {
@@ -285,6 +292,95 @@ export const searchServicesController = async (req, res) => {
 
     return res.status(500).json({
       message: "No se pudieron obtener los servicios.",
+    });
+  }
+};
+
+
+ // Actualizar un servicio publicado
+export const updateMyService = async (req, res) => {
+  try {
+    const serviceId = Number(req.params.id);
+    const providerId = req.user.id;
+
+    if (!Number.isInteger(serviceId) || serviceId <= 0) {
+      return res.status(400).json({
+        message: "El servicio seleccionado no es válido.",
+      });
+    }
+
+    const {
+      name,
+      description,
+      categoryId,
+      location,
+      availability,
+    } = req.body;
+
+    if (
+      !name?.trim() ||
+      !description?.trim() ||
+      !Number.isInteger(Number(categoryId)) ||
+      Number(categoryId) <= 0
+    ) {
+      return res.status(400).json({
+        message: "Completá correctamente los datos del servicio.",
+      });
+    }
+
+    if (
+      !location ||
+      !location.locality ||
+      !location.province ||
+      !Number.isFinite(Number(location.latitude)) ||
+      !Number.isFinite(Number(location.longitude))
+    ) {
+      return res.status(400).json({
+        message: "Seleccioná una ubicación válida.",
+      });
+    }
+
+    if (
+      !Array.isArray(availability) ||
+      availability.length === 0 ||
+      availability.some(
+        (item) =>
+          !item.day ||
+          !item.start ||
+          !item.end ||
+          item.start >= item.end,
+      )
+    ) {
+      return res.status(400).json({
+        message: "Completá correctamente los horarios de disponibilidad.",
+      });
+    }
+
+    const service = await updateService({
+      serviceId,
+      providerId,
+      name: name.trim(),
+      description: description.trim(),
+      categoryId: Number(categoryId),
+      location,
+      availability,
+    });
+
+    if (!service) {
+      return res.status(404).json({
+        message: "No se encontró el servicio solicitado.",
+      });
+    }
+
+    return res.status(200).json({
+      message: "El servicio se actualizó correctamente.",
+      service,
+    });
+  } catch (error) {
+    console.error("Error al actualizar el servicio:", error);
+
+    return res.status(500).json({
+      message: "No se pudo actualizar el servicio.",
     });
   }
 };

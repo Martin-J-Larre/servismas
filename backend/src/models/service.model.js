@@ -339,3 +339,163 @@ export const searchServices = async ({
     };
   });
 };
+
+// Obtener un servicio por ID perteneciente a un prestador
+export const getServiceById = async (serviceId, providerId) => {
+  const [services] = await pool.execute(
+    `SELECT
+      s.id_servicio AS id,
+      s.nombre AS name,
+      s.descripcion AS description,
+      s.id_categoria AS categoryId,
+      c.nombre AS category,
+      c.id_tipo_servicio AS typeId,
+      ag.ubicacion AS location
+    FROM servicio s
+    INNER JOIN categoria c
+      ON s.id_categoria = c.id_categoria
+    INNER JOIN area_geografica ag
+      ON s.id_area_geografica = ag.id_area_geografica
+    WHERE s.id_servicio = ?
+      AND s.id_usuario_prestador = ?
+    LIMIT 1`,
+    [serviceId, providerId],
+  );
+
+  if (services.length === 0) {
+    return null;
+  }
+
+  const service = services[0];
+
+  let location = service.location;
+
+  try {
+    location = JSON.parse(location);
+  } catch {
+    // Conservar el valor original si no es JSON válido.
+  }
+
+  const [availability] = await pool.execute(
+    `SELECT
+      dia AS day,
+      TIME_FORMAT(hora_inicio, '%H:%i') AS start,
+      TIME_FORMAT(hora_fin, '%H:%i') AS end
+    FROM disponibilidad
+    WHERE id_servicio = ?
+    ORDER BY FIELD(
+      dia,
+      'Lunes',
+      'Martes',
+      'Miércoles',
+      'Jueves',
+      'Viernes',
+      'Sábado',
+      'Domingo'
+    )`,
+    [serviceId],
+  );
+
+  return {
+    ...service,
+    location,
+    availability,
+  };
+};
+
+// Actualizar un servicio publicado por un prestador
+export const updateService = async ({
+  serviceId,
+  providerId,
+  name,
+  description,
+  categoryId,
+  location,
+  availability,
+}) => {
+  const connection = await pool.getConnection();
+
+  try {
+    await connection.beginTransaction();
+
+    // Verificar que el servicio pertenezca al prestador
+    const [services] = await connection.execute(
+      `SELECT id_area_geografica
+       FROM servicio
+       WHERE id_servicio = ?
+         AND id_usuario_prestador = ?
+       LIMIT 1`,
+      [serviceId, providerId],
+    );
+
+    if (services.length === 0) {
+      await connection.rollback();
+      return null;
+    }
+
+    const areaId = services[0].id_area_geografica;
+
+    // Actualizar los datos principales del servicio
+    await connection.execute(
+      `UPDATE servicio
+       SET nombre = ?,
+           descripcion = ?,
+           id_categoria = ?
+       WHERE id_servicio = ?
+         AND id_usuario_prestador = ?`,
+      [name, description, categoryId, serviceId, providerId],
+    );
+
+    // Actualizar la ubicación
+    await connection.execute(
+      `UPDATE area_geografica
+       SET ubicacion = ?
+       WHERE id_area_geografica = ?`,
+      [JSON.stringify(location), areaId],
+    );
+
+    // Reemplazar la disponibilidad existente
+    await connection.execute(
+      `DELETE FROM disponibilidad
+       WHERE id_servicio = ?`,
+      [serviceId],
+    );
+
+    if (availability.length > 0) {
+      const values = availability.map(({ day, start, end }) => [
+        day,
+        start,
+        end,
+        serviceId,
+      ]);
+
+      await connection.query(
+        `INSERT INTO disponibilidad (
+          dia,
+          hora_inicio,
+          hora_fin,
+          id_servicio
+        )
+        VALUES ?`,
+        [values],
+      );
+    }
+
+    await connection.commit();
+
+    return {
+      id: serviceId,
+      name,
+    };
+  } catch (error) {
+    try {
+      await connection.rollback();
+    } catch (rollbackError) {
+      console.error("Error al revertir la transacción:", rollbackError);
+    }
+
+    throw error;
+  } finally {
+    connection.release();
+  }
+};

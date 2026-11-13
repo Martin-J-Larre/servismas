@@ -63,6 +63,14 @@ const ProviderDashboard = () => {
     navigate("/app/prestador/servicios/nuevo");
   };
 
+  const handleViewService = (serviceId) => {
+    navigate(`/app/prestador/mis-servicios/${serviceId}`);
+  };
+
+  const handleEditService = (serviceId) => {
+    navigate(`/app/prestador/mis-servicios/${serviceId}/editar`);
+  };
+
   return (
     <div className={styles.dashboard}>
       <AppHeader />
@@ -80,7 +88,12 @@ const ProviderDashboard = () => {
         />
 
         <div className={styles.content}>
-          {activeSection === "published" && <ProviderServices />}
+          {activeSection === "published" && (
+            <ProviderServices
+              onViewService={handleViewService}
+              onEditService={handleEditService}
+            />
+          )}
 
           {activeSection === "pending" && <RecentRequests />}
 
