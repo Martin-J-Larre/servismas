@@ -162,7 +162,7 @@ const MyServices = () => {
               </p>
             </div>
 
-            <Link to="/buscar-servicios" className={styles.searchButton}>
+            <Link to="/app/cliente/buscar-servicios" className={styles.searchButton}>
               <Search size={17} aria-hidden="true" />
               Buscar servicios
             </Link>
