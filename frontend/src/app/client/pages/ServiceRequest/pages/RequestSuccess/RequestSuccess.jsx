@@ -1,18 +1,15 @@
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Check, MapPin, CalendarDays, ArrowRight } from "lucide-react";
 
 import AppHeader from "../../../../../components/AppHeader/AppHeader";
-import providers from "../../../../../provider/data/providers";
 
 import styles from "./RequestSuccess.module.css";
 
 const RequestSuccess = () => {
-  const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const provider = providers.find((item) => String(item.id) === String(id));
-
+  const provider = location.state?.provider;
   const requestData = location.state?.requestData;
 
   if (!provider || !requestData) {

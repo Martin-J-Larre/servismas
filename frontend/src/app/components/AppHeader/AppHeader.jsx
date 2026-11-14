@@ -45,11 +45,6 @@ const providerMenuItems = [
     icon: UserRound,
   },
   {
-    label: "Mis servicios",
-    to: "/app/prestador/mis-servicios",
-    icon: BriefcaseBusiness,
-  },
-  {
     label: "Solicitudes recibidas",
     to: "/app/prestador/solicitudes",
     icon: ClipboardList,
