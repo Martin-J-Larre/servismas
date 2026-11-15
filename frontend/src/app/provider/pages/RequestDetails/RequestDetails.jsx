@@ -4,7 +4,10 @@ import { ArrowLeft, ClipboardList } from "lucide-react";
 
 import AppHeader from "../../../components/AppHeader/AppHeader";
 
-import { getRequestById, updateRequestStatus } from "../../data/requests";
+import {
+  getProviderRequestById,
+  updateProviderRequestStatus,
+} from "../../../../services/service.service";
 
 import RequestDetailHeader from "./components/RequestDetailHeader/RequestDetailHeader";
 import ClientInformation from "./components/ClientInformation/ClientInformation";
@@ -16,19 +19,79 @@ import RequestStatusMessage from "./components/RequestStatusMessage/RequestStatu
 
 import styles from "./RequestDetails.module.css";
 
+const mapRequestData = (data) => {
+  const statusMap = {
+    pendiente: "pending",
+    aceptada: "accepted",
+    rechazada: "rejected",
+  };
+
+  const clientName = data.clientName || "Cliente";
+
+  return {
+    ...data,
+    id: data.id,
+    clientName,
+    initials: clientName
+      .split(" ")
+      .map((word) => word[0])
+      .slice(0, 2)
+      .join("")
+      .toUpperCase(),
+    service: data.serviceName,
+    category: data.category,
+    date: data.serviceDate
+      ? new Date(`${data.serviceDate}T00:00:00`).toLocaleDateString("es-AR")
+      : "A coordinar",
+    time: "A coordinar",
+    status: statusMap[data.status] || data.status,
+    additionalInfo: "",
+  };
+};
+
 const RequestDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [request, setRequest] = useState(() => getRequestById(id));
+  const [request, setRequest] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
   const [selectedAction, setSelectedAction] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [saveError, setSaveError] = useState("");
 
   useEffect(() => {
-    setRequest(getRequestById(id));
+    let isActive = true;
+
+    const fetchRequest = async () => {
+      try {
+        setIsLoading(true);
+        setLoadError("");
+
+        const response = await getProviderRequestById(id);
+
+        if (isActive) {
+          setRequest(mapRequestData(response.request));
+        }
+      } catch (error) {
+        if (isActive) {
+          setRequest(null);
+          setLoadError(error.message || "No se pudo obtener la solicitud.");
+        }
+      } finally {
+        if (isActive) {
+          setIsLoading(false);
+        }
+      }
+    };
+
     setSelectedAction(null);
     setSaveError("");
+    fetchRequest();
+
+    return () => {
+      isActive = false;
+    };
   }, [id]);
 
   const handleOpenModal = (action) => {
@@ -41,39 +104,50 @@ const RequestDetails = () => {
     setSelectedAction(null);
   };
 
-  const handleConfirmAction = () => {
+  const handleConfirmAction = async () => {
     if (!request || !selectedAction || isProcessing) return;
 
     setIsProcessing(true);
     setSaveError("");
 
-    const updatedRequest = updateRequestStatus(
-      request.id,
-      selectedAction === "accept" ? "accepted" : "rejected",
-    );
+    const newStatus = selectedAction === "accept" ? "aceptada" : "rechazada";
 
-    if (!updatedRequest) {
-      setSaveError("No se pudo guardar el cambio. Intentá nuevamente.");
+    try {
+      await updateProviderRequestStatus(request.id, newStatus);
+
+      setRequest((previousRequest) => ({
+        ...previousRequest,
+        status: newStatus === "aceptada" ? "accepted" : "rejected",
+      }));
+
+      setSelectedAction(null);
+    } catch (error) {
+      setSaveError(
+        error.message || "No se pudo guardar el cambio. Intentá nuevamente.",
+      );
+    } finally {
       setIsProcessing(false);
-      return;
     }
-
-    setRequest(updatedRequest);
-    setSelectedAction(null);
-    setIsProcessing(false);
   };
 
   const handleBack = () => {
     navigate("/app/prestador/solicitudes");
   };
 
-  // const handleViewTracking = () => {
-  //   navigate(`/app/prestador/solicitudes/${request.id}/seguimiento`);
-  // };
-
   const handleCoordinateService = () => {
-    navigate(`/app/prestador/servicios/${request.id}`);
+    navigate(`/app/prestador/servicios/${request.serviceId}`);
   };
+
+  if (isLoading) {
+    return (
+      <div className={styles.page}>
+        <AppHeader />
+        <main className={styles.main}>
+          <p>Cargando solicitud...</p>
+        </main>
+      </div>
+    );
+  }
 
   if (!request) {
     return (
@@ -89,8 +163,8 @@ const RequestDetails = () => {
             <h1>Solicitud no encontrada</h1>
 
             <p>
-              No encontramos la solicitud que estás buscando. Puede que ya no
-              exista o que el enlace no sea válido.
+              {loadError ||
+                "No encontramos la solicitud que estás buscando. Puede que ya no exista o que el enlace no sea válido."}
             </p>
 
             <button
@@ -123,7 +197,6 @@ const RequestDetails = () => {
           <div className={styles.content}>
             <div className={styles.informationGrid}>
               <ClientInformation request={request} />
-
               <RequestSummary request={request} />
             </div>
 

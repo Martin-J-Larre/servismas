@@ -2,6 +2,8 @@ import {
   createRequest,
   getMyRequests,
   getMyProviderRequests,
+  getProviderRequestById,
+  updateRequestStatus,
 } from "../models/request.model.js";
 
 // Registrar una solicitud de servicio
@@ -106,6 +108,90 @@ export const getMyProviderRequestsController = async (req, res) => {
 
     return res.status(500).json({
       message: "Error interno al obtener las solicitudes.",
+    });
+  }
+};
+
+// Obtener el detalle de una solicitud recibida por el prestador
+export const getProviderRequestByIdController = async (req, res) => {
+  try {
+    const requestId = Number(req.params.id);
+    const providerId = req.user.id;
+
+    if (!Number.isInteger(requestId) || requestId <= 0) {
+      return res.status(400).json({
+        message: "El identificador de la solicitud no es válido.",
+      });
+    }
+
+    const request = await getProviderRequestById(requestId, providerId);
+
+    if (!request) {
+      return res.status(404).json({
+        message: "No se encontró la solicitud solicitada.",
+      });
+    }
+
+    return res.status(200).json({
+      request,
+    });
+  } catch (error) {
+    console.error("Error al obtener el detalle de la solicitud:", error);
+
+    return res.status(500).json({
+      message: "Error interno al obtener la solicitud.",
+    });
+  }
+};
+
+// #####################################################################
+// Status codes --> 200 (Solicitud encontrada y pertenece al prestador)
+//                  400 (Estado inválido)
+//                  404 "al consultar" (Solicitud inexistente o ajena)
+//                  409 (Solicitud ya procesada)
+//                  500 (Error interno)
+// #####################################################################
+
+// Aceptar o rechazar una solicitud recibida
+export const updateRequestStatusController = async (req, res) => {
+  try {
+    const requestId = Number(req.params.id);
+    const providerId = req.user.id;
+    const { status } = req.body;
+
+    if (!Number.isInteger(requestId) || requestId <= 0) {
+      return res.status(400).json({
+        message: "El identificador de la solicitud no es válido.",
+      });
+    }
+
+    if (!["aceptada", "rechazada"].includes(status)) {
+      return res.status(400).json({
+        message: "El estado indicado no es válido.",
+      });
+    }
+
+    const updated = await updateRequestStatus(requestId, providerId, status);
+
+    if (!updated) {
+      return res.status(409).json({
+        message:
+          "No se pudo actualizar la solicitud. Puede que no exista, no te pertenezca o ya haya sido procesada.",
+      });
+    }
+
+    return res.status(200).json({
+      message: "El estado de la solicitud se actualizó correctamente.",
+      request: {
+        id: requestId,
+        status,
+      },
+    });
+  } catch (error) {
+    console.error("Error al actualizar el estado de la solicitud:", error);
+
+    return res.status(500).json({
+      message: "Error interno al actualizar la solicitud.",
     });
   }
 };

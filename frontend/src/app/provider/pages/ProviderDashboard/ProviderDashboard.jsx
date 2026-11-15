@@ -71,6 +71,10 @@ const ProviderDashboard = () => {
     navigate(`/app/prestador/mis-servicios/${serviceId}/editar`);
   };
 
+  const handleViewRequest = (requestId) => {
+    navigate(`/app/prestador/solicitudes/${requestId}`);
+  };
+
   return (
     <div className={styles.dashboard}>
       <AppHeader />
@@ -95,7 +99,9 @@ const ProviderDashboard = () => {
             />
           )}
 
-          {activeSection === "pending" && <RecentRequests />}
+          {activeSection === "pending" && (
+            <RecentRequests onViewRequest={handleViewRequest} />
+          )}
 
           {activeSection === "completed" && <CompletedServices />}
 

@@ -17,7 +17,12 @@ const ReceivedRequests = () => {
   const [requests, setRequests] = useState(() => getRequests());
   const [activeFilter, setActiveFilter] = useState("all");
 
+  // const handleViewRequest = (id) => {
+  //   navigate(`/app/prestador/solicitudes/${id}`);
+  // };
+
   const handleViewRequest = (id) => {
+    console.log("Solicitud seleccionada:", id);
     navigate(`/app/prestador/solicitudes/${id}`);
   };
 

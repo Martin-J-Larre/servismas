@@ -80,3 +80,14 @@ export const getMyRequests = async () => apiRequest("/requests/my");
 // Obtener las solicitudes recibidas por el prestador autenticado
 export const getMyProviderRequests = async () =>
   apiRequest("/requests/provider/my");
+
+// Obtener el detalle de una solicitud recibida por el prestador
+export const getProviderRequestById = async (id) =>
+  apiRequest(`/requests/provider/${id}`);
+
+// Actualizar el estado de una solicitud recibida por el prestador
+export const updateProviderRequestStatus = async (id, status) =>
+  apiRequest(`/requests/provider/${id}/status`, {
+    method: "PATCH",
+    body: JSON.stringify({ status }),
+  });

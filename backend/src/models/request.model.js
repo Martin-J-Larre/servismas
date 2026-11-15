@@ -154,3 +154,66 @@ export const getMyProviderRequests = async (providerId) => {
 
   return requests;
 };
+
+// Obtener el detalle de una solicitud recibida por el prestador
+export const getProviderRequestById = async (requestId, providerId) => {
+  const [requests] = await pool.execute(
+    `SELECT
+      s.id_solicitud AS id,
+      s.informacion_servicio AS description,
+      s.direccion AS address,
+      s.fecha_realizacion AS serviceDate,
+      s.fecha_solicitud AS requestDate,
+      s.estado AS status,
+      s.costo_visita_presupuesto AS visitCost,
+      s.precio_final_acordado AS agreedPrice,
+
+      s.id_usuario_cliente AS clientId,
+
+      CONCAT(u.nombre, ' ', u.apellido) AS clientName,
+
+      sv.nombre AS serviceName,
+      c.nombre AS category,
+      ts.nombre AS specialty
+
+    FROM solicitud s
+
+    INNER JOIN usuario u
+      ON s.id_usuario_cliente = u.id_usuario
+
+    INNER JOIN servicio sv
+      ON s.id_servicio = sv.id_servicio
+
+    INNER JOIN categoria c
+      ON sv.id_categoria = c.id_categoria
+
+    INNER JOIN tipo_servicio ts
+      ON c.id_tipo_servicio = ts.id_tipo_servicio
+
+    WHERE s.id_solicitud = ?
+    AND s.id_usuario_prestador = ?`,
+    [requestId, providerId],
+  );
+
+  return requests[0] || null;
+};
+
+// Actualizar el estado de una solicitud recibida
+export const updateRequestStatus = async (requestId, providerId, status) => {
+  const allowedStatuses = ["aceptada", "rechazada"];
+
+  if (!allowedStatuses.includes(status)) {
+    throw new Error("El estado indicado no es válido.");
+  }
+
+  const [result] = await pool.execute(
+    `UPDATE solicitud
+     SET estado = ?
+     WHERE id_solicitud = ?
+     AND id_usuario_prestador = ?
+     AND estado = 'pendiente'`,
+    [status, requestId, providerId],
+  );
+
+  return result.affectedRows > 0;
+};
