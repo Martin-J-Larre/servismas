@@ -1,6 +1,7 @@
 import {
   createRequest,
   getMyRequests,
+  getMyRequestById,
   getMyProviderRequests,
   getProviderRequestById,
   updateRequestStatus,
@@ -89,6 +90,38 @@ export const getMyRequestsController = async (req, res) => {
 
     return res.status(500).json({
       message: "Error interno al obtener las solicitudes.",
+    });
+  }
+};
+
+// Obtener el detalle de una solicitud del cliente autenticado
+export const getMyRequestByIdController = async (req, res) => {
+  try {
+    const requestId = Number(req.params.id);
+    const clientId = req.user.id;
+
+    if (!Number.isInteger(requestId) || requestId <= 0) {
+      return res.status(400).json({
+        message: "El identificador de la solicitud no es válido.",
+      });
+    }
+
+    const request = await getMyRequestById(requestId, clientId);
+
+    if (!request) {
+      return res.status(404).json({
+        message: "No se encontró la solicitud solicitada.",
+      });
+    }
+
+    return res.status(200).json({
+      request,
+    });
+  } catch (error) {
+    console.error("Error al obtener el detalle de la solicitud:", error);
+
+    return res.status(500).json({
+      message: "Error interno al obtener la solicitud.",
     });
   }
 };

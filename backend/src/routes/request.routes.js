@@ -3,6 +3,7 @@ import { Router } from "express";
 import {
   createRequestController,
   getMyRequestsController,
+  getMyRequestByIdController,
   getMyProviderRequestsController,
   getProviderRequestByIdController,
   updateRequestStatusController,
@@ -19,6 +20,14 @@ router.get(
   authenticateToken,
   authorizeRole("client"),
   getMyRequestsController,
+);
+
+// Obtener el detalle de una solicitud del cliente autenticado
+router.get(
+  "/my/:id",
+  authenticateToken,
+  authorizeRole("client"),
+  getMyRequestByIdController,
 );
 
 // Obtener las solicitudes recibidas por el prestador autenticado

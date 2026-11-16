@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ClipboardList } from "lucide-react";
+import { ClipboardList, ArrowLeft } from "lucide-react";
 
 import AppHeader from "../../../components/AppHeader/AppHeader";
 import RequestCard from "./components/RequestCard/RequestCard";
@@ -99,7 +99,9 @@ const MyRequests = () => {
   }, [requests, activeFilter]);
 
   const handleViewDetails = (request) => {
-    console.log("Ver solicitud:", request);
+    navigate(`/app/cliente/mis-solicitudes/${request.id}`, {
+      state: { request },
+    });
   };
 
   const handleCoordinate = (request) => {
@@ -118,6 +120,14 @@ const MyRequests = () => {
 
       <main className={styles.page}>
         <div className={styles.container}>
+          <button
+            type="button"
+            className={styles.backLink}
+            onClick={() => navigate("/app/cliente/buscar-servicios")}
+          >
+            <ArrowLeft size={15} />
+            Volver
+          </button>
           <header className={styles.pageHeader}>
             <div>
               <h1 className={styles.title}>Mis solicitudes</h1>

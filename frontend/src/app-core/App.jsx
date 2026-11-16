@@ -21,6 +21,7 @@ import CoordinateService from "../app/client/pages/CoordinateService/CoordinateS
 import TrackingService from "../app/client/pages/TrackingService/TrackingService";
 import FinalizeService from "../app/client/pages/FinalizeService/FinalizeService";
 import RateService from "../app/client/pages/RateService/RateService";
+import ClientRequestDetails from "../app/client/pages/ClientRequestDetails/ClientRequestDetails";
 
 // Páginas del prestador
 import ProviderDashboard from "../app/provider/pages/ProviderDashboard/ProviderDashboard";
@@ -62,6 +63,10 @@ const App = () => {
 
             <Route path="mis-servicios" element={<MyServices />} />
             <Route path="mis-solicitudes" element={<MyRequests />} />
+            <Route
+              path="mis-solicitudes/:id"
+              element={<ClientRequestDetails />}
+            />
             <Route path="mi-perfil" element={<ClientProfile />} />
 
             <Route

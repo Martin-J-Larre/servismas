@@ -259,6 +259,26 @@
   outline-offset: 2px;
 }
 
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  margin-bottom: 20px;
+  border: none;
+  background: transparent;
+  color: var(--color-text-secondary, #64746c);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.backLink:hover {
+  color: #148b61;
+}
+
 @media (min-width: 1500px) {
   .container {
     max-width: 1320px;

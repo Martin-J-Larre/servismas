@@ -63,7 +63,7 @@ const Login = () => {
       <section className={styles.loginContent}>
         <div className={styles.loginCard}>
           <div className={styles.formHeading}>
-            <h1>Iniciá sesión</h1>
+            <h1>Inicia sesión</h1>
             <p>Accedé a tu cuenta de ServisMás.</p>
           </div>
 

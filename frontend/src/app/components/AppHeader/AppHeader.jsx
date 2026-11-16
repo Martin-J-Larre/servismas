@@ -7,6 +7,7 @@ import {
   ClipboardList,
   BriefcaseBusiness,
   LayoutDashboard,
+  Search,
 } from "lucide-react";
 
 import { useAuth } from "../../hooks/useAuth";
@@ -30,6 +31,11 @@ const clientMenuItems = [
     label: "Mis servicios",
     to: "/app/cliente/mis-servicios",
     icon: BriefcaseBusiness,
+  },
+  {
+    label: "Buscar servicios",
+    to: "/app/cliente/",
+    icon: Search,
   },
 ];
 
