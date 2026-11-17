@@ -2,8 +2,6 @@ import { AlertCircle } from "lucide-react";
 
 import styles from "./RequestAlert.module.css";
 
-// TODO: Refactor del header como el landing y separar por props el header app/cliente y app/prestadory hacer el grid como Mis servicios de cliente
-
 const RequestAlert = ({ count }) => {
   if (count <= 0) {
     return null;

@@ -7,36 +7,92 @@ import RequestFilters from "./components/RequestFilters/RequestFilters";
 import RequestAlert from "./components/RequestAlert/RequestAlert";
 import RequestCard from "./components/RequestCard/RequestCard";
 
-import { getRequests } from "../../data/requests";
+import { getMyProviderRequests } from "../../../../services/service.service";
 
 import styles from "./ReceivedRequests.module.css";
+
+const statusMap = {
+  pendiente: "pending",
+  aceptada: "accepted",
+  rechazada: "rejected",
+};
+
+const formatDate = (date) => {
+  if (!date) return null;
+
+  return new Date(`${String(date).slice(0, 10)}T00:00:00`).toLocaleDateString(
+    "es-AR",
+  );
+};
+
+const mapRequestData = (request) => {
+  const clientName = request.clientName || "Cliente";
+
+  return {
+    ...request,
+    id: request.id,
+    clientName,
+    initials: clientName
+      .split(" ")
+      .map((word) => word[0])
+      .slice(0, 2)
+      .join("")
+      .toUpperCase(),
+    service: request.serviceName || "Servicio",
+    date: formatDate(request.serviceDate),
+    time: null,
+    location: request.address || "",
+    price: request.visitCost != null ? `$${request.visitCost}` : "A convenir",
+    status: statusMap[request.status?.toLowerCase()] || request.status,
+  };
+};
 
 const ReceivedRequests = () => {
   const navigate = useNavigate();
 
-  const [requests, setRequests] = useState(() => getRequests());
+  const [requests, setRequests] = useState([]);
   const [activeFilter, setActiveFilter] = useState("all");
-
-  // const handleViewRequest = (id) => {
-  //   navigate(`/app/prestador/solicitudes/${id}`);
-  // };
-
-  const handleViewRequest = (id) => {
-    console.log("Solicitud seleccionada:", id);
-    navigate(`/app/prestador/solicitudes/${id}`);
-  };
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
 
   useEffect(() => {
-    const syncRequests = () => {
-      setRequests(getRequests());
+    let isActive = true;
+
+    const fetchRequests = async () => {
+      try {
+        setIsLoading(true);
+        setLoadError("");
+
+        const response = await getMyProviderRequests();
+
+        if (isActive) {
+          const mappedRequests = (response.requests || []).map(mapRequestData);
+          setRequests(mappedRequests);
+        }
+      } catch (error) {
+        if (isActive) {
+          setRequests([]);
+          setLoadError(
+            error.message || "No se pudieron cargar las solicitudes recibidas.",
+          );
+        }
+      } finally {
+        if (isActive) {
+          setIsLoading(false);
+        }
+      }
     };
 
-    window.addEventListener("storage", syncRequests);
+    fetchRequests();
 
     return () => {
-      window.removeEventListener("storage", syncRequests);
+      isActive = false;
     };
   }, []);
+
+  const handleViewRequest = (id) => {
+    navigate(`/app/prestador/solicitudes/${id}`);
+  };
 
   const pendingCount = requests.filter(
     (request) => request.status === "pending",
@@ -81,35 +137,47 @@ const ReceivedRequests = () => {
           </div>
         </header>
 
-        <RequestFilters
-          activeFilter={activeFilter}
-          onFilterChange={setActiveFilter}
-          requests={requests}
-        />
+        {isLoading ? (
+          <p role="status">Cargando solicitudes...</p>
+        ) : loadError ? (
+          <p role="alert">{loadError}</p>
+        ) : (
+          <>
+            <RequestFilters
+              activeFilter={activeFilter}
+              onFilterChange={setActiveFilter}
+              requests={requests}
+            />
 
-        {pendingCount > 0 &&
-          activeFilter !== "accepted" &&
-          activeFilter !== "rejected" && <RequestAlert count={pendingCount} />}
+            {pendingCount > 0 &&
+              activeFilter !== "accepted" &&
+              activeFilter !== "rejected" && (
+                <RequestAlert count={pendingCount} />
+              )}
 
-        <section
-          className={styles.requestList}
-          aria-label="Lista de solicitudes"
-        >
-          {filteredRequests.length > 0 ? (
-            filteredRequests.map((request) => (
-              <RequestCard
-                key={request.id}
-                request={request}
-                onViewRequest={handleViewRequest}
-              />
-            ))
-          ) : (
-            <div className={styles.emptyState}>
-              <h2>No hay solicitudes en esta categoría</h2>
-              <p>Cuando recibas solicitudes con este estado, aparecerán acá.</p>
-            </div>
-          )}
-        </section>
+            <section
+              className={styles.requestList}
+              aria-label="Lista de solicitudes"
+            >
+              {filteredRequests.length > 0 ? (
+                filteredRequests.map((request) => (
+                  <RequestCard
+                    key={request.id}
+                    request={request}
+                    onViewRequest={handleViewRequest}
+                  />
+                ))
+              ) : (
+                <div className={styles.emptyState}>
+                  <h2>No hay solicitudes en esta categoría</h2>
+                  <p>
+                    Cuando recibas solicitudes con este estado, aparecerán acá.
+                  </p>
+                </div>
+              )}
+            </section>
+          </>
+        )}
       </main>
     </div>
   );
