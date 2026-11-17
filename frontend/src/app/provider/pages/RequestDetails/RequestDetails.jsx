@@ -135,7 +135,7 @@ const RequestDetails = () => {
   };
 
   const handleCoordinateService = () => {
-    navigate(`/app/prestador/servicios/${request.serviceId}`);
+    navigate(`/app/prestador/servicios/${request.id}`);
   };
 
   if (isLoading) {

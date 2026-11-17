@@ -7,6 +7,7 @@ import {
   getMyProviderRequestsController,
   getProviderRequestByIdController,
   updateRequestStatusController,
+  updateServiceStageController,
 } from "../controllers/request.controller.js";
 
 import { authenticateToken } from "../middlewares/auth.middleware.js";
@@ -52,6 +53,14 @@ router.patch(
   authenticateToken,
   authorizeRole("provider"),
   updateRequestStatusController,
+);
+
+// Actualizar la etapa de una solicitud de servicio
+router.patch(
+  "/provider/:id/stage",
+  authenticateToken,
+  authorizeRole("provider"),
+  updateServiceStageController,
 );
 
 // Registrar una solicitud (solo clientes autenticados)

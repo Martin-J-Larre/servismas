@@ -3,8 +3,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, ShieldCheck } from "lucide-react";
 
 import AppHeader from "../../../components/AppHeader/AppHeader";
-// Data Fake
-import { getRequestById, updateServiceStage } from "../../data/requests";
+
+import {
+  getProviderRequestById,
+  updateProviderServiceStage,
+} from "../../../../services/service.service";
 
 import ServiceOverview from "./components/ServiceOverview/ServiceOverview";
 import ServiceTimeline from "./components/ServiceTimeline/ServiceTimeline";
@@ -15,41 +18,136 @@ import ClientInformation from "./components/ClientInformation/ClientInformation"
 
 import styles from "./ServiceManagement.module.css";
 
+const statusToStage = {
+  aceptada: "accepted",
+  coordinada: "coordinated",
+  en_ejecucion: "in_progress",
+  finalizada: "completed",
+};
+
+const stageToStatus = {
+  accepted: "aceptada",
+  coordinated: "coordinada",
+  in_progress: "en_ejecucion",
+  completed: "finalizada",
+};
+
+const nextStages = {
+  accepted: "coordinated",
+  coordinated: "in_progress",
+  in_progress: "completed",
+};
+
+const formatDate = (date) => {
+  if (!date) return "Fecha a coordinar";
+
+  return new Date(`${String(date).slice(0, 10)}T00:00:00`).toLocaleDateString(
+    "es-AR",
+  );
+};
+
+const mapRequestData = (data) => {
+  const clientName = data.clientName || "Cliente";
+
+  return {
+    ...data,
+    id: data.id,
+    clientName,
+    initials: clientName
+      .split(" ")
+      .map((word) => word[0])
+      .slice(0, 2)
+      .join("")
+      .toUpperCase(),
+    service: data.serviceName || "Servicio",
+    date: formatDate(data.serviceDate),
+    time: "A coordinar",
+    location: data.address || "",
+    price:
+      data.agreedPrice != null
+        ? `$${data.agreedPrice}`
+        : data.visitCost != null
+          ? `$${data.visitCost}`
+          : "Presupuesto a confirmar",
+    serviceStage: statusToStage[data.status] || null,
+  };
+};
+
 const ServiceManagement = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
   const [request, setRequest] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [loadError, setLoadError] = useState("");
+  const [saveError, setSaveError] = useState("");
 
   useEffect(() => {
-    setRequest(getRequestById(id));
-  }, [id]);
+    let isActive = true;
 
-  const handleAdvanceStage = () => {
-    const nextStages = {
-      accepted: "coordinated",
-      coordinated: "in_progress",
-      in_progress: "completed",
+    const fetchRequest = async () => {
+      try {
+        setIsLoading(true);
+        setLoadError("");
+
+        const response = await getProviderRequestById(id);
+
+        if (isActive) {
+          setRequest(mapRequestData(response.request));
+        }
+      } catch (error) {
+        if (isActive) {
+          setRequest(null);
+          setLoadError(error.message || "No se pudo cargar el servicio.");
+        }
+      } finally {
+        if (isActive) {
+          setIsLoading(false);
+        }
+      }
     };
 
-    const currentStage = request?.serviceStage || "accepted";
+    fetchRequest();
+
+    return () => {
+      isActive = false;
+    };
+  }, [id]);
+
+  const handleAdvanceStage = async () => {
+    if (!request || isProcessing) return;
+
+    const currentStage = request.serviceStage;
     const nextStage = nextStages[currentStage];
 
-    if (!nextStage) {
-      return;
-    }
+    if (!nextStage) return;
 
-    const updatedRequest = updateServiceStage(id, nextStage);
+    const currentStatus = stageToStatus[currentStage];
+    const newStatus = stageToStatus[nextStage];
 
-    if (!updatedRequest) {
-      console.error("No se pudo actualizar la etapa del servicio.");
-      return;
-    }
+    try {
+      setIsProcessing(true);
+      setSaveError("");
 
-    setRequest(updatedRequest);
+      await updateProviderServiceStage(request.id, currentStatus, newStatus);
 
-    if (nextStage === "completed") {
-      navigate(`/app/prestador/servicios/${id}/finalizado`);
+      setRequest((previousRequest) => ({
+        ...previousRequest,
+        status: newStatus,
+        serviceStage: nextStage,
+      }));
+
+      if (nextStage === "completed") {
+        navigate(`/app/prestador/servicios/${id}/finalizado`);
+      }
+    } catch (error) {
+      setSaveError(
+        error.message ||
+          "No se pudo actualizar la etapa del servicio. Intentá nuevamente.",
+      );
+    } finally {
+      setIsProcessing(false);
     }
   };
 
@@ -57,31 +155,18 @@ const ServiceManagement = () => {
     navigate("/app/prestador/solicitudes");
   };
 
-  if (!request) {
+  if (isLoading) {
     return (
       <>
         <AppHeader />
-
         <main className={styles.page}>
-          <button
-            type="button"
-            className={styles.backButton}
-            onClick={handleBack}
-          >
-            <ArrowLeft size={16} aria-hidden="true" />
-            Volver a solicitudes
-          </button>
-
-          <section className={styles.emptyState}>
-            <h1>Solicitud no encontrada</h1>
-            <p>No encontramos la solicitud que estás buscando.</p>
-          </section>
+          <p role="status">Cargando servicio...</p>
         </main>
       </>
     );
   }
 
-  if (request.status !== "accepted") {
+  if (!request || !request.serviceStage) {
     return (
       <>
         <AppHeader />
@@ -98,7 +183,10 @@ const ServiceManagement = () => {
 
           <section className={styles.emptyState}>
             <h1>Servicio no disponible</h1>
-            <p>Esta pantalla está disponible para las solicitudes aceptadas.</p>
+            <p>
+              {loadError ||
+                "No encontramos una solicitud válida para gestionar."}
+            </p>
           </section>
         </main>
       </>
@@ -122,7 +210,7 @@ const ServiceManagement = () => {
         <section className={styles.pageHeading}>
           <div>
             <span className={styles.eyebrow}>GESTIÓN DEL SERVICIO</span>
-            <h1>Servicio aceptado</h1>
+            <h1>Gestión de la solicitud</h1>
             <p>
               Consultá los detalles de la solicitud y revisá los próximos pasos.
             </p>
@@ -130,26 +218,35 @@ const ServiceManagement = () => {
 
           <span className={styles.statusBadge}>
             <span className={styles.statusDot} />
-            Aceptado
+            {request.serviceStage === "accepted"
+              ? "Aceptado"
+              : request.serviceStage === "coordinated"
+                ? "Coordinado"
+                : request.serviceStage === "in_progress"
+                  ? "En ejecución"
+                  : "Finalizado"}
           </span>
         </section>
 
         <ServiceOverview request={request} />
 
+        {saveError && <p role="alert">{saveError}</p>}
+
         <div className={styles.contentGrid}>
           <div className={styles.mainColumn}>
-            <ServiceTimeline
-              serviceStage={request.serviceStage || "accepted"}
-            />
+            <ServiceTimeline serviceStage={request.serviceStage} />
+
             <ServiceSummary request={request} />
             <ServiceDetails request={request} />
           </div>
 
           <aside className={styles.sideColumn}>
             <ServiceNextAction
-              serviceStage={request.serviceStage || "accepted"}
+              serviceStage={request.serviceStage}
               onAdvance={handleAdvanceStage}
+              isProcessing={isProcessing}
             />
+
             <ClientInformation request={request} />
 
             <section className={styles.securityNotice}>

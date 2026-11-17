@@ -77,7 +77,7 @@ export const createRequest = async (requestData) => {
 // Obtener las solicitudes del cliente autenticado
 export const getMyRequests = async () => apiRequest("/requests/my");
 
-// Obtener el detalle de una solicitud del cliente por solicitud id 
+// Obtener el detalle de una solicitud del cliente por solicitud id
 export const getMyRequestById = async (id) => apiRequest(`/requests/my/${id}`);
 
 // Obtener las solicitudes recibidas por el prestador autenticado
@@ -93,4 +93,13 @@ export const updateProviderRequestStatus = async (id, status) =>
   apiRequest(`/requests/provider/${id}/status`, {
     method: "PATCH",
     body: JSON.stringify({ status }),
+  });
+
+export const updateProviderServiceStage = (id, currentStatus, newStatus) =>
+  apiRequest(`/requests/provider/${id}/stage`, {
+    method: "PATCH",
+    body: JSON.stringify({
+      currentStatus,
+      newStatus,
+    }),
   });

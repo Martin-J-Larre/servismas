@@ -5,6 +5,7 @@ import {
   getMyProviderRequests,
   getProviderRequestById,
   updateRequestStatus,
+  updateServiceStage,
 } from "../models/request.model.js";
 
 // Registrar una solicitud de servicio
@@ -225,6 +226,61 @@ export const updateRequestStatusController = async (req, res) => {
 
     return res.status(500).json({
       message: "Error interno al actualizar la solicitud.",
+    });
+  }
+};
+
+// Actualizar la etapa de una solicitud de servicio
+export const updateServiceStageController = async (req, res) => {
+  try {
+    const requestId = Number(req.params.id);
+    const providerId = req.user.id;
+    const { currentStatus, newStatus } = req.body;
+
+    if (!Number.isInteger(requestId) || requestId <= 0) {
+      return res.status(400).json({
+        message: "El identificador de la solicitud no es válido.",
+      });
+    }
+
+    const allowedTransitions = {
+      aceptada: "coordinada",
+      coordinada: "en_ejecucion",
+      en_ejecucion: "finalizada",
+    };
+
+    if (allowedTransitions[currentStatus] !== newStatus) {
+      return res.status(400).json({
+        message: "La transición de estado indicada no es válida.",
+      });
+    }
+
+    const updated = await updateServiceStage(
+      requestId,
+      providerId,
+      currentStatus,
+      newStatus,
+    );
+
+    if (!updated) {
+      return res.status(409).json({
+        message:
+          "No se pudo actualizar la etapa. Verificá que la solicitud exista, te pertenezca y conserve su estado actual.",
+      });
+    }
+
+    return res.status(200).json({
+      message: "La etapa del servicio se actualizó correctamente.",
+      request: {
+        id: requestId,
+        status: newStatus,
+      },
+    });
+  } catch (error) {
+    console.error("Error al actualizar la etapa del servicio:", error);
+
+    return res.status(500).json({
+      message: "Error interno al actualizar la etapa del servicio.",
     });
   }
 };

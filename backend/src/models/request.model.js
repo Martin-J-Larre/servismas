@@ -261,3 +261,33 @@ export const updateRequestStatus = async (requestId, providerId, status) => {
 
   return result.affectedRows > 0;
 };
+
+// Actualizar la etapa de una solicitud de servicio
+export const updateServiceStage = async (
+  requestId,
+  providerId,
+  currentStatus,
+  newStatus,
+) => {
+  const allowedTransitions = {
+    aceptada: "coordinada",
+    coordinada: "en_ejecucion",
+    en_ejecucion: "finalizada",
+  };
+
+  // Verificar que la transición esté permitida
+  if (allowedTransitions[currentStatus] !== newStatus) {
+    throw new Error("La transición de estado indicada no es válida.");
+  }
+
+  const [result] = await pool.execute(
+    `UPDATE solicitud
+     SET estado = ?
+     WHERE id_solicitud = ?
+     AND id_usuario_prestador = ?
+     AND estado = ?`,
+    [newStatus, requestId, providerId, currentStatus],
+  );
+
+  return result.affectedRows > 0;
+};
